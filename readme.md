@@ -1,6 +1,9 @@
 # caw
 
-Caw (stylised as "caw"), the simple music tracker.
+Caw (stylised as "caw"), the simple music tracker,
+focusing on synthesised sounds over sampled ones,
+without trying to emulate specific hardware.
+
 Kind of, sort of, intended for [chirp](https://github.com/kraxarn/chirp).
 
 ### Pre 1.0
