@@ -10,12 +10,17 @@ Kind of, sort of, intended for [chirp](https://github.com/kraxarn/chirp).
 
 * [ ] Supporting pl_synth formats
 * [ ] Editing/viewing stuff
+* [ ] MIDI input
 
 ### Post 1.0
 
-* [ ] Sample support
-* [ ] VST support
-* [ ] Simple effects (volume, panning, looping, etc.)
+* [ ] Sample support (wav/qoa)
+* [ ] VST (3) support
+* [ ] Simple effects
+  * [ ] Volume / panning
+  * [ ] Looping / skipping
+* [ ] xm/mod/it import/export
+* [ ] 8+ channels
 
 ## Special thanks
 
