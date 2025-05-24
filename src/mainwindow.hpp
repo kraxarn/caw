@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QMainWindow>
+#include <QMenuBar>
 
 class MainWindow final: public QMainWindow
 {
@@ -8,4 +9,7 @@ class MainWindow final: public QMainWindow
 
 public:
 	explicit MainWindow(QWidget *parent);
+
+private:
+	QMenuBar *menuBar;
 };
