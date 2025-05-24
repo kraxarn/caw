@@ -1,7 +1,6 @@
 #include "mainwindow.hpp"
-
-#include <variant>
 #include "mainmenubar.hpp"
+#include "window/pattern.hpp"
 
 MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent)
@@ -10,4 +9,6 @@ MainWindow::MainWindow(QWidget *parent)
 
 	menuBar = new MainMenuBar(this);
 	setMenuBar(menuBar);
+
+	setCentralWidget(new Pattern(this));
 }
