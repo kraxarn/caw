@@ -10,10 +10,10 @@ Kind of, sort of, intended for [chirp](https://github.com/kraxarn/chirp).
 
 * [ ] Supporting pl_synth formats
 * [ ] Editing/viewing stuff
-* [ ] MIDI input
 
 ### Post 1.0
 
+* [ ] MIDI input
 * [ ] Sample support (wav/qoa)
 * [ ] VST (3) support
 * [ ] Simple effects
