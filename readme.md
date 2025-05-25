@@ -21,6 +21,8 @@ Kind of, sort of, intended for [chirp](https://github.com/kraxarn/chirp).
   * [ ] Looping / skipping
 * [ ] xm/mod/it import/export
 * [ ] 8+ channels
+* [ ] Audio buffering
+* [ ] Video export
 
 ## Special thanks
 
