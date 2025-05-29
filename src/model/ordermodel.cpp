@@ -36,7 +36,7 @@ auto OrderModel::rowCount([[maybe_unused]] const QModelIndex &parent) const -> i
 
 auto OrderModel::columnCount([[maybe_unused]] const QModelIndex &parent) const -> int
 {
-	return channelCount;
+	return channelCount + 1;
 }
 
 auto OrderModel::data(const QModelIndex &index, const int role) const -> QVariant
@@ -46,6 +46,16 @@ auto OrderModel::data(const QModelIndex &index, const int role) const -> QVarian
 		return {};
 	}
 
-	const quint8 val = rows.at(index.row()).at(index.column());
-	return QStringLiteral("%1").arg(val, 2, 16, QChar::fromLatin1('0'));
+	quint8 value;
+
+	if (index.column() == 0)
+	{
+		value = static_cast<quint8>(index.row());
+	}
+	else
+	{
+		value = rows.at(index.row()).at(index.column() - 1);
+	}
+
+	return QStringLiteral("%1").arg(value, 2, 16, QChar::fromLatin1('0'));
 }
