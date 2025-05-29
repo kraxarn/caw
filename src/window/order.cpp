@@ -1,0 +1,15 @@
+#include "window/order.hpp"
+#include "model/ordermodel.hpp"
+#include "font.hpp"
+
+#include <QStandardItemModel>
+
+Order::Order(QWidget *parent)
+	: QTreeView(parent)
+{
+	auto *model = new OrderModel(this);
+	QTreeView::setModel(model);
+
+	setFont(Font::monospace());
+	setRootIsDecorated(false);
+}
