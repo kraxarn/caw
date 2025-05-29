@@ -4,7 +4,7 @@ project(caw LANGUAGES CXX VERSION 0.0.1)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 6.7 REQUIRED COMPONENTS Core Widgets Multimedia Graphs)
+find_package(Qt6 6.7 REQUIRED COMPONENTS Core Widgets Multimedia)
 
 qt_standard_project_setup()
 
@@ -23,7 +23,6 @@ target_link_libraries(caw PRIVATE
 	Qt::Core
 	Qt::Widgets
 	Qt::Multimedia
-	Qt::Graphs
 )
 
 include(GNUInstallDirs)
