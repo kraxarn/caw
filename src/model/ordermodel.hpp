@@ -28,6 +28,9 @@ public:
 	[[nodiscard]]
 	auto data(const QModelIndex &index, int role) const -> QVariant override;
 
+	[[nodiscard]]
+	auto headerData(int section, Qt::Orientation orientation, int role) const -> QVariant override;
+
 private:
 	static constexpr qsizetype channelCount = 8; // TBD
 

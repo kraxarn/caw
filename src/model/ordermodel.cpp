@@ -59,3 +59,18 @@ auto OrderModel::data(const QModelIndex &index, const int role) const -> QVarian
 
 	return QStringLiteral("%1").arg(value, 2, 16, QChar::fromLatin1('0'));
 }
+
+auto OrderModel::headerData(int section, Qt::Orientation orientation, int role) const -> QVariant
+{
+	if (role != Qt::DisplayRole)
+	{
+		return {};
+	}
+
+	if (section == 0)
+	{
+		return {};
+	}
+
+	return QStringLiteral("C%1").arg(section);
+}
