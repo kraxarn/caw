@@ -3,6 +3,7 @@
 #include "window/order.hpp"
 #include "window/oscilloscope.hpp"
 #include "window/pattern.hpp"
+#include "window/playcontrols.hpp"
 
 #include <QDockWidget>
 
@@ -24,4 +25,8 @@ MainWindow::MainWindow(QWidget *parent)
 	auto *oscilloscope = new QDockWidget(QStringLiteral("Oscilloscope"), this);
 	oscilloscope->setWidget(new Oscilloscope(oscilloscope));
 	addDockWidget(Qt::TopDockWidgetArea, oscilloscope);
+
+	auto *playControls = new QDockWidget(QStringLiteral("Play controls"), this);
+	playControls->setWidget(new PlayControls(playControls));
+	addDockWidget(Qt::TopDockWidgetArea, playControls);
 }
