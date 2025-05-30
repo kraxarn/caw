@@ -3,11 +3,15 @@
 #include <QGridLayout>
 #include <QLabel>
 #include <QTabWidget>
+#include <QScrollArea>
 
 Debug::Debug(QWidget *parent)
 	: QWidget(parent)
 {
+	auto *layout = new QVBoxLayout(this);
+
 	auto *tabs = new QTabWidget(this);
+	layout->addWidget(tabs);
 
 	tabs->addTab(iconsTab(), QStringLiteral("Icons"));
 }
@@ -36,5 +40,8 @@ auto Debug::iconsTab() -> QWidget *
 		layout->addWidget(label, i, 1);
 	}
 
-	return widget;
+	auto *scrollArea = new QScrollArea(this);
+	scrollArea->setWidget(widget);
+
+	return scrollArea;
 }
