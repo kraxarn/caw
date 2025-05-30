@@ -6,7 +6,8 @@
 #include <QVBoxLayout>
 
 Order::Order(QWidget *parent)
-	: QWidget(parent)
+	: QWidget(parent),
+	  toolBar(nullptr)
 {
 	auto *layout = new QVBoxLayout(this);
 	layout->setSpacing(0);

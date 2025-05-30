@@ -21,6 +21,6 @@ void OrderList::showEvent(QShowEvent *event)
 	for (auto i = 0; i < model()->columnCount(); i++)
 	{
 		resizeColumnToContents(i);
-		setColumnWidth(i, columnWidth(i) * 1.5);
+		setColumnWidth(i, static_cast<int>(static_cast<double>(columnWidth(i)) * 1.5));
 	}
 }
