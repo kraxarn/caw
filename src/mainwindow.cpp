@@ -1,6 +1,6 @@
 #include "mainwindow.hpp"
 #include "mainmenubar.hpp"
-#include "window/order.hpp"
+#include "list/orderlist.hpp"
 #include "window/pattern.hpp"
 
 #include <QDockWidget>
