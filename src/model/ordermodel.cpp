@@ -19,12 +19,12 @@ auto OrderModel::index(const int row, const int column,
 	return createIndex(row, column);
 }
 
-auto OrderModel::parent(const QModelIndex &child) const -> QModelIndex
+auto OrderModel::parent([[maybe_unused]] const QModelIndex &child) const -> QModelIndex
 {
 	return {};
 }
 
-auto OrderModel::rowCount([[maybe_unused]] const QModelIndex &parent) const -> int
+auto OrderModel::rowCount(const QModelIndex &parent) const -> int
 {
 	if (parent.isValid())
 	{
