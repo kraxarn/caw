@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QTreeView>
+#include <QToolBar>
 
 class Order final: public QWidget
 {
@@ -10,5 +11,8 @@ public:
 	explicit Order(QWidget *parent);
 
 private:
+	QToolBar *toolBar;
 	QTreeView *list;
+
+	void addToolBar();
 };
