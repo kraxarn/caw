@@ -1,10 +1,15 @@
 #include "window/order.hpp"
 #include "list/orderlist.hpp"
 
+#include <QVBoxLayout>
+
 Order::Order(QWidget *parent)
-	: QDockWidget(parent)
+	: QWidget(parent)
 {
-	setWindowTitle(QStringLiteral("Order"));
-	setWidget(new OrderList(this));
-	setDockLocation(Qt::TopDockWidgetArea);
+	setWindowTitle(QStringLiteral("aaa"));
+
+	auto *layout = new QVBoxLayout(this);
+
+	list = new OrderList(this);
+	layout->addWidget(list, 1);
 }

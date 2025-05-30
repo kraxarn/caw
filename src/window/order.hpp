@@ -1,11 +1,14 @@
 #pragma once
 
-#include <QDockWidget>
+#include <QTreeView>
 
-class Order final: public QDockWidget
+class Order final: public QWidget
 {
 	Q_OBJECT
 
 public:
 	explicit Order(QWidget *parent);
+
+private:
+	QTreeView *list;
 };
