@@ -1,6 +1,7 @@
 #include "mainwindow.hpp"
 #include "mainmenubar.hpp"
 #include "window/order.hpp"
+#include "window/oscilloscope.hpp"
 #include "window/pattern.hpp"
 
 #include <QDockWidget>
@@ -19,4 +20,8 @@ MainWindow::MainWindow(QWidget *parent)
 	auto *order = new QDockWidget(QStringLiteral("Orders"), this);
 	order->setWidget(new Order(order));
 	addDockWidget(Qt::TopDockWidgetArea, order);
+
+	auto *oscilloscope = new QDockWidget(QStringLiteral("Oscilloscope"), this);
+	oscilloscope->setWidget(new Oscilloscope(oscilloscope));
+	addDockWidget(Qt::TopDockWidgetArea, oscilloscope);
 }
