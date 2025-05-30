@@ -10,4 +10,11 @@ enum class IconName : quint16
 	AnglesDown  = 0xf103,
 	Circle      = 0xf111,
 	Repeat      = 0xf363,
+	Plus        = 0x002b,
+	Minus       = 0xf068,
+	Clone       = 0xf24d,
+	ChevronUp   = 0xf077,
+	ChevronDown = 0xf078,
+	Link        = 0xf0c1,
+	LinkSlash   = 0xf127,
 };
