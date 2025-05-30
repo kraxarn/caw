@@ -12,4 +12,7 @@ public:
 private:
 	[[nodiscard]]
 	auto iconsTab() -> QWidget *;
+
+	[[nodiscard]]
+	static auto iconName(QIcon::ThemeIcon themeIcon) -> QString;
 };
