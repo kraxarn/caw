@@ -7,8 +7,6 @@
 Order::Order(QWidget *parent)
 	: QWidget(parent)
 {
-	setWindowTitle(QStringLiteral("aaa"));
-
 	auto *layout = new QVBoxLayout(this);
 	layout->setSpacing(0);
 
