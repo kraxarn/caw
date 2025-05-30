@@ -1,12 +1,38 @@
 #include "window/debug.hpp"
 
-#include <QTabWidget>
+#include <QGridLayout>
 #include <QLabel>
+#include <QTabWidget>
 
 Debug::Debug(QWidget *parent)
 	: QWidget(parent)
 {
 	auto *tabs = new QTabWidget(this);
 
-	tabs->addTab(new QLabel(QStringLiteral("hi mom"), tabs), QStringLiteral("Icons"));
+	tabs->addTab(iconsTab(), QStringLiteral("Icons"));
+}
+
+auto Debug::iconsTab() -> QWidget *
+{
+	auto *widget = new QWidget(this);
+	auto *layout = new QGridLayout(widget);
+
+	for (auto i = 0; i < static_cast<int>(QIcon::ThemeIcon::NThemeIcons); i++)
+	{
+		const auto themeIcon = static_cast<QIcon::ThemeIcon>(i);
+		if (!QIcon::hasThemeIcon(themeIcon))
+		{
+			continue;
+		}
+
+		const auto iconPixmap = QIcon::fromTheme(themeIcon).pixmap(64, 64);
+		auto *icon = new QLabel(widget);
+		icon->setPixmap(iconPixmap);
+		layout->addWidget(icon, i, 0);
+
+		auto *label = new QLabel(QString::number(i), widget);
+		layout->addWidget(label, i, 1);
+	}
+
+	return widget;
 }

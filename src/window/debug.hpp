@@ -8,4 +8,8 @@ class Debug final: public QWidget
 
 public:
 	explicit Debug(QWidget *parent);
+
+private:
+	[[nodiscard]]
+	auto iconsTab() -> QWidget *;
 };
