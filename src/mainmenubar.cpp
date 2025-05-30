@@ -1,4 +1,8 @@
 #include "mainmenubar.hpp"
+#include "window/debug.hpp"
+
+#include <QDockWidget>
+#include <QMainWindow>
 
 MainMenuBar::MainMenuBar(QWidget *parent)
 	: QMenuBar(parent)
@@ -52,5 +56,25 @@ auto MainMenuBar::windowMenu() -> QMenu *
 auto MainMenuBar::helpMenu() -> QMenu *
 {
 	auto *menu = addMenu(QStringLiteral("&Help"));
+
+	const auto *debug = menu->addAction(QStringLiteral("&Debug"));
+	connect(debug, &QAction::triggered,
+		this, &MainMenuBar::onHelpDebugTriggered);
+
 	return menu;
+}
+
+void MainMenuBar::onHelpDebugTriggered([[maybe_unused]] bool checked) const
+{
+	auto *mainWindow = qobject_cast<QMainWindow *>(window());
+	if (mainWindow == nullptr)
+	{
+		return;
+	}
+
+	auto *dockWidget = new QDockWidget(QStringLiteral("Debug"), mainWindow);
+	dockWidget->setWidget(new Debug(dockWidget));
+	dockWidget->setFloating(true);
+
+	mainWindow->addDockWidget(Qt::RightDockWidgetArea, dockWidget);
 }

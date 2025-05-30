@@ -24,4 +24,6 @@ private:
 
 	[[nodiscard]]
 	auto helpMenu() -> QMenu *;
+
+	void onHelpDebugTriggered(bool checked) const;
 };
