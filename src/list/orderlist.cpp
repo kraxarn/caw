@@ -13,3 +13,14 @@ OrderList::OrderList(QWidget *parent)
 	setFont(Font::monospace());
 	setRootIsDecorated(false);
 }
+
+void OrderList::showEvent(QShowEvent *event)
+{
+	QTreeView::showEvent(event);
+
+	for (auto i = 0; i < model()->columnCount(); i++)
+	{
+		resizeColumnToContents(i);
+		setColumnWidth(i, columnWidth(i) * 1.5);
+	}
+}

@@ -10,4 +10,7 @@ class OrderList final: public QTreeView
 
 public:
 	explicit OrderList(QWidget *parent);
+
+protected:
+	void showEvent(QShowEvent *event) override;
 };
