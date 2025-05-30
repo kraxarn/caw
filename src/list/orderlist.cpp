@@ -4,7 +4,7 @@
 
 #include <QStandardItemModel>
 
-Order::Order(QWidget *parent)
+OrderList::OrderList(QWidget *parent)
 	: QTreeView(parent)
 {
 	auto *model = new OrderModel(this);

@@ -17,6 +17,6 @@ MainWindow::MainWindow(QWidget *parent)
 	setCentralWidget(new Pattern(this));
 
 	order = new QDockWidget(QStringLiteral("Order"), this);
-	order->setWidget(new Order(order));
+	order->setWidget(new OrderList(order));
 	addDockWidget(Qt::TopDockWidgetArea, order);
 }

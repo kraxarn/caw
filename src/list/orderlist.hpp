@@ -4,10 +4,10 @@
 
 #include <QTreeView>
 
-class Order final: public QTreeView
+class OrderList final: public QTreeView
 {
 	Q_OBJECT
 
 public:
-	explicit Order(QWidget *parent);
+	explicit OrderList(QWidget *parent);
 };
