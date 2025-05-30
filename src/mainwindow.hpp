@@ -12,6 +12,4 @@ public:
 
 private:
 	QMenuBar *menuBar;
-
-	QDockWidget *order;
 };

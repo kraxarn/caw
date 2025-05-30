@@ -1,6 +1,6 @@
 #include "mainwindow.hpp"
 #include "mainmenubar.hpp"
-#include "list/orderlist.hpp"
+#include "window/order.hpp"
 #include "window/pattern.hpp"
 
 #include <QDockWidget>
@@ -15,8 +15,5 @@ MainWindow::MainWindow(QWidget *parent)
 	setMenuBar(menuBar);
 
 	setCentralWidget(new Pattern(this));
-
-	order = new QDockWidget(QStringLiteral("Order"), this);
-	order->setWidget(new OrderList(order));
-	addDockWidget(Qt::TopDockWidgetArea, order);
+	addDockWidget(Qt::TopDockWidgetArea, new Order(this));
 }
