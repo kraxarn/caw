@@ -19,13 +19,15 @@ auto Debug::iconsTab() -> QWidget *
 
 	for (auto i = 0; i < static_cast<int>(QIcon::ThemeIcon::NThemeIcons); i++)
 	{
+		constexpr auto iconSize = 32;
+
 		const auto themeIcon = static_cast<QIcon::ThemeIcon>(i);
 		if (!QIcon::hasThemeIcon(themeIcon))
 		{
 			continue;
 		}
 
-		const auto iconPixmap = QIcon::fromTheme(themeIcon).pixmap(64, 64);
+		const auto iconPixmap = QIcon::fromTheme(themeIcon).pixmap(iconSize, iconSize);
 		auto *icon = new QLabel(widget);
 		icon->setPixmap(iconPixmap);
 		layout->addWidget(icon, i, 0);
