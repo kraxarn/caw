@@ -69,6 +69,7 @@ void MainMenuBar::onHelpDebugTriggered([[maybe_unused]] bool checked) const
 	auto *mainWindow = qobject_cast<QMainWindow *>(window());
 	if (mainWindow == nullptr)
 	{
+		qWarning() << "Main window not found";
 		return;
 	}
 
