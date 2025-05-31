@@ -1,5 +1,12 @@
 #include "model/ordermodel.hpp"
 
+#include <QAbstractItemModel>
+#include <QObject>
+#include <QString>
+#include <QtTypes>
+#include <QVariant>
+#include <QVarLengthArray>
+
 OrderModel::OrderModel(QObject *parent)
 	: QAbstractItemModel(parent)
 {

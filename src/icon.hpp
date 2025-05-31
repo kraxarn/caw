@@ -13,7 +13,8 @@ public:
 	static void set(QAction *action, IconName icon);
 
 private:
-	static QString fontName;
+	Icon() = default;
 
-	Icon() = delete;
+	[[nodiscard]]
+	static auto font() -> QFont;
 };

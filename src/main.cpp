@@ -1,7 +1,9 @@
 #include "mainwindow.hpp"
 
 #include <QApplication>
+#include <QCoreApplication>
 #include <QFontDatabase>
+#include <QString>
 
 auto main(int argc, char *argv[]) -> int
 {

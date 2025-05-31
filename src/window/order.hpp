@@ -1,7 +1,7 @@
 #pragma once
 
-#include <QTreeView>
 #include <QToolBar>
+#include <QTreeView>
 
 class Order final: public QWidget
 {

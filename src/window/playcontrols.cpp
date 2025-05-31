@@ -1,5 +1,10 @@
 #include "window/playcontrols.hpp"
 #include "icon.hpp"
+#include "iconname.hpp"
+
+#include <QString>
+#include <QToolBar>
+#include <QWidget>
 
 PlayControls::PlayControls(QWidget *parent)
 	: QToolBar(parent)

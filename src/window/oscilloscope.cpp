@@ -1,7 +1,10 @@
 #include "window/oscilloscope.hpp"
 
 #include <QApplication>
+#include <QGraphicsScene>
 #include <QGraphicsTextItem>
+#include <QShowEvent>
+#include <QWidget>
 
 Oscilloscope::Oscilloscope(QWidget *parent)
 	: QGraphicsView(parent),

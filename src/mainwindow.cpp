@@ -6,6 +6,8 @@
 #include "window/playcontrols.hpp"
 
 #include <QDockWidget>
+#include <QString>
+#include <QWidget>
 
 MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent)

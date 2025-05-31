@@ -2,8 +2,8 @@
 
 #include <QGridLayout>
 #include <QLabel>
-#include <QTabWidget>
 #include <QScrollArea>
+#include <QTabWidget>
 
 Debug::Debug(QWidget *parent)
 	: QWidget(parent)

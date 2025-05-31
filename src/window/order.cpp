@@ -1,9 +1,12 @@
 #include "window/order.hpp"
-#include "list/orderlist.hpp"
 #include "icon.hpp"
+#include "iconname.hpp"
+#include "list/orderlist.hpp"
 
+#include <QString>
 #include <QToolBar>
 #include <QVBoxLayout>
+#include <QWidget>
 
 Order::Order(QWidget *parent)
 	: QWidget(parent),

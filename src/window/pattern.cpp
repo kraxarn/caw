@@ -1,5 +1,10 @@
 #include "window/pattern.hpp"
 
+#include <QString>
+#include <QStringList>
+#include <QTreeWidget>
+#include <QWidget>
+
 Pattern::Pattern(QWidget *parent)
 	: QTreeWidget(parent)
 {

@@ -1,8 +1,11 @@
 #include "orderlist.hpp"
-#include "model/ordermodel.hpp"
 #include "font.hpp"
+#include "model/ordermodel.hpp"
 
+#include <QShowEvent>
 #include <QStandardItemModel>
+#include <QTreeView>
+#include <QWidget>
 
 OrderList::OrderList(QWidget *parent)
 	: QTreeView(parent)

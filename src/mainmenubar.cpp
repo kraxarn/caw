@@ -1,8 +1,11 @@
 #include "mainmenubar.hpp"
 #include "window/debug.hpp"
 
+#include <QAction>
 #include <QDockWidget>
 #include <QMainWindow>
+#include <QString>
+#include <QWidget>
 
 MainMenuBar::MainMenuBar(QWidget *parent)
 	: QMenuBar(parent)
