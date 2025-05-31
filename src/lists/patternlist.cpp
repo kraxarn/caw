@@ -11,6 +11,7 @@ PatternList::PatternList(const quint8 channelCount, QWidget *parent)
 	QTreeView::setModel(model);
 
 	setFont(Font::monospace());
+	setRootIsDecorated(false);
 
 	setColumnWidth(0, baseWidth * 2);
 	for (auto i = 1; i <= model->columnCount({}); i++)
