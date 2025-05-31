@@ -1,9 +1,8 @@
 #include "mainwindow.hpp"
 #include "mainmenubar.hpp"
 #include "windows/order.hpp"
-#include "windows/oscilloscope.hpp"
 #include "windows/pattern.hpp"
-#include "windows/playcontrols.hpp"
+#include "windows/playback.hpp"
 
 #include <QDockWidget>
 #include <QString>
@@ -24,11 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
 	order->setWidget(new Order(order));
 	addDockWidget(Qt::TopDockWidgetArea, order);
 
-	auto *oscilloscope = new QDockWidget(QStringLiteral("Oscilloscope"), this);
-	oscilloscope->setWidget(new Oscilloscope(oscilloscope));
-	addDockWidget(Qt::TopDockWidgetArea, oscilloscope);
-
-	auto *playControls = new QDockWidget(QStringLiteral("Play controls"), this);
-	playControls->setWidget(new PlayControls(playControls));
-	addDockWidget(Qt::TopDockWidgetArea, playControls);
+	auto *playback = new QDockWidget(QStringLiteral("Playback"), this);
+	playback->setWidget(new Playback(playback));
+	addDockWidget(Qt::TopDockWidgetArea, playback);
 }

@@ -1,4 +1,4 @@
-#include "windows/playcontrols.hpp"
+#include "widgets/playcontrols.hpp"
 #include "icon.hpp"
 #include "iconname.hpp"
 
