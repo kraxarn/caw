@@ -11,12 +11,15 @@ Oscilloscope::Oscilloscope(QWidget *parent)
 	color(QApplication::palette().text().color())
 {
 	setScene(new QGraphicsScene(this));
+
+	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 }
 
 void Oscilloscope::showEvent(QShowEvent *event)
 {
 	QGraphicsView::showEvent(event);
 
-	const auto x = qFloor(width() / 2.0) - 1;
+	const auto x = qFloor(width() / 2.0);
 	scene()->addLine(-x, 0, x, 0, color);
 }
