@@ -39,7 +39,7 @@ auto InstrumentModel::data(const QModelIndex &index, const int role) const -> QV
 auto InstrumentModel::headerData(const int section, [[maybe_unused]] Qt::Orientation orientation,
 	const int role) const -> QVariant
 {
-	if (role == Qt::DisplayRole)
+	if (role != Qt::DisplayRole)
 	{
 		return {};
 	}
