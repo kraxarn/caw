@@ -2,6 +2,7 @@
 #include "mainmenubar.hpp"
 #include "windows/instrument.hpp"
 #include "windows/order.hpp"
+#include "windows/oscilloscopechannel.hpp"
 #include "windows/pattern.hpp"
 #include "windows/playback.hpp"
 #include "windows/songinfo.hpp"
@@ -36,4 +37,8 @@ MainWindow::MainWindow(QWidget *parent)
 	auto *songInfo = new QDockWidget(QStringLiteral("Song Info"), this);
 	songInfo->setWidget(new SongInfo(songInfo));
 	addDockWidget(Qt::TopDockWidgetArea, songInfo);
+
+	auto *oscilloscopeChannel = new QDockWidget(QStringLiteral("Oscilloscope per-channel"), this);
+	oscilloscopeChannel->setWidget(new OscilloscopeChannel(oscilloscopeChannel));
+	addDockWidget(Qt::RightDockWidgetArea, oscilloscopeChannel);
 }
