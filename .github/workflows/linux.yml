@@ -24,6 +24,9 @@ jobs:
       - name: Install Dependencies
         run: sudo apt install libxkbcommon-x11-dev libxcb-cursor-dev -y
 
+      - name: Create Build Environment
+        run: cmake -E make_directory ${{runner.workspace}}/build
+
       - name: Configure CMake
         working-directory: ${{runner.workspace}}/build
         run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE
