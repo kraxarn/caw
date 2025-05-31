@@ -18,6 +18,11 @@ Instrument::Instrument(QWidget *parent)
 	layout->addWidget(list, 1);
 }
 
+QSize Instrument::sizeHint() const
+{
+	return {160, 180};
+}
+
 auto Instrument::toolBar() -> QToolBar *
 {
 	auto *toolbar = new QToolBar(this);

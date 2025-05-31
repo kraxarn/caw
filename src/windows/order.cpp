@@ -10,7 +10,7 @@
 
 Order::Order(QWidget *parent)
 	: QWidget(parent),
-	  toolBar(nullptr)
+	toolBar(nullptr)
 {
 	auto *layout = new QVBoxLayout(this);
 	layout->setSpacing(0);
@@ -20,6 +20,11 @@ Order::Order(QWidget *parent)
 
 	list = new OrderList(this);
 	layout->addWidget(list, 1);
+}
+
+QSize Order::sizeHint() const
+{
+	return {200, 180};
 }
 
 void Order::addToolBar()

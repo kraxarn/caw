@@ -10,6 +10,8 @@ class Instrument final: public QWidget
 public:
 	explicit Instrument(QWidget *parent);
 
+	QSize sizeHint() const override;
+
 private:
 	auto toolBar() -> QToolBar *;
 };

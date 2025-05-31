@@ -10,6 +10,8 @@ class Order final: public QWidget
 public:
 	explicit Order(QWidget *parent);
 
+	QSize sizeHint() const override;
+
 private:
 	QToolBar *toolBar;
 	QTreeView *list;
