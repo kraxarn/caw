@@ -1,6 +1,6 @@
 #pragma once
 
-#include "model/ordermodel.hpp"
+#include "models/ordermodel.hpp"
 
 #include <QTreeView>
 

@@ -1,4 +1,4 @@
-#include "window/oscilloscope.hpp"
+#include "windows/oscilloscope.hpp"
 
 #include <QApplication>
 #include <QGraphicsScene>

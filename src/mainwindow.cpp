@@ -1,9 +1,9 @@
 #include "mainwindow.hpp"
 #include "mainmenubar.hpp"
-#include "window/order.hpp"
-#include "window/oscilloscope.hpp"
-#include "window/pattern.hpp"
-#include "window/playcontrols.hpp"
+#include "windows/order.hpp"
+#include "windows/oscilloscope.hpp"
+#include "windows/pattern.hpp"
+#include "windows/playcontrols.hpp"
 
 #include <QDockWidget>
 #include <QString>

@@ -1,5 +1,5 @@
 #include "mainmenubar.hpp"
-#include "window/debug.hpp"
+#include "windows/debug.hpp"
 
 #include <QAction>
 #include <QDockWidget>

@@ -1,4 +1,4 @@
-#include "window/pattern.hpp"
+#include "windows/pattern.hpp"
 
 #include <QString>
 #include <QStringList>

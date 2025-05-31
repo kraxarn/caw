@@ -1,4 +1,4 @@
-#include "model/ordermodel.hpp"
+#include "models/ordermodel.hpp"
 
 #include <QAbstractItemModel>
 #include <QObject>

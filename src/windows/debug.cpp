@@ -1,4 +1,4 @@
-#include "window/debug.hpp"
+#include "windows/debug.hpp"
 
 #include <QGridLayout>
 #include <QLabel>

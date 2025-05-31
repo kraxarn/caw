@@ -1,6 +1,6 @@
 #include "orderlist.hpp"
 #include "font.hpp"
-#include "model/ordermodel.hpp"
+#include "models/ordermodel.hpp"
 
 #include <QShowEvent>
 #include <QStandardItemModel>

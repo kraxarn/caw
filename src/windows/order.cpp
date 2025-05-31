@@ -1,7 +1,7 @@
-#include "window/order.hpp"
+#include "windows/order.hpp"
 #include "icon.hpp"
 #include "iconname.hpp"
-#include "list/orderlist.hpp"
+#include "lists/orderlist.hpp"
 
 #include <QString>
 #include <QToolBar>
