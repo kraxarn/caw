@@ -14,3 +14,11 @@ OscilloscopeChannel::OscilloscopeChannel(QWidget *parent)
 		layout->addWidget(widget, i / 2, i % 2);
 	}
 }
+
+QSize OscilloscopeChannel::sizeHint() const
+{
+	constexpr auto width = 440;
+	constexpr auto height = 0;
+
+	return {width, height};
+}
