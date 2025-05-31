@@ -22,6 +22,12 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 target_compile_definitions(${PROJECT_NAME} PRIVATE QT_NO_CAST_FROM_ASCII)
 target_compile_definitions(${PROJECT_NAME} PRIVATE QT_NO_CAST_TO_ASCII)
 
+set_target_properties(${PROJECT_NAME} PROPERTIES
+	QT_ANDROID_VERSION_NAME ${PROJECT_VERSION}
+	QT_ANDROID_PACKAGE_NAME "com.kraxarn.caw"
+	QT_ANDROID_APP_NAME "Caw"
+)
+
 target_link_libraries(caw PRIVATE
 	Qt::Core
 	Qt::Widgets
