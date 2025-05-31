@@ -4,6 +4,7 @@
 #include "windows/order.hpp"
 #include "windows/pattern.hpp"
 #include "windows/playback.hpp"
+#include "windows/songinfo.hpp"
 
 #include <QDockWidget>
 #include <QString>
@@ -31,4 +32,8 @@ MainWindow::MainWindow(QWidget *parent)
 	auto *instruments = new QDockWidget(QStringLiteral("Instruments"), this);
 	instruments->setWidget(new Instrument(instruments));
 	addDockWidget(Qt::TopDockWidgetArea, instruments);
+
+	auto *songInfo = new QDockWidget(QStringLiteral("Song Info"), this);
+	songInfo->setWidget(new SongInfo(songInfo));
+	addDockWidget(Qt::TopDockWidgetArea, songInfo);
 }
