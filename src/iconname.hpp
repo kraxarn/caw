@@ -17,4 +17,7 @@ enum class IconName : quint16
 	ChevronDown = 0xf078,
 	Link        = 0xf0c1,
 	LinkSlash   = 0xf127,
+	FolderOpen  = 0xf07c,
+	FloppyDisk  = 0xf0c7,
+	XMark       = 0xf00d,
 };
