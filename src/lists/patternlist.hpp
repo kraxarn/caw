@@ -8,4 +8,7 @@ class PatternList final: public QTreeView
 
 public:
 	PatternList(quint8 channelCount, QWidget *parent);
+
+private:
+	static constexpr auto baseWidth = 30;
 };

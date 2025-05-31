@@ -5,6 +5,10 @@ PatternModel::PatternModel(const quint8 channelCount, QObject *parent)
 	: QAbstractItemModel(parent),
 	channelCount(channelCount)
 {
+	for (quint8 i = 0; i < patternLength; i++)
+	{
+		rows.append(QList<Note>(channelCount, Note()));
+	}
 }
 
 auto PatternModel::index(const int row, const int column,
@@ -46,7 +50,7 @@ auto PatternModel::data(const QModelIndex &index, const int role) const -> QVari
 	}
 
 	const Note &note = rows.at(index.row()).at(index.column() - 1);
-	return QStringLiteral("------"); // TODO
+	return QStringLiteral("......"); // TODO
 }
 
 auto PatternModel::headerData(const int section, [[maybe_unused]] Qt::Orientation orientation,
