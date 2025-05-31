@@ -1,9 +1,9 @@
 #include "mainwindow.hpp"
 #include "mainmenubar.hpp"
+#include "lists/patternlist.hpp"
 #include "windows/instrument.hpp"
 #include "windows/order.hpp"
 #include "windows/oscilloscopechannel.hpp"
-#include "windows/pattern.hpp"
 #include "windows/playback.hpp"
 #include "windows/songinfo.hpp"
 
@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
 	menuBar = new MainMenuBar(this);
 	setMenuBar(menuBar);
 
-	setCentralWidget(new Pattern(this));
+	setCentralWidget(new PatternList(channelCount, this));
 
 	auto *order = new QDockWidget(QStringLiteral("Orders"), this);
 	order->setWidget(new Order(order));

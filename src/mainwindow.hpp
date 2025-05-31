@@ -11,5 +11,7 @@ public:
 	explicit MainWindow(QWidget *parent);
 
 private:
+	static constexpr quint8 channelCount = 8; // TBD
+
 	QMenuBar *menuBar;
 };

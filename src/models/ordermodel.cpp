@@ -1,4 +1,5 @@
 #include "models/ordermodel.hpp"
+#include "format.hpp"
 
 #include <QAbstractItemModel>
 #include <QObject>
@@ -64,7 +65,7 @@ auto OrderModel::data(const QModelIndex &index, const int role) const -> QVarian
 		value = rows.at(index.row()).at(index.column() - 1);
 	}
 
-	return QStringLiteral("%1").arg(value, 2, 16, QChar::fromLatin1('0'));
+	return Format::hex(value);
 }
 
 auto OrderModel::headerData(const int section, [[maybe_unused]] Qt::Orientation orientation,
