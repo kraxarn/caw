@@ -1,5 +1,6 @@
 #include "mainwindow.hpp"
 #include "mainmenubar.hpp"
+#include "lists/instrumentlist.hpp"
 #include "windows/order.hpp"
 #include "windows/pattern.hpp"
 #include "windows/playback.hpp"
@@ -26,4 +27,8 @@ MainWindow::MainWindow(QWidget *parent)
 	auto *playback = new QDockWidget(QStringLiteral("Playback"), this);
 	playback->setWidget(new Playback(playback));
 	addDockWidget(Qt::TopDockWidgetArea, playback);
+
+	auto *instruments = new QDockWidget(QStringLiteral("Instruments"), this);
+	instruments->setWidget(new InstrumentList(instruments));
+	addDockWidget(Qt::TopDockWidgetArea, instruments);
 }
