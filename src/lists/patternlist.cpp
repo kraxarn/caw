@@ -22,7 +22,7 @@ PatternList::PatternList(const quint8 channelCount, QWidget *parent)
 
 auto PatternList::sizeHint() const -> QSize
 {
-	constexpr auto width = 800;
+	constexpr auto width = 840;
 	constexpr auto height = 500;
 
 	return {width, height};
