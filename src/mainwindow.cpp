@@ -39,6 +39,6 @@ MainWindow::MainWindow(QWidget *parent)
 	addDockWidget(Qt::TopDockWidgetArea, songInfo);
 
 	auto *oscilloscopeChannel = new QDockWidget(QStringLiteral("Oscilloscope per-channel"), this);
-	oscilloscopeChannel->setWidget(new OscilloscopeChannel(oscilloscopeChannel));
+	oscilloscopeChannel->setWidget(new OscilloscopeChannel(channelCount, oscilloscopeChannel));
 	addDockWidget(Qt::RightDockWidgetArea, oscilloscopeChannel);
 }

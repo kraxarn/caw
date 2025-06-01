@@ -3,19 +3,19 @@
 
 #include <QGridLayout>
 
-OscilloscopeChannel::OscilloscopeChannel(QWidget *parent)
+OscilloscopeChannel::OscilloscopeChannel(const quint8 channelCount, QWidget *parent)
 	: QWidget(parent)
 {
 	auto *layout = new QGridLayout(this);
 
-	for (qsizetype i = 0; i < channelCount; i++)
+	for (quint8 i = 0; i < channelCount; i++)
 	{
 		auto *widget = new Oscilloscope(this);
 		layout->addWidget(widget, i / 2, i % 2);
 	}
 }
 
-QSize OscilloscopeChannel::sizeHint() const
+auto OscilloscopeChannel::sizeHint() const -> QSize
 {
 	constexpr auto width = 440;
 	constexpr auto height = 0;

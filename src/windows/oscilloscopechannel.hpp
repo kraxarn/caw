@@ -7,10 +7,8 @@ class OscilloscopeChannel final: public QWidget
 	Q_OBJECT
 
 public:
-	explicit OscilloscopeChannel(QWidget *parent);
+	OscilloscopeChannel(quint8 channelCount, QWidget *parent);
 
-	QSize sizeHint() const override;
-
-private:
-	static constexpr qsizetype channelCount = 6; // TBD
+	[[nodiscard]]
+	auto sizeHint() const -> QSize override;
 };
