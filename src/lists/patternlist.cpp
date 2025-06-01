@@ -19,3 +19,11 @@ PatternList::PatternList(const quint8 channelCount, QWidget *parent)
 		setColumnWidth(i, baseWidth * 3);
 	}
 }
+
+auto PatternList::sizeHint() const -> QSize
+{
+	constexpr auto width = 800;
+	constexpr auto height = 500;
+
+	return {width, height};
+}

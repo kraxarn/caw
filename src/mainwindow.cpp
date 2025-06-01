@@ -15,7 +15,6 @@ MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent)
 {
 	setWindowTitle(QStringLiteral("caw"));
-	resize(1280, 720); // TODO
 
 	menuBar = new MainMenuBar(this);
 	setMenuBar(menuBar);
