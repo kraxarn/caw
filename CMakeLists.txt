@@ -28,6 +28,9 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 	QT_ANDROID_APP_NAME "Caw"
 )
 
+include(deps/fontawesome.cmake)
+include(resources.cmake)
+
 target_link_libraries(caw PRIVATE
 	Qt::Core
 	Qt::Widgets
