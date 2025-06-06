@@ -8,7 +8,13 @@ find_package(Qt6 6.7 REQUIRED COMPONENTS Core Widgets Multimedia)
 
 qt_standard_project_setup()
 
-qt_add_executable(caw WIN32 MACOSX_BUNDLE)
+if (APPLE)
+	set(APP_ICNS "${CMAKE_CURRENT_SOURCE_DIR}/res/caw.icns")
+	set_source_files_properties(${APP_ICNS} PROPERTIES
+		MACOSX_PACKAGE_LOCATION "Resources")
+endif ()
+
+qt_add_executable(caw WIN32 MACOSX_BUNDLE "${APP_ICNS}")
 add_subdirectory(src)
 
 target_include_directories(${PROJECT_NAME} PRIVATE
