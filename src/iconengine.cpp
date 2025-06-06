@@ -19,11 +19,6 @@ void IconEngine::paint(QPainter *painter, const QRect &rect,
 		return;
 	}
 
-	// How to draw lines/outlines
-	painter->setPen(color);
-	// How to draw fills
-	painter->setBrush(color);
-
 	svg.render(painter, {rect});
 }
 
@@ -34,10 +29,14 @@ auto IconEngine::pixmap(const QSize &size, const QIcon::Mode mode,
 	image.fill(Qt::transparent);
 
 	auto pixmap = QPixmap::fromImage(image, Qt::NoFormatConversion);
-	QPainter painter(&pixmap);
 	const QRect rect({0, 0}, size);
 
+	QPainter painter(&pixmap);
 	paint(&painter, rect, mode, state);
+
+	painter.setCompositionMode(QPainter::CompositionMode_SourceIn);
+	painter.fillRect(rect, color);
+
 	return pixmap;
 }
 
