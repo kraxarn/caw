@@ -25,6 +25,7 @@ QSize Instrument::sizeHint() const
 auto Instrument::toolBar() -> QToolBar *
 {
 	auto *toolbar = new QToolBar(this);
+	toolbar->setIconSize(toolbar->iconSize() * 0.5);
 
 	toolbar->addAction(Icon::get(this, IconName::Plus), QStringLiteral("Add"));
 	toolbar->addAction(Icon::get(this, IconName::Clone), QStringLiteral("Duplicate"));
