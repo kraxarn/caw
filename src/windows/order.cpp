@@ -1,6 +1,5 @@
 #include "windows/order.hpp"
 #include "icon.hpp"
-#include "iconname.hpp"
 #include "lists/orderlist.hpp"
 
 #include <QString>
@@ -32,21 +31,10 @@ void Order::addToolBar()
 	toolBar = new QToolBar(this);
 	toolBar->setIconSize(toolBar->iconSize() * 0.5);
 
-	auto *add = toolBar->addAction(QStringLiteral("Add order"));
-	Icon::set(add, IconName::Plus);
-
-	auto *remove = toolBar->addAction(QStringLiteral("Remove order"));
-	Icon::set(remove, IconName::Minus);
-
-	auto *duplicate = toolBar->addAction(QStringLiteral("Duplicate order..."));
-	Icon::set(duplicate, IconName::Clone);
-
-	auto *moveUp = toolBar->addAction(QStringLiteral("Move order up"));
-	Icon::set(moveUp, IconName::ChevronUp);
-
-	auto *moveDown = toolBar->addAction(QStringLiteral("Move order down"));
-	Icon::set(moveDown, IconName::ChevronDown);
-
-	auto *changeMode = toolBar->addAction(QStringLiteral("Order change mode..."));
-	Icon::set(changeMode, IconName::LinkSlash);
+	toolBar->addAction(Icon::get(IconName::Plus), QStringLiteral("Add order"));
+	toolBar->addAction(Icon::get(IconName::Minus), QStringLiteral("Remove order"));
+	toolBar->addAction(Icon::get(IconName::Clone), QStringLiteral("Duplicate order..."));
+	toolBar->addAction(Icon::get(IconName::ChevronUp),QStringLiteral("Move order up"));
+	toolBar->addAction(Icon::get(IconName::ChevronDown), QStringLiteral("Move order down"));
+	toolBar->addAction(Icon::get(IconName::LinkSlash), QStringLiteral("Order change mode..."));
 }

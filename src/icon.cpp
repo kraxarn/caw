@@ -1,27 +1,10 @@
 #include "icon.hpp"
 
 #include <QFont>
+#include <QMetaEnum>
 #include <QString>
 
-auto Icon::font() -> QFont
-{
-	return {QStringLiteral("Font Awesome 6 Free")};
-}
-
-auto Icon::get(const IconName icon) -> QString
-{
-	const QChar icChar(static_cast<quint16>(icon));
-	return {icChar};
-}
-
-void Icon::set(QAction *action, const IconName icon)
-{
-	action->setToolTip(action->text());
-	action->setText(get(icon));
-	action->setFont(font());
-}
-
-auto Icon::get(const Value icon) -> QIcon
+auto Icon::get(const ::IconName icon) -> QIcon
 {
 	const auto name = QStringLiteral(":/icons/solid/%1")
 		.arg(getIconName(icon));
@@ -29,10 +12,11 @@ auto Icon::get(const Value icon) -> QIcon
 	return QIcon(name);
 }
 
-auto Icon::getIconName(const Value icon) -> QString
+auto Icon::getIconName(::IconName icon) -> QString
 {
-	const auto meta = QMetaEnum::fromType<Value>();
-	const auto key = meta.valueToKey(icon);
+	const auto meta = QMetaEnum::fromType<::IconName>();
+	const auto value = static_cast<quint64>(icon);
+	const auto key = meta.valueToKey(value);
 
 	auto str = QString::fromUtf8(key);
 

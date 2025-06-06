@@ -1,7 +1,5 @@
 #pragma once
 
-#include "iconname.hpp"
-
 #include <QAction>
 
 class Icon final
@@ -9,21 +7,7 @@ class Icon final
 	Q_GADGET
 
 public:
-	[[nodiscard]]
-	[[deprecated]]
-	static auto get(IconName icon) -> QString;
-
-	[[deprecated]]
-	static void set(QAction *action, IconName icon);
-
-private:
-	Icon() = default;
-
-	[[nodiscard]]
-	static auto font() -> QFont;
-
-public:
-	enum Value : quint8
+	enum class IconName : quint8
 	{
 		Play,
 		ForwardStep,
@@ -43,11 +27,15 @@ public:
 		Xmark,
 	};
 
-	Q_ENUM(Value)
+	Q_ENUM(IconName)
 
-	static auto get(Value icon) -> QIcon;
+	static auto get(IconName icon) -> QIcon;
 
 private:
+	Icon() = default;
+
 	[[nodiscard]]
-	static auto getIconName(Value icon) -> QString;
+	static auto getIconName(IconName icon) -> QString;
 };
+
+using IconName = Icon::IconName;
