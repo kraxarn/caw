@@ -29,7 +29,7 @@ public:
 
 	Q_ENUM(IconName)
 
-	static auto get(IconName icon) -> QIcon;
+	static auto get(const QWidget *parent, IconName icon) -> QIcon;
 
 private:
 	Icon() = default;

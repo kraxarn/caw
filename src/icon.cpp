@@ -1,15 +1,17 @@
 #include "icon.hpp"
+#include "iconengine.hpp"
 
-#include <QFont>
 #include <QMetaEnum>
-#include <QString>
+#include <QWidget>
 
-auto Icon::get(const ::IconName icon) -> QIcon
+auto Icon::get(const QWidget *parent, const ::IconName icon) -> QIcon
 {
-	const auto name = QStringLiteral(":/icons/solid/%1")
+	const auto filename = QStringLiteral(":/icons/solid/%1.svg")
 		.arg(getIconName(icon));
 
-	return QIcon(name);
+	const auto color = parent->palette().color(parent->foregroundRole());
+
+	return QIcon(new IconEngine(filename, color));
 }
 
 auto Icon::getIconName(::IconName icon) -> QString
