@@ -1,7 +1,6 @@
 #pragma once
 
 #include <QMainWindow>
-#include <QMenuBar>
 
 class MainWindow final: public QMainWindow
 {
@@ -12,6 +11,4 @@ public:
 
 private:
 	static constexpr quint8 channelCount = 8; // TBD
-
-	QMenuBar *menuBar;
 };

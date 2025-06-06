@@ -1,11 +1,11 @@
 #include "mainwindow.hpp"
-#include "mainmenubar.hpp"
 #include "lists/patternlist.hpp"
 #include "windows/instrument.hpp"
 #include "windows/order.hpp"
 #include "windows/oscilloscopechannel.hpp"
 #include "windows/playback.hpp"
 #include "windows/songinfo.hpp"
+#include "maintoolbar.hpp"
 
 #include <QDockWidget>
 #include <QString>
@@ -17,8 +17,8 @@ MainWindow::MainWindow(QWidget *parent)
 	setWindowTitle(QStringLiteral("caw"));
 	setWindowIcon(QIcon(QStringLiteral(":/logos/caw")));
 
-	menuBar = new MainMenuBar(this);
-	setMenuBar(menuBar);
+	auto *toolBar = new MainToolBar(this);
+	addToolBar(toolBar);
 
 	setCentralWidget(new PatternList(channelCount, this));
 
