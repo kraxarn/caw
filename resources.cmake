@@ -1,5 +1,12 @@
 set(ICONS_BASE "${fontawesome_SOURCE_DIR}/svgs")
 
+qt_add_resources(${PROJECT_NAME} "logos"
+	PREFIX "/logos"
+	BASE "res"
+	FILES
+	"res/caw.svg"
+)
+
 qt_add_resources(${PROJECT_NAME} "icons"
 	PREFIX "/icons"
 	BASE "${ICONS_BASE}"

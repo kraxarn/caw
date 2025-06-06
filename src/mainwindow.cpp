@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent)
 {
 	setWindowTitle(QStringLiteral("caw"));
+	setWindowIcon(QIcon(QStringLiteral(":/logos/caw")));
 
 	menuBar = new MainMenuBar(this);
 	setMenuBar(menuBar);
