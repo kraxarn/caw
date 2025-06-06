@@ -11,9 +11,6 @@ qt_standard_project_setup()
 qt_add_executable(caw WIN32 MACOSX_BUNDLE)
 add_subdirectory(src)
 
-qt_add_resources(RESOURCES "res.qrc")
-target_sources(${PROJECT_NAME} PRIVATE ${RESOURCES})
-
 target_include_directories(${PROJECT_NAME} PRIVATE
 	"${CMAKE_CURRENT_SOURCE_DIR}/src"
 )
