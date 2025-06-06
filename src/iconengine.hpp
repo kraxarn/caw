@@ -10,6 +10,9 @@ public:
 	void paint(QPainter *painter, const QRect &rect, QIcon::Mode mode, QIcon::State state) override;
 
 	[[nodiscard]]
+	auto pixmap(const QSize &size, QIcon::Mode mode, QIcon::State state) -> QPixmap override;
+
+	[[nodiscard]]
 	auto clone() const -> QIconEngine * override;
 
 private:
