@@ -20,4 +20,5 @@ protected:
 private:
 	QPen color;
 	QGraphicsTextItem *text;
+	QGraphicsLineItem *line;
 };

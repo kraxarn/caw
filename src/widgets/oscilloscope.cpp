@@ -10,7 +10,8 @@
 Oscilloscope::Oscilloscope(QWidget *parent)
 	: QGraphicsView(parent),
 	color(QApplication::palette().text().color()),
-	text(nullptr)
+	text(nullptr),
+	line(nullptr)
 {
 	setScene(new QGraphicsScene(this));
 
@@ -22,14 +23,20 @@ void Oscilloscope::showEvent(QShowEvent *event)
 {
 	QGraphicsView::showEvent(event);
 
-	const auto x = qFloor(width() / 2.0);
-	scene()->addLine(-x, 0, x, 0, color);
+	const auto y = qFloor(height() / 2.0);
+	line = scene()->addLine(0, y, width(), y, color);
 }
 
 void Oscilloscope::resizeEvent(QResizeEvent *event)
 {
 	QGraphicsView::resizeEvent(event);
 	scene()->setSceneRect({{0, 0}, event->size()});
+
+	if (line != nullptr)
+	{
+		const auto y = qFloor(height() / 2.0);
+		line->setLine(0, y, width(), y);
+	}
 }
 
 void Oscilloscope::setText(const QString &text)
