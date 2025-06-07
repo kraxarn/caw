@@ -10,4 +10,5 @@ public:
 	explicit MainToolBar(QWidget *parent);
 
 private:
+	void onOpenTriggered(bool checked);
 };
