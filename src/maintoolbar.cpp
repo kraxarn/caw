@@ -19,6 +19,7 @@ MainToolBar::MainToolBar(QWidget *parent)
 
 	addSeparator();
 
+	addAction(Icon::get(this, IconName::Bug), QStringLiteral("Debug"));
 	addAction(Icon::get(this, IconName::Gear), QStringLiteral("Settings"));
 }
 

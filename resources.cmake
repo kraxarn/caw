@@ -12,6 +12,7 @@ qt_add_resources(${PROJECT_NAME} "icons"
 	BASE "${ICONS_BASE}"
 	FILES
 	"${ICONS_BASE}/solid/angles-down.svg"
+	"${ICONS_BASE}/solid/bug.svg"
 	"${ICONS_BASE}/solid/chevron-down.svg"
 	"${ICONS_BASE}/solid/chevron-up.svg"
 	"${ICONS_BASE}/solid/circle.svg"

@@ -10,6 +10,7 @@ public:
 	enum class IconName : quint8
 	{
 		AnglesDown,
+		Bug,
 		ChevronDown,
 		ChevronUp,
 		Circle,
