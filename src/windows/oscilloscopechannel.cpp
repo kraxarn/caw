@@ -11,6 +11,8 @@ OscilloscopeChannel::OscilloscopeChannel(const quint8 channelCount, QWidget *par
 	for (quint8 i = 0; i < channelCount; i++)
 	{
 		auto *widget = new Oscilloscope(this);
+		widget->setText(QStringLiteral("Channel %1").arg(i + 1));
+
 		layout->addWidget(widget, i / 2, i % 2);
 	}
 }
