@@ -22,9 +22,7 @@ Oscilloscope::Oscilloscope(QWidget *parent)
 void Oscilloscope::showEvent(QShowEvent *event)
 {
 	QGraphicsView::showEvent(event);
-
-	const auto y = qFloor(height() / 2.0);
-	line = scene()->addLine(0, y, width(), y, color);
+	line = scene()->addLine(defaultLine(), color);
 }
 
 void Oscilloscope::resizeEvent(QResizeEvent *event)
@@ -34,8 +32,7 @@ void Oscilloscope::resizeEvent(QResizeEvent *event)
 
 	if (line != nullptr)
 	{
-		const auto y = qFloor(height() / 2.0);
-		line->setLine(0, y, width(), y);
+		line->setLine(defaultLine());
 	}
 }
 
@@ -48,4 +45,10 @@ void Oscilloscope::setText(const QString &text)
 	}
 
 	this->text->setPlainText(text);
+}
+
+auto Oscilloscope::defaultLine() const -> QLineF
+{
+	const auto y = height() / 2.0;
+	return {0, y, static_cast<qreal>(width()), y};
 }

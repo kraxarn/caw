@@ -21,4 +21,7 @@ private:
 	QPen color;
 	QGraphicsTextItem *text;
 	QGraphicsLineItem *line;
+
+	[[nodiscard]]
+	auto defaultLine() const -> QLineF;
 };
