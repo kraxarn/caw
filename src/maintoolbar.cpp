@@ -4,6 +4,7 @@
 MainToolBar::MainToolBar(QWidget *parent)
 	: QToolBar(parent)
 {
+	setIconSize(iconSize() * 0.75);
 	setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 
 	addAction(Icon::get(this, IconName::FileCirclePlus), QStringLiteral("New"));
