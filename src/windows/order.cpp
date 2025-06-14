@@ -1,5 +1,6 @@
 #include "windows/order.hpp"
 #include "icon.hpp"
+#include "iconsizes.hpp"
 #include "lists/orderlist.hpp"
 
 #include <QString>
@@ -29,7 +30,7 @@ QSize Order::sizeHint() const
 void Order::addToolBar()
 {
 	toolBar = new QToolBar(this);
-	toolBar->setIconSize(toolBar->iconSize() * 0.5);
+	toolBar->setIconSize(IconSizes::smallToolBar());
 
 	toolBar->addAction(Icon::get(this, IconName::Plus), QStringLiteral("Add order"));
 	toolBar->addAction(Icon::get(this, IconName::Minus), QStringLiteral("Remove order"));

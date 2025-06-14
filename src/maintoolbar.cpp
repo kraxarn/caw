@@ -1,12 +1,13 @@
 #include "maintoolbar.hpp"
 #include "icon.hpp"
+#include "iconsizes.hpp"
 
 #include <QFileDialog>
 
 MainToolBar::MainToolBar(QWidget *parent)
 	: QToolBar(parent)
 {
-	setIconSize(iconSize() * 0.75);
+	setIconSize(IconSizes::largeToolBar());
 	setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 
 	addAction(Icon::get(this, IconName::FileCirclePlus), QStringLiteral("New"));

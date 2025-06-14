@@ -1,5 +1,6 @@
 #include "widgets/playcontrols.hpp"
 #include "icon.hpp"
+#include "iconsizes.hpp"
 
 #include <QString>
 #include <QToolBar>
@@ -8,7 +9,7 @@
 PlayControls::PlayControls(QWidget *parent)
 	: QToolBar(parent)
 {
-	setIconSize(iconSize() * 0.5);
+	setIconSize(IconSizes::smallToolBar());
 
 	addAction(Icon::get(this, IconName::Play), QStringLiteral("Play"));
 	addAction(Icon::get(this, IconName::ForwardStep), QStringLiteral("Play from the beginning of this pattern"));
