@@ -24,8 +24,8 @@ protected:
 private:
 	static constexpr qreal blackKeySize = 2.0 / 3.0;
 
-	static constexpr auto whiteKeyWidth = 24;
-	static constexpr auto blackKeyWidth = 16;
+	static constexpr auto whiteKeyWidth = 24.F;
+	static constexpr auto blackKeyWidth = 16.F;
 
 	static constexpr quint8 octaveCount = 7;
 

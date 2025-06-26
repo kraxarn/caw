@@ -62,13 +62,13 @@ void Piano::addOctave(const quint8 octave) const
 		Note::CSharp, Note::DSharp, Note::FSharp, Note::GSharp, Note::ASharp,
 	};
 
-	const int offset = octave * (whiteKeyWidth * whiteKeys.size());
+	const float offset = static_cast<float>(octave) * (whiteKeyWidth * whiteKeys.size());
 	constexpr int octaveKeyCount = whiteKeys.size() + blackKeys.size();
 
-	for (quint8 i = 0; i < whiteKeys.size(); i++)
+	for (size_t i = 0; i < whiteKeys.size(); i++)
 	{
 		const QRectF rect(
-			offset + (i * whiteKeyWidth),
+			offset + (static_cast<float>(i) * whiteKeyWidth),
 			0,
 			whiteKeyWidth,
 			scene()->height() - 1
@@ -79,10 +79,10 @@ void Piano::addOctave(const quint8 octave) const
 		item->setData(0, QVariant::fromValue<quint8>((octave * octaveKeyCount) + key));
 	}
 
-	for (quint8 i = 0; i < blackKeys.size(); i++)
+	for (size_t i = 0; i < blackKeys.size(); i++)
 	{
 		const QRectF rect(
-			offset + ((whiteKeyWidth * (i + 1 + (i > 1 ? 1 : 0))) - (blackKeyWidth / 2)),
+			offset + ((whiteKeyWidth * (static_cast<float>(i) + 1.F + (i > 1 ? 1.F : 0.F))) - (blackKeyWidth / 2.F)),
 			0,
 			blackKeyWidth,
 			(scene()->height() * blackKeySize) - 1
