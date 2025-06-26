@@ -82,7 +82,8 @@ void Piano::addOctave(const quint8 octave) const
 	for (size_t i = 0; i < blackKeys.size(); i++)
 	{
 		const QRectF rect(
-			offset + ((whiteKeyWidth * (static_cast<float>(i) + 1.F + (i > 1 ? 1.F : 0.F))) - (blackKeyWidth / 2.F)),
+			offset + ((whiteKeyWidth * (static_cast<float>(i) + 1.F + (i > 1 ? 1.F : 0.F)))
+				- (blackKeyWidth / 2.F)),
 			0,
 			blackKeyWidth,
 			(scene()->height() * blackKeySize) - 1
