@@ -17,6 +17,10 @@ protected:
 
 	void resizeEvent(QResizeEvent *event) override;
 
+	void mousePressEvent(QMouseEvent *event) override;
+
+	void mouseReleaseEvent(QMouseEvent *event) override;
+
 private:
 	static constexpr qreal blackKeySize = 2.0 / 3.0;
 

@@ -27,6 +27,19 @@ void Piano::resizeEvent(QResizeEvent *event)
 	scene()->setSceneRect({{0, 0}, event->size()});
 }
 
+void Piano::mousePressEvent(QMouseEvent *event)
+{
+	QGraphicsView::mousePressEvent(event);
+
+	const auto item = itemAt(event->pos());
+	qDebug() << item->data(0).value<PianoKey>().toString();
+}
+
+void Piano::mouseReleaseEvent(QMouseEvent *event)
+{
+	QGraphicsView::mouseReleaseEvent(event);
+}
+
 auto Piano::sizeHint() const -> QSize
 {
 	constexpr int height = 110;
