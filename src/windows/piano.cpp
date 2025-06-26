@@ -1,4 +1,5 @@
 #include "windows/piano.hpp"
+#include "pianokey.hpp"
 
 #include <QGraphicsItem>
 #include <QGraphicsScene>
@@ -14,7 +15,7 @@ void Piano::showEvent(QShowEvent *event)
 {
 	QGraphicsView::showEvent(event);
 
-	for (auto i = 0; i < octaveCount; i++)
+	for (quint8 i = 0; i < octaveCount; i++)
 	{
 		addOctave(i);
 	}
@@ -32,11 +33,11 @@ auto Piano::sizeHint() const -> QSize
 	return {0, height};
 }
 
-void Piano::addOctave(const int octave) const
+void Piano::addOctave(const quint8 octave) const
 {
 	const int offset = octave * (whiteKeyWidth * octaveWhiteKeyCount);
 
-	for (auto i = 0; i < octaveWhiteKeyCount; i++)
+	for (quint8 i = 0; i < octaveWhiteKeyCount; i++)
 	{
 		const QRectF rect(
 			offset + (i * whiteKeyWidth),
@@ -44,10 +45,16 @@ void Piano::addOctave(const int octave) const
 			whiteKeyWidth,
 			scene()->height() - 1
 		);
-		scene()->addRect(rect, QPen(Qt::black), QBrush(Qt::white));
+
+		auto *item = scene()->addRect(rect, QPen(Qt::black), QBrush(Qt::white));
+		item->setData(0, QVariant::fromValue(PianoKey{
+			.octave = octave,
+			.key = i,
+			.sharp = false,
+		}));
 	}
 
-	for (auto i = 0; i < octaveBlackKeyCount; i++)
+	for (quint8 i = 0; i < octaveBlackKeyCount; i++)
 	{
 		const QRectF rect(
 			offset + ((whiteKeyWidth * (i + 1 + (i > 1 ? 1 : 0))) - (blackKeyWidth / 2)),
@@ -55,6 +62,12 @@ void Piano::addOctave(const int octave) const
 			blackKeyWidth,
 			(scene()->height() * blackKeySize) - 1
 		);
-		scene()->addRect(rect, QPen(Qt::black), QBrush(Qt::black));
+
+		auto *item = scene()->addRect(rect, QPen(Qt::black), QBrush(Qt::black));
+		item->setData(0, QVariant::fromValue(PianoKey{
+			.octave = octave,
+			.key = i,
+			.sharp = true,
+		}));
 	}
 }
