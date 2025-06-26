@@ -48,9 +48,18 @@ auto Piano::sizeHint() const -> QSize
 
 void Piano::addOctave(const quint8 octave) const
 {
-	const int offset = octave * (whiteKeyWidth * octaveWhiteKeyCount);
+	constexpr std::array whiteKeys{
+		Note::C, Note::D, Note::E, Note::F, Note::G, Note::A, Note::B,
+	};
 
-	for (quint8 i = 0; i < octaveWhiteKeyCount; i++)
+	constexpr std::array blackKeys{
+		Note::CSharp, Note::DSharp, Note::FSharp, Note::GSharp, Note::ASharp,
+	};
+
+	const int offset = octave * (whiteKeyWidth * whiteKeys.size());
+	constexpr int octaveKeyCount = whiteKeys.size() + blackKeys.size();
+
+	for (quint8 i = 0; i < whiteKeys.size(); i++)
 	{
 		const QRectF rect(
 			offset + (i * whiteKeyWidth),
@@ -60,10 +69,11 @@ void Piano::addOctave(const quint8 octave) const
 		);
 
 		auto *item = scene()->addRect(rect, QPen(Qt::black), QBrush(Qt::white));
-		item->setData(0, QVariant::fromValue<quint8>((octave * 12) + i));
+		const auto key = static_cast<quint8>(whiteKeys.at(i));
+		item->setData(0, QVariant::fromValue<quint8>((octave * octaveKeyCount) + key));
 	}
 
-	for (quint8 i = 0; i < octaveBlackKeyCount; i++)
+	for (quint8 i = 0; i < blackKeys.size(); i++)
 	{
 		const QRectF rect(
 			offset + ((whiteKeyWidth * (i + 1 + (i > 1 ? 1 : 0))) - (blackKeyWidth / 2)),
@@ -73,6 +83,7 @@ void Piano::addOctave(const quint8 octave) const
 		);
 
 		auto *item = scene()->addRect(rect, QPen(Qt::black), QBrush(Qt::black));
-		item->setData(0, QVariant::fromValue<quint8>((octave * 12) + i));
+		const auto key = static_cast<quint8>(blackKeys.at(i));
+		item->setData(0, QVariant::fromValue<quint8>((octave * octaveKeyCount) + key));
 	}
 }

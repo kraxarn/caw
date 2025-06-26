@@ -3,37 +3,37 @@
 auto PianoKey::toString(const quint8 key) -> QString
 {
 	return QStringLiteral("%1%2")
-		.arg(noteName(key % 12))
-		.arg((key / 12) + 1);
+		.arg(noteName(static_cast<Note>(key % keyCount)))
+		.arg((key / keyCount) + 1);
 }
 
-auto PianoKey::noteName(const quint8 note) -> QString
+auto PianoKey::noteName(const Note note) -> QString
 {
 	switch (note)
 	{
-		case 0:
+		case Note::C:
 			return QStringLiteral("C-");
-		case 1:
+		case Note::CSharp:
 			return QStringLiteral("C#");
-		case 2:
+		case Note::D:
 			return QStringLiteral("D-");
-		case 3:
+		case Note::DSharp:
 			return QStringLiteral("D#");
-		case 4:
+		case Note::E:
 			return QStringLiteral("E-");
-		case 5:
+		case Note::F:
 			return QStringLiteral("F-");
-		case 6:
+		case Note::FSharp:
 			return QStringLiteral("F#");
-		case 7:
+		case Note::G:
 			return QStringLiteral("G-");
-		case 8:
+		case Note::GSharp:
 			return QStringLiteral("G#");
-		case 9:
+		case Note::A:
 			return QStringLiteral("A-");
-		case 10:
+		case Note::ASharp:
 			return QStringLiteral("A#");
-		case 11:
+		case Note::B:
 			return QStringLiteral("B-");
 		default:
 			return QStringLiteral("--");

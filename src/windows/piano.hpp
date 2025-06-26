@@ -27,8 +27,6 @@ private:
 	static constexpr auto whiteKeyWidth = 24;
 	static constexpr auto blackKeyWidth = 16;
 
-	static constexpr quint8 octaveWhiteKeyCount = 7;
-	static constexpr quint8 octaveBlackKeyCount = 5;
 	static constexpr quint8 octaveCount = 7;
 
 	void addOctave(quint8 octave) const;
