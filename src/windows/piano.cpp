@@ -13,6 +13,11 @@ Piano::Piano(QWidget *parent)
 void Piano::showEvent(QShowEvent *event)
 {
 	QGraphicsView::showEvent(event);
+
+	for (auto i = 0; i < octaveCount; i++)
+	{
+		addOctave(i);
+	}
 }
 
 void Piano::resizeEvent(QResizeEvent *event)
@@ -27,25 +32,29 @@ auto Piano::sizeHint() const -> QSize
 	return {0, height};
 }
 
-void Piano::addOctave()
+void Piano::addOctave(const int octave) const
 {
-	scene()->addRect(
-		{
-			0,
+	const int offset = octave * (whiteKeyWidth * octaveWhiteKeyCount);
+
+	for (auto i = 0; i < octaveWhiteKeyCount; i++)
+	{
+		const QRectF rect(
+			offset + (i * whiteKeyWidth),
 			0,
 			whiteKeyWidth,
-			scene()->height() - 1,
-		},
-		QPen(Qt::white)
-	);
+			scene()->height() - 1
+		);
+		scene()->addRect(rect, QPen(Qt::black), QBrush(Qt::white));
+	}
 
-	scene()->addRect(
-		{
-			0,
+	for (auto i = 0; i < octaveBlackKeyCount; i++)
+	{
+		const QRectF rect(
+			offset + ((whiteKeyWidth * (i + 1 + (i > 1 ? 1 : 0))) - (blackKeyWidth / 2)),
 			0,
 			blackKeyWidth,
-			(scene()->height() * blackKeySize) - 1,
-		},
-		QPen(Qt::black)
-	);
+			(scene()->height() * blackKeySize) - 1
+		);
+		scene()->addRect(rect, QPen(Qt::black), QBrush(Qt::black));
+	}
 }

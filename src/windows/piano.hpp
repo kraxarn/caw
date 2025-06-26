@@ -20,8 +20,12 @@ protected:
 private:
 	static constexpr qreal blackKeySize = 2.0 / 3.0;
 
-	static constexpr int whiteKeyWidth = 24;
-	static constexpr int blackKeyWidth = 16;
+	static constexpr auto whiteKeyWidth = 24;
+	static constexpr auto blackKeyWidth = 16;
 
-	void addOctave();
+	static constexpr auto octaveWhiteKeyCount = 7;
+	static constexpr auto octaveBlackKeyCount = 5;
+	static constexpr auto octaveCount = 7;
+
+	void addOctave(int octave) const;
 };
