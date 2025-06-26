@@ -4,6 +4,7 @@
 #include <QGraphicsItem>
 #include <QGraphicsScene>
 #include <QResizeEvent>
+#include <QApplication>
 
 Piano::Piano(QWidget *parent)
 	: QGraphicsView(parent)
@@ -14,6 +15,11 @@ Piano::Piano(QWidget *parent)
 void Piano::showEvent(QShowEvent *event)
 {
 	QGraphicsView::showEvent(event);
+
+	const auto baseColor = palette().button().color();
+	keyBorder = baseColor.darker();
+	whiteKeyColor = baseColor.lighter(whiteKeyColorFactor);
+	blackKeyColor = baseColor.darker(blackKeyColorFactor);
 
 	for (quint8 i = 0; i < octaveCount; i++)
 	{
@@ -31,7 +37,7 @@ void Piano::mousePressEvent(QMouseEvent *event)
 {
 	QGraphicsView::mousePressEvent(event);
 
-	const auto item = itemAt(event->pos());
+	const auto *item = itemAt(event->pos());
 	qDebug() << PianoKey::toString(item->data(0).value<quint8>());
 }
 
@@ -68,7 +74,7 @@ void Piano::addOctave(const quint8 octave) const
 			scene()->height() - 1
 		);
 
-		auto *item = scene()->addRect(rect, QPen(Qt::black), QBrush(Qt::white));
+		auto *item = scene()->addRect(rect, QPen(Qt::black), whiteKeyColor);
 		const auto key = static_cast<quint8>(whiteKeys.at(i));
 		item->setData(0, QVariant::fromValue<quint8>((octave * octaveKeyCount) + key));
 	}
@@ -82,7 +88,7 @@ void Piano::addOctave(const quint8 octave) const
 			(scene()->height() * blackKeySize) - 1
 		);
 
-		auto *item = scene()->addRect(rect, QPen(Qt::black), QBrush(Qt::black));
+		auto *item = scene()->addRect(rect, QPen(Qt::black), blackKeyColor);
 		const auto key = static_cast<quint8>(blackKeys.at(i));
 		item->setData(0, QVariant::fromValue<quint8>((octave * octaveKeyCount) + key));
 	}

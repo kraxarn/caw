@@ -29,5 +29,12 @@ private:
 
 	static constexpr quint8 octaveCount = 7;
 
+	static constexpr auto whiteKeyColorFactor = 150 * 3;
+	static constexpr auto blackKeyColorFactor = 200 * 3;
+
 	void addOctave(quint8 octave) const;
+
+	QPen keyBorder;
+	QBrush whiteKeyColor;
+	QBrush blackKeyColor;
 };
