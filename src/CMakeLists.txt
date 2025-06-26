@@ -11,4 +11,5 @@ target_sources(${PROJECT_NAME} PRIVATE
 	${CMAKE_CURRENT_SOURCE_DIR}/maintoolbar.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/mainwindow.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/iconsizes.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/pianokey.cpp
 )
