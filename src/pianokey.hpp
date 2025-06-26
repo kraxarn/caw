@@ -1,17 +1,14 @@
 #pragma once
 
-#include <QMetaType>
-#include <QTypeInfo>
+#include <QString>
 
-struct PianoKey
+class PianoKey
 {
-	quint8 octave;
-	quint8 key;
-	bool sharp;
+public:
+	static auto toString(quint8 key) -> QString;
 
-	auto toString() const -> QString;
+private:
+	PianoKey() = default;
+
+	static auto noteName(quint8 note) -> QString;
 };
-
-Q_DECLARE_TYPEINFO(PianoKey, Q_PRIMITIVE_TYPE);
-
-Q_DECLARE_METATYPE(PianoKey);

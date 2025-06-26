@@ -32,7 +32,7 @@ void Piano::mousePressEvent(QMouseEvent *event)
 	QGraphicsView::mousePressEvent(event);
 
 	const auto item = itemAt(event->pos());
-	qDebug() << item->data(0).value<PianoKey>().toString();
+	qDebug() << PianoKey::toString(item->data(0).value<quint8>());
 }
 
 void Piano::mouseReleaseEvent(QMouseEvent *event)
@@ -60,11 +60,7 @@ void Piano::addOctave(const quint8 octave) const
 		);
 
 		auto *item = scene()->addRect(rect, QPen(Qt::black), QBrush(Qt::white));
-		item->setData(0, QVariant::fromValue(PianoKey{
-			.octave = octave,
-			.key = i,
-			.sharp = false,
-		}));
+		item->setData(0, QVariant::fromValue<quint8>((octave * 12) + i));
 	}
 
 	for (quint8 i = 0; i < octaveBlackKeyCount; i++)
@@ -77,10 +73,6 @@ void Piano::addOctave(const quint8 octave) const
 		);
 
 		auto *item = scene()->addRect(rect, QPen(Qt::black), QBrush(Qt::black));
-		item->setData(0, QVariant::fromValue(PianoKey{
-			.octave = octave,
-			.key = i,
-			.sharp = true,
-		}));
+		item->setData(0, QVariant::fromValue<quint8>((octave * 12) + i));
 	}
 }
