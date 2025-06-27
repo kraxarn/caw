@@ -4,6 +4,7 @@
 
 #include "widgets/oscilloscope.hpp"
 
+#include <QCheckBox>
 #include <QComboBox>
 #include <QGridLayout>
 #include <QGroupBox>
@@ -81,34 +82,42 @@ auto InstrumentEditor::osc(const quint8 idx) -> QWidget *
 	});
 	layout->addWidget(envComboBox, 0, 1);
 
+	auto *xenvComboBox = new QCheckBox(QStringLiteral("Module frequency"));
+	layout->addWidget(xenvComboBox, 1, 0, 1, 2);
+
 	auto *volLabel = new QLabel(QStringLiteral("Volume"), this);
-	layout->addWidget(volLabel, 1, 0);
+	layout->addWidget(volLabel, 2, 0);
 
 	auto *volSlider = new QSlider(Qt::Horizontal, this);
 	volSlider->setRange(0, 255);
 	volSlider->setValue(0xcc);
-	layout->addWidget(volSlider, 1, 1);
+	layout->addWidget(volSlider, 2, 1);
 
 	auto *octLabel = new QLabel(QStringLiteral("Octave"), this);
-	layout->addWidget(octLabel, 2, 0);
+	layout->addWidget(octLabel, 3, 0);
 
 	auto *octSlider = new QSlider(Qt::Horizontal, this);
 	octSlider->setRange(0, 16);
-	layout->addWidget(octSlider, 2, 1);
+	layout->addWidget(octSlider, 3, 1);
 
 	auto *semiLabel = new QLabel(QStringLiteral("Semitune"), this);
-	layout->addWidget(semiLabel, 3, 0);
+	layout->addWidget(semiLabel, 4, 0);
 
 	auto *semiSlider = new QSlider(Qt::Horizontal, this);
 	semiSlider->setRange(0, 11);
-	layout->addWidget(semiSlider, 3, 1);
+	layout->addWidget(semiSlider, 4, 1);
 
 	auto *detLabel = new QLabel(QStringLiteral("Detune"), this);
-	layout->addWidget(detLabel, 4, 0);
+	layout->addWidget(detLabel, 5, 0);
 
 	auto *detSlider = new QSlider(Qt::Horizontal, this);
 	detSlider->setRange(0, 255);
-	layout->addWidget(detSlider, 4, 1);
+	layout->addWidget(detSlider, 5, 1);
 
 	return group;
+}
+
+auto InstrumentEditor::envelope() -> QWidget *
+{
+
 }

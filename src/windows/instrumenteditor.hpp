@@ -12,4 +12,5 @@ public:
 private:
 	auto preset() -> QWidget *;
 	auto osc(quint8 idx) -> QWidget *;
+	auto envelope() -> QWidget *;
 };
