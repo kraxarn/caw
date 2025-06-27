@@ -21,10 +21,8 @@ InstrumentEditor::InstrumentEditor(QWidget *parent)
 
 	layout->addWidget(preset(), 1, 0, 1, 2);
 
-	layout->addWidget(osc1(), 2, 0);
-
-	auto *osc2 = new QGroupBox(QStringLiteral("OSC 2"), this);
-	layout->addWidget(osc2, 2, 1);
+	layout->addWidget(osc(1), 2, 0);
+	layout->addWidget(osc(2), 2, 1);
 
 	auto *envelope = new QGroupBox(QStringLiteral("ENVELOPE"), this);
 	layout->addWidget(envelope, 3, 0);
@@ -66,9 +64,9 @@ auto InstrumentEditor::preset() -> QWidget *
 	return group;
 }
 
-auto InstrumentEditor::osc1() -> QWidget *
+auto InstrumentEditor::osc(const quint8 idx) -> QWidget *
 {
-	auto *group = new QGroupBox(QStringLiteral("Oscillator 1"), this);
+	auto *group = new QGroupBox(QStringLiteral("Oscillator %1").arg(idx), this);
 	auto *layout = new QGridLayout(group);
 
 	auto *envLabel = new QLabel(QStringLiteral("Envelope"), this);
