@@ -17,7 +17,7 @@ void Piano::showEvent(QShowEvent *event)
 	QGraphicsView::showEvent(event);
 
 	const auto baseColor = palette().button().color();
-	keyBorder = baseColor.darker();
+	keyBorderColor = baseColor.darker();
 	whiteKeyColor = baseColor.lighter(whiteKeyColorFactor);
 	blackKeyColor = baseColor.darker(blackKeyColorFactor);
 
@@ -74,7 +74,7 @@ void Piano::addOctave(const quint8 octave) const
 			scene()->height() - 1
 		);
 
-		auto *item = scene()->addRect(rect, QPen(Qt::black), whiteKeyColor);
+		auto *item = scene()->addRect(rect, keyBorderColor, whiteKeyColor);
 		const auto key = static_cast<quint8>(whiteKeys.at(i));
 		item->setData(0, QVariant::fromValue<quint8>((octave * octaveKeyCount) + key));
 	}
@@ -89,7 +89,7 @@ void Piano::addOctave(const quint8 octave) const
 			(scene()->height() * blackKeySize) - 1
 		);
 
-		auto *item = scene()->addRect(rect, QPen(Qt::black), blackKeyColor);
+		auto *item = scene()->addRect(rect, keyBorderColor, blackKeyColor);
 		const auto key = static_cast<quint8>(blackKeys.at(i));
 		item->setData(0, QVariant::fromValue<quint8>((octave * octaveKeyCount) + key));
 	}

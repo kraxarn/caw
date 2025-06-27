@@ -34,7 +34,7 @@ private:
 
 	void addOctave(quint8 octave) const;
 
-	QPen keyBorder;
+	QPen keyBorderColor;
 	QBrush whiteKeyColor;
 	QBrush blackKeyColor;
 };
