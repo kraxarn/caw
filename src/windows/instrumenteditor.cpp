@@ -1,15 +1,16 @@
 #include "windows/instrumenteditor.hpp"
-
-#include <QFileDialog>
-
+#include "icon.hpp"
+#include "iconsizes.hpp"
 #include "widgets/oscilloscope.hpp"
 
 #include <QCheckBox>
 #include <QComboBox>
+#include <QFileDialog>
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QLabel>
 #include <QSlider>
+#include <QToolBar>
 
 InstrumentEditor::InstrumentEditor(QWidget *parent)
 	: QWidget(parent)
@@ -38,10 +39,10 @@ InstrumentEditor::InstrumentEditor(QWidget *parent)
 auto InstrumentEditor::preset() -> QWidget *
 {
 	auto *group = new QGroupBox(QStringLiteral("Preset"), this);
-	auto *layout = new QVBoxLayout(group);
+	auto *layout = new QHBoxLayout(group);
 
 	auto *presets = new QComboBox(this);
-	layout->addWidget(presets);
+	layout->addWidget(presets, 1);
 
 	presets->addItems({
 		QStringLiteral("Default"),
@@ -61,6 +62,13 @@ auto InstrumentEditor::preset() -> QWidget *
 		QStringLiteral("Pipe hit"),
 		QStringLiteral("Wind"),
 	});
+
+	auto *toolBar = new QToolBar(this);
+	toolBar->setIconSize(IconSizes::smallToolBar());
+	layout->addWidget(toolBar);
+
+	toolBar->addAction(Icon::get(this, IconName::FloppyDisk), QStringLiteral("Save preset"));
+	toolBar->addAction(Icon::get(this, IconName::FolderOpen), QStringLiteral("Load preset"));
 
 	return group;
 }
