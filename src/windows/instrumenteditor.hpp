@@ -11,4 +11,5 @@ public:
 
 private:
 	auto preset() -> QWidget *;
+	auto osc1() -> QWidget *;
 };
