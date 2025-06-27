@@ -90,7 +90,7 @@ auto InstrumentEditor::osc(const quint8 idx) -> QWidget *
 	});
 	layout->addWidget(envComboBox, 0, 1);
 
-	auto *xenvComboBox = new QCheckBox(QStringLiteral("Module frequency"));
+	auto *xenvComboBox = new QCheckBox(QStringLiteral("Modulate frequency"));
 	layout->addWidget(xenvComboBox, 1, 0, 1, 2);
 
 	auto *volLabel = new QLabel(QStringLiteral("Volume"), this);
