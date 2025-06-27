@@ -8,4 +8,7 @@ class InstrumentEditor final: public QWidget
 
 public:
 	explicit InstrumentEditor(QWidget *parent);
+
+private:
+	auto preset() -> QWidget *;
 };

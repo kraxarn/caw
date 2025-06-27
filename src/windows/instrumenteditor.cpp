@@ -4,6 +4,7 @@
 
 #include "widgets/oscilloscope.hpp"
 
+#include <QComboBox>
 #include <QGridLayout>
 #include <QGroupBox>
 
@@ -15,8 +16,7 @@ InstrumentEditor::InstrumentEditor(QWidget *parent)
 	auto *oscilloscope = new Oscilloscope(this);
 	layout->addWidget(oscilloscope, 0, 0, 1, 2);
 
-	auto preset = new QGroupBox(QStringLiteral("Preset"), this);
-	layout->addWidget(preset, 1, 0, 1, 2);
+	layout->addWidget(preset(), 1, 0, 1, 2);
 
 	auto *osc1 = new QGroupBox(QStringLiteral("OSC 1"), this);
 	layout->addWidget(osc1, 2, 0);
@@ -32,4 +32,34 @@ InstrumentEditor::InstrumentEditor(QWidget *parent)
 
 	auto *fx = new QGroupBox(QStringLiteral("FX"), this);
 	layout->addWidget(fx, 4, 0, 1, 2);
+}
+
+auto InstrumentEditor::preset() -> QWidget *
+{
+	auto *group = new QGroupBox(QStringLiteral("Preset"), this);
+	auto *layout = new QVBoxLayout(group);
+
+	auto *presets = new QComboBox(this);
+	layout->addWidget(presets);
+
+	presets->addItems({
+		QStringLiteral("Default"),
+		QStringLiteral("Softy"),
+		QStringLiteral("Classic 8-bit"),
+		QStringLiteral("Square"),
+		QStringLiteral("Bell"),
+		QStringLiteral("Base string"),
+		QStringLiteral("Bass drum 1"),
+		QStringLiteral("Bass drum 2"),
+		QStringLiteral("Bass drum 3"),
+		QStringLiteral("Snare 1"),
+		QStringLiteral("Snare 2"),
+		QStringLiteral("Hi-hat 1"),
+		QStringLiteral("Hi-hat 2"),
+		QStringLiteral("Smash"),
+		QStringLiteral("Pipe hit"),
+		QStringLiteral("Wind"),
+	});
+
+	return group;
 }
