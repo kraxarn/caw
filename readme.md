@@ -23,6 +23,7 @@ Kind of, sort of, intended for [chirp](https://github.com/kraxarn/chirp).
 * [ ] 8+ channels
 * [ ] Audio buffering
 * [ ] Video export
+* [ ] Multiple instruments per channel
 
 ## Special thanks
 
