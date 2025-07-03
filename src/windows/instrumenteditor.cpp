@@ -27,12 +27,30 @@ InstrumentEditor::InstrumentEditor(QWidget *parent)
 	layout->addWidget(osc(2), 2, 1);
 
 	layout->addWidget(envelope(), 3, 0);
-
-	auto *lfo = new QGroupBox(QStringLiteral("LFO"), this);
-	layout->addWidget(lfo, 3, 1);
+	layout->addWidget(lfo(), 3, 1);
 
 	auto *fx = new QGroupBox(QStringLiteral("FX"), this);
 	layout->addWidget(fx, 4, 0, 1, 2);
+}
+
+auto InstrumentEditor::slider(const QString &text, const QWidget *parent) -> QSlider *
+{
+	auto *layout = qobject_cast<QGridLayout *>(parent->layout());
+	if (layout == nullptr)
+	{
+		qFatal() << "no layout:" << parent->objectName();
+		return new QSlider();
+	}
+
+	const int row = layout->rowCount();
+
+	auto *label = new QLabel(text, this);
+	layout->addWidget(label, row, 0);
+
+	auto *slider = new QSlider(Qt::Horizontal, this);
+	layout->addWidget(slider, row, 1);
+
+	return slider;
 }
 
 auto InstrumentEditor::preset() -> QWidget *
@@ -157,6 +175,33 @@ auto InstrumentEditor::envelope() -> QWidget *
 	auto *relSlider = new QSlider(Qt::Horizontal, this);
 	relSlider->setRange(0, 200'000);
 	layout->addWidget(relSlider, 3, 1);
+
+	return group;
+}
+
+auto InstrumentEditor::lfo() -> QWidget *
+{
+	auto *group = new QGroupBox(QStringLiteral("LFO"), this);
+	auto *layout = new QGridLayout(group);
+	layout->setAlignment(Qt::AlignTop);
+
+	auto *envLabel = new QLabel(QStringLiteral("Envelope"), this);
+	layout->addWidget(envLabel, 0, 0);
+
+	auto *envComboBox = new QComboBox(this);
+	envComboBox->addItems({
+		QStringLiteral("Square wave"),
+		QStringLiteral("Sine wave"),
+		QStringLiteral("Sawtooth"),
+		QStringLiteral("Triangle wave"),
+	});
+	layout->addWidget(envComboBox, 0, 1);
+
+	auto *amtSlider = slider(QStringLiteral("AMT"), group);
+	amtSlider->setRange(0, 255);
+
+	auto *freqSlider = slider(QStringLiteral("FREQ"), group);
+	freqSlider->setRange(0, 16);
 
 	return group;
 }

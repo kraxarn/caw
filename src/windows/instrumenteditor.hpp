@@ -1,5 +1,6 @@
 #pragma once
 
+#include <QSlider>
 #include <QWidget>
 
 class InstrumentEditor final: public QWidget
@@ -13,4 +14,7 @@ private:
 	auto preset() -> QWidget *;
 	auto osc(quint8 idx) -> QWidget *;
 	auto envelope() -> QWidget *;
+	auto lfo() -> QWidget *;
+
+	auto slider(const QString &text, const QWidget *parent) -> QSlider *;
 };
