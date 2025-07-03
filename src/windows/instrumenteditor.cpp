@@ -59,13 +59,7 @@ auto InstrumentEditor::slider(const QString &text, const int row, const int colu
 auto InstrumentEditor::slider(const QString &text, const int rowSpan, const QWidget *parent) -> QSlider *
 {
 	const auto *layout = qobject_cast<QGridLayout *>(parent->layout());
-	if (layout == nullptr)
-	{
-		qFatal() << "no layout:" << parent->objectName();
-		return new QSlider();
-	}
-
-	const int row = layout->rowCount();
+	const int row = layout != nullptr ? layout->rowCount() : 0;
 
 	return slider(text, row, 0, rowSpan, parent);
 }
