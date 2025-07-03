@@ -2,6 +2,7 @@
 #include "maintoolbar.hpp"
 #include "lists/patternlist.hpp"
 #include "windows/instrument.hpp"
+#include "windows/instrumenteditor.hpp"
 #include "windows/order.hpp"
 #include "windows/oscilloscopechannel.hpp"
 #include "windows/piano.hpp"
@@ -46,4 +47,8 @@ MainWindow::MainWindow(QWidget *parent)
 	auto *piano = new QDockWidget(QStringLiteral("Piano"), this);
 	piano->setWidget(new Piano(piano));
 	addDockWidget(Qt::BottomDockWidgetArea, piano);
+
+	auto *instrumentEditor = new QDockWidget(QStringLiteral("Instrument editor"), this);
+	instrumentEditor->setWidget(new InstrumentEditor(instrumentEditor));
+	addDockWidget(Qt::LeftDockWidgetArea, instrumentEditor);
 }
