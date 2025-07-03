@@ -28,4 +28,10 @@ SongInfo::SongInfo(QWidget *parent)
 
 	album = new QLineEdit(this);
 	layout->addWidget(album, 2, 1);
+
+	auto *commentLabel = new QLabel(QStringLiteral("Comment"), this);
+	layout->addWidget(commentLabel, 3, 0);
+
+	comment = new QTextEdit(this);
+	layout->addWidget(comment, 3, 1);
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QLineEdit>
+#include <QTextEdit>
 #include <QWidget>
 
 class SongInfo final: public QWidget
@@ -14,4 +15,5 @@ private:
 	QLineEdit *name;
 	QLineEdit *author;
 	QLineEdit *album;
+	QTextEdit *comment;
 };
