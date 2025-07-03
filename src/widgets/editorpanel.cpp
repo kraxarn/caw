@@ -38,6 +38,7 @@ auto EditorPanel::addSlider(const QString &text, const int row, const int column
 	grid()->addWidget(slider, row, column + 1, 1, columnSpan);
 
 	auto *lineEdit = new QLineEdit(this);
+	lineEdit->setFixedWidth(50);
 	grid()->addWidget(lineEdit, row, column + 2);
 
 	return slider;
