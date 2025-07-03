@@ -1,4 +1,5 @@
 set(ICONS_BASE "${fontawesome_SOURCE_DIR}/svgs")
+set(MDI_DIR "${mdi_SOURCE_DIR}/svg")
 
 qt_add_resources(${PROJECT_NAME} "logos"
 	PREFIX "/logos"
@@ -31,4 +32,14 @@ qt_add_resources(${PROJECT_NAME} "icons"
 	"${ICONS_BASE}/solid/repeat.svg"
 	"${ICONS_BASE}/solid/rotate-right.svg"
 	"${ICONS_BASE}/solid/xmark.svg"
+)
+
+qt_add_resources(${PROJECT_NAME} "mdi"
+	PREFIX "/mdi"
+	BASE "${MDI_DIR}"
+	FILES
+	"${MDI_DIR}/sine-wave.svg"
+	"${MDI_DIR}/square-wave.svg"
+	"${MDI_DIR}/sawtooth-wave.svg"
+	"${MDI_DIR}/triangle-wave.svg"
 )

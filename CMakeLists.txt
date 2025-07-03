@@ -34,6 +34,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 )
 
 include(deps/fontawesome.cmake)
+include(deps/mdi.cmake)
 include(resources.cmake)
 
 target_link_libraries(caw PRIVATE
