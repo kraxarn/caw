@@ -1,6 +1,7 @@
 #include "windows/instrumenteditor.hpp"
 #include "icon.hpp"
 #include "iconsizes.hpp"
+#include "widgets/oscillatoreditor.hpp"
 #include "widgets/oscilloscope.hpp"
 
 #include <QCheckBox>
@@ -9,6 +10,7 @@
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QLabel>
+#include <QLineEdit>
 #include <QSlider>
 #include <QToolBar>
 
@@ -23,7 +25,7 @@ InstrumentEditor::InstrumentEditor(QWidget *parent)
 
 	layout->addWidget(preset(), 1, 0, 1, 2);
 
-	layout->addWidget(osc(1), 2, 0);
+	layout->addWidget(new OscillatorEditor(1, this), 2, 0);
 	layout->addWidget(osc(2), 2, 1);
 
 	layout->addWidget(envelope(), 3, 0);
