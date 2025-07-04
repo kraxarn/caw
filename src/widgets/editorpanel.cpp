@@ -1,6 +1,7 @@
 #include "widgets/editorpanel.hpp"
 #include "icon.hpp"
 #include "enums/envelope.hpp"
+#include "widgets/valueslider.hpp"
 
 #include <QCheckBox>
 #include <QComboBox>
@@ -29,14 +30,11 @@ auto EditorPanel::addSlider(const QString &text, const int column, const int col
 	auto *label = new QLabel(text, this);
 	mGrid->addWidget(label, row(), column);
 
-	auto *slider = new QSlider(Qt::Horizontal, this);
-	mGrid->addWidget(slider, row() - 1, column + 1, 1, columnSpan);
+	const auto *value = new ValueSlider(this);
+	mGrid->addWidget(value->slider(), row() - 1, column + 1, 1, columnSpan);
+	mGrid->addWidget(value->lineEdit(), row() - 1, column + 2);
 
-	auto *lineEdit = new QLineEdit(this);
-	lineEdit->setFixedWidth(50);
-	mGrid->addWidget(lineEdit, row() - 1, column + 2);
-
-	return slider;
+	return value->slider();
 }
 
 auto EditorPanel::addSlider(const QString &text, const int column) -> QSlider *
