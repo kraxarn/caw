@@ -29,34 +29,29 @@ auto EditorPanel::row() const -> int
 	return grid()->rowCount();
 }
 
-auto EditorPanel::addSlider(const QString &text, const int row, const int column, const int columnSpan) -> QSlider *
+auto EditorPanel::addSlider(const QString &text, const int column, const int columnSpan) -> QSlider *
 {
 	auto *label = new QLabel(text, this);
-	grid()->addWidget(label, row, column);
+	grid()->addWidget(label, row(), column);
 
 	auto *slider = new QSlider(Qt::Horizontal, this);
-	grid()->addWidget(slider, row, column + 1, 1, columnSpan);
+	grid()->addWidget(slider, row() - 1, column + 1, 1, columnSpan);
 
 	auto *lineEdit = new QLineEdit(this);
 	lineEdit->setFixedWidth(50);
-	grid()->addWidget(lineEdit, row, column + 2);
+	grid()->addWidget(lineEdit, row() - 1, column + 2);
 
 	return slider;
 }
 
-auto EditorPanel::addSlider(const QString &text, const int row, const int column) -> QSlider *
+auto EditorPanel::addSlider(const QString &text, const int column) -> QSlider *
 {
-	return addSlider(text, row, column, 1);
-}
-
-auto EditorPanel::addSlider(const QString &text, const int rowSpan) -> QSlider *
-{
-	return addSlider(text, row(), 0, rowSpan);
+	return addSlider(text, column, 1);
 }
 
 auto EditorPanel::addSlider(const QString &text) -> QSlider *
 {
-	return addSlider(text, 1);
+	return addSlider(text, 0);
 }
 
 auto EditorPanel::addCheckBox(const QString &text) -> QCheckBox *

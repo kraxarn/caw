@@ -19,13 +19,10 @@ protected:
 	auto addSlider(const QString &text) -> QSlider *;
 
 	[[nodiscard]]
-	auto addSlider(const QString &text, int rowSpan) -> QSlider *;
+	auto addSlider(const QString &text, int column) -> QSlider *;
 
 	[[nodiscard]]
-	auto addSlider(const QString &text, int row, int column) -> QSlider *;
-
-	[[nodiscard]]
-	auto addSlider(const QString &text, int row, int column, int columnSpan) -> QSlider *;
+	auto addSlider(const QString &text, int column, int columnSpan) -> QSlider *;
 
 	[[nodiscard]]
 	auto addCheckBox(const QString &text) -> QCheckBox *;
