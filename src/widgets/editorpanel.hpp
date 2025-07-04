@@ -31,8 +31,8 @@ protected:
 	auto addEnvelope() -> QComboBox *;
 
 	[[nodiscard]]
-	auto grid() const -> QGridLayout *;
-
-	[[nodiscard]]
 	auto row() const -> int;
+
+private:
+	QGridLayout *mGrid;
 };
