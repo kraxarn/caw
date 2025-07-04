@@ -1,5 +1,7 @@
 #pragma once
 
+#include "widgets/oscillatoreditor.hpp"
+
 #include <QSlider>
 #include <QWidget>
 
@@ -30,4 +32,6 @@ private:
 	auto slider(const QString &text, int row, int column, const QWidget *parent) -> QSlider *;
 	[[nodiscard]]
 	auto slider(const QString &text, int row, int column, int columnSpan, const QWidget *parent) -> QSlider *;
+
+	OscillatorEditor *osc1;
 };

@@ -15,7 +15,8 @@
 #include <QToolBar>
 
 InstrumentEditor::InstrumentEditor(QWidget *parent)
-	: QWidget(parent)
+	: QWidget(parent),
+	osc1(new OscillatorEditor(1, this))
 {
 	auto *layout = new QGridLayout(this);
 
@@ -25,7 +26,7 @@ InstrumentEditor::InstrumentEditor(QWidget *parent)
 
 	layout->addWidget(preset(), 1, 0, 1, 2);
 
-	layout->addWidget(new OscillatorEditor(1, this), 2, 0);
+	layout->addWidget(osc1, 2, 0);
 	layout->addWidget(osc(2), 2, 1);
 
 	layout->addWidget(envelope(), 3, 0);
