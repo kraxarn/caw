@@ -7,8 +7,7 @@ class Icon final
 	Q_GADGET
 
 public:
-	[[deprecated]]
-	enum class IconName : quint8
+	enum class [[deprecated]] IconName : quint8
 	{
 		AnglesDown,
 		Bug,
