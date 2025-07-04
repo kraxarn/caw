@@ -11,9 +11,9 @@ PlayControls::PlayControls(QWidget *parent)
 {
 	setIconSize(IconSizes::smallToolBar());
 
-	addAction(Icon::get(this, IconName::Play), QStringLiteral("Play"));
-	addAction(Icon::get(this, IconName::ForwardStep), QStringLiteral("Play from the beginning of this pattern"));
-	addAction(Icon::get(this, IconName::AnglesDown), QStringLiteral("Step one row"));
-	addAction(Icon::get(this, IconName::Circle), QStringLiteral("Edit"));
-	addAction(Icon::get(this, IconName::Repeat), QStringLiteral("Repeat pattern"));
+	addAction(Icon::get(Mdi::Play, this), QStringLiteral("Play"));
+	addAction(Icon::get(Mdi::StepForward, this), QStringLiteral("Play from the beginning of this pattern"));
+	addAction(Icon::get(Mdi::ChevronDoubleDown, this), QStringLiteral("Step one row"));
+	addAction(Icon::get(Mdi::Record, this), QStringLiteral("Edit"));
+	addAction(Icon::get(Mdi::Repeat, this), QStringLiteral("Repeat pattern"));
 }

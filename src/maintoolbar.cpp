@@ -10,18 +10,18 @@ MainToolBar::MainToolBar(QWidget *parent)
 	setIconSize(IconSizes::largeToolBar());
 	setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 
-	addAction(Icon::get(this, IconName::FileCirclePlus), QStringLiteral("New"));
+	addAction(Icon::get(Mdi::FilePlus, this), QStringLiteral("New"));
 
-	const auto *open = addAction(Icon::get(this, IconName::FolderOpen), QStringLiteral("Open"));
+	const auto *open = addAction(Icon::get(Mdi::FolderOpen, this), QStringLiteral("Open"));
 	connect(open, &QAction::triggered, this, &MainToolBar::onOpenTriggered);
 
-	addAction(Icon::get(this, IconName::FloppyDisk), QStringLiteral("Save"));
-	addAction(Icon::get(this, IconName::CompactDisc), QStringLiteral("Export"));
+	addAction(Icon::get(Mdi::ContentSave, this), QStringLiteral("Save"));
+	addAction(Icon::get(Mdi::Export, this), QStringLiteral("Export"));
 
 	addSeparator();
 
-	addAction(Icon::get(this, IconName::Bug), QStringLiteral("Debug"));
-	addAction(Icon::get(this, IconName::Gear), QStringLiteral("Settings"));
+	addAction(Icon::get(Mdi::Bug, this), QStringLiteral("Debug"));
+	addAction(Icon::get(Mdi::Cog, this), QStringLiteral("Settings"));
 }
 
 void MainToolBar::onOpenTriggered([[maybe_unused]] bool checked)

@@ -28,13 +28,13 @@ auto Instrument::toolBar() -> QToolBar *
 	auto *toolbar = new QToolBar(this);
 	toolbar->setIconSize(IconSizes::smallToolBar());
 
-	toolbar->addAction(Icon::get(this, IconName::Plus), QStringLiteral("Add"));
-	toolbar->addAction(Icon::get(this, IconName::Clone), QStringLiteral("Duplicate"));
-	toolbar->addAction(Icon::get(this, IconName::FolderOpen), QStringLiteral("Open..."));
-	toolbar->addAction(Icon::get(this, IconName::FloppyDisk), QStringLiteral("Save"));
-	toolbar->addAction(Icon::get(this, IconName::ChevronUp),QStringLiteral("Move up"));
-	toolbar->addAction(Icon::get(this, IconName::ChevronDown), QStringLiteral("Move down"));
-	toolbar->addAction(Icon::get(this, IconName::Xmark), QStringLiteral("Delete"));
+	toolbar->addAction(Icon::get(Mdi::Plus, this), QStringLiteral("Add"));
+	toolbar->addAction(Icon::get(Mdi::ContentDuplicate, this), QStringLiteral("Duplicate"));
+	toolbar->addAction(Icon::get(Mdi::FolderOpen, this), QStringLiteral("Open..."));
+	toolbar->addAction(Icon::get(Mdi::ContentSave, this), QStringLiteral("Save"));
+	toolbar->addAction(Icon::get(Mdi::ChevronUp, this),QStringLiteral("Move up"));
+	toolbar->addAction(Icon::get(Mdi::ChevronDown, this), QStringLiteral("Move down"));
+	toolbar->addAction(Icon::get(Mdi::Delete, this), QStringLiteral("Delete"));
 
 	return toolbar;
 }

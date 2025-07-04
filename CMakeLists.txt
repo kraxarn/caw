@@ -33,7 +33,6 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 	QT_ANDROID_APP_ICON "@mipmap/ic_launcher"
 )
 
-include(deps/fontawesome.cmake)
 include(deps/mdi.cmake)
 include(resources.cmake)
 

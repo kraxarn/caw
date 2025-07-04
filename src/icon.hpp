@@ -7,44 +7,34 @@ class Icon final
 	Q_GADGET
 
 public:
-	enum class [[deprecated]] IconName : quint8
+	enum class Mdi : quint8
 	{
-		AnglesDown,
 		Bug,
+		ChevronDoubleDown,
 		ChevronDown,
 		ChevronUp,
-		Circle,
-		Clone,
-		CompactDisc,
-		FileCirclePlus,
-		FloppyDisk,
+		Cog,
+		ContentDuplicate,
+		ContentSave,
+		Delete,
+		Export,
+		FilePlus,
 		FolderOpen,
-		ForwardStep,
-		Gear,
 		Link,
-		LinkSlash,
+		LinkOff,
 		Minus,
 		Play,
 		Plus,
+		Record,
 		Repeat,
-		RotateRight,
-		Xmark,
-	};
-
-	enum class Mdi : quint8
-	{
+		SawtoothWave,
 		SineWave,
 		SquareWave,
-		SawtoothWave,
+		StepForward,
 		TriangleWave,
 	};
 
-	Q_ENUM(IconName)
 	Q_ENUM(Mdi)
-
-	[[nodiscard]]
-	[[deprecated]]
-	static auto get(const QWidget *parent, IconName icon) -> QIcon;
 
 	[[nodiscard]]
 	static auto get(Mdi mdi, const QWidget *parent) -> QIcon;
@@ -53,12 +43,7 @@ private:
 	Icon() = default;
 
 	[[nodiscard]]
-	[[deprecated]]
-	static auto getIconName(IconName icon) -> QString;
-
-	[[nodiscard]]
 	static auto getIconName(Mdi mdi) -> QString;
 };
 
-using IconName = Icon::IconName;
 using Mdi = Icon::Mdi;

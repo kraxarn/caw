@@ -102,8 +102,8 @@ auto InstrumentEditor::preset() -> QWidget *
 	toolBar->setIconSize(IconSizes::smallToolBar());
 	layout->addWidget(toolBar);
 
-	toolBar->addAction(Icon::get(this, IconName::FolderOpen), QStringLiteral("Load preset"));
-	toolBar->addAction(Icon::get(this, IconName::FloppyDisk), QStringLiteral("Save preset"));
+	toolBar->addAction(Icon::get(Mdi::FolderOpen, this), QStringLiteral("Load preset"));
+	toolBar->addAction(Icon::get(Mdi::ContentSave, this), QStringLiteral("Save preset"));
 
 	return group;
 }

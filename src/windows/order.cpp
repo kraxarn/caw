@@ -32,10 +32,10 @@ void Order::addToolBar()
 	toolBar = new QToolBar(this);
 	toolBar->setIconSize(IconSizes::smallToolBar());
 
-	toolBar->addAction(Icon::get(this, IconName::Plus), QStringLiteral("Add order"));
-	toolBar->addAction(Icon::get(this, IconName::Minus), QStringLiteral("Remove order"));
-	toolBar->addAction(Icon::get(this, IconName::Clone), QStringLiteral("Duplicate order..."));
-	toolBar->addAction(Icon::get(this, IconName::ChevronUp),QStringLiteral("Move order up"));
-	toolBar->addAction(Icon::get(this, IconName::ChevronDown), QStringLiteral("Move order down"));
-	toolBar->addAction(Icon::get(this, IconName::LinkSlash), QStringLiteral("Order change mode..."));
+	toolBar->addAction(Icon::get(Mdi::Plus, this), QStringLiteral("Add order"));
+	toolBar->addAction(Icon::get(Mdi::Minus, this), QStringLiteral("Remove order"));
+	toolBar->addAction(Icon::get(Mdi::ContentDuplicate, this), QStringLiteral("Duplicate order..."));
+	toolBar->addAction(Icon::get(Mdi::ChevronUp, this),QStringLiteral("Move order up"));
+	toolBar->addAction(Icon::get(Mdi::ChevronDown, this), QStringLiteral("Move order down"));
+	toolBar->addAction(Icon::get(Mdi::LinkOff, this), QStringLiteral("Order change mode..."));
 }
