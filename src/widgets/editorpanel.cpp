@@ -53,6 +53,7 @@ auto EditorPanel::addCheckBox(const QString &text) -> QCheckBox *
 {
 	auto *checkBox = new QCheckBox(text, this);
 	mGrid->addWidget(checkBox, row(), 0, 1, 3);
+	return checkBox;
 }
 
 auto EditorPanel::addEnvelope() -> QComboBox *
