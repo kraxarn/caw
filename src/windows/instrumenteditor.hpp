@@ -15,8 +15,7 @@ public:
 private:
 	[[nodiscard]]
 	auto preset() -> QWidget *;
-	[[nodiscard]]
-	auto osc(quint8 idx) -> QWidget *;
+
 	[[nodiscard]]
 	auto envelope() -> QWidget *;
 	[[nodiscard]]
@@ -34,4 +33,5 @@ private:
 	auto slider(const QString &text, int row, int column, int columnSpan, const QWidget *parent) -> QSlider *;
 
 	OscillatorEditor *osc1;
+	OscillatorEditor *osc2;
 };

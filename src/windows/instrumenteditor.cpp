@@ -16,7 +16,8 @@
 
 InstrumentEditor::InstrumentEditor(QWidget *parent)
 	: QWidget(parent),
-	osc1(new OscillatorEditor(1, this))
+	osc1(new OscillatorEditor(1, this)),
+	osc2(new OscillatorEditor(2, this))
 {
 	auto *layout = new QGridLayout(this);
 
@@ -27,7 +28,7 @@ InstrumentEditor::InstrumentEditor(QWidget *parent)
 	layout->addWidget(preset(), 1, 0, 1, 2);
 
 	layout->addWidget(osc1, 2, 0);
-	layout->addWidget(osc(2), 2, 1);
+	layout->addWidget(osc2, 2, 1);
 
 	layout->addWidget(envelope(), 3, 0);
 	layout->addWidget(lfo(), 3, 1);
@@ -105,58 +106,6 @@ auto InstrumentEditor::preset() -> QWidget *
 
 	toolBar->addAction(Icon::get(Mdi::FolderOpen, this), QStringLiteral("Load preset"));
 	toolBar->addAction(Icon::get(Mdi::ContentSave, this), QStringLiteral("Save preset"));
-
-	return group;
-}
-
-auto InstrumentEditor::osc(const quint8 idx) -> QWidget *
-{
-	auto *group = new QGroupBox(QStringLiteral("Oscillator %1").arg(idx), this);
-	auto *layout = new QGridLayout(group);
-
-	auto *envLabel = new QLabel(QStringLiteral("Envelope"), this);
-	layout->addWidget(envLabel, 0, 0);
-
-	auto *envComboBox = new QComboBox(this);
-	envComboBox->addItems({
-		QStringLiteral("Square wave"),
-		QStringLiteral("Sine wave"),
-		QStringLiteral("Sawtooth"),
-		QStringLiteral("Triangle wave"),
-	});
-	layout->addWidget(envComboBox, 0, 1);
-
-	auto *xenvComboBox = new QCheckBox(QStringLiteral("Modulates frequency"));
-	layout->addWidget(xenvComboBox, 1, 0, 1, 2);
-
-	auto *volLabel = new QLabel(QStringLiteral("Volume"), this);
-	layout->addWidget(volLabel, 2, 0);
-
-	auto *volSlider = new QSlider(Qt::Horizontal, this);
-	volSlider->setRange(0, 255);
-	volSlider->setValue(0xcc);
-	layout->addWidget(volSlider, 2, 1);
-
-	auto *octLabel = new QLabel(QStringLiteral("Octave"), this);
-	layout->addWidget(octLabel, 3, 0);
-
-	auto *octSlider = new QSlider(Qt::Horizontal, this);
-	octSlider->setRange(0, 16);
-	layout->addWidget(octSlider, 3, 1);
-
-	auto *semiLabel = new QLabel(QStringLiteral("Semitune"), this);
-	layout->addWidget(semiLabel, 4, 0);
-
-	auto *semiSlider = new QSlider(Qt::Horizontal, this);
-	semiSlider->setRange(0, 11);
-	layout->addWidget(semiSlider, 4, 1);
-
-	auto *detLabel = new QLabel(QStringLiteral("Detune"), this);
-	layout->addWidget(detLabel, 5, 0);
-
-	auto *detSlider = new QSlider(Qt::Horizontal, this);
-	detSlider->setRange(0, 255);
-	layout->addWidget(detSlider, 5, 1);
 
 	return group;
 }
