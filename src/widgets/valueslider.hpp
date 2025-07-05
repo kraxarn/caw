@@ -20,4 +20,6 @@ public:
 private:
 	QSlider *mSlider;
 	QLabel *mLabel;
+
+	void onValueChanged(int value) const;
 };
