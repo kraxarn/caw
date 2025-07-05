@@ -13,7 +13,7 @@ auto ValueSlider::slider() const -> QSlider *
 	return mSlider;
 }
 
-auto ValueSlider::lineEdit() const -> QLineEdit *
+auto ValueSlider::value() const -> QWidget *
 {
 	return mLineEdit;
 }

@@ -32,7 +32,7 @@ auto EditorPanel::addSlider(const QString &text, const int column, const int col
 
 	const auto *value = new ValueSlider(this);
 	mGrid->addWidget(value->slider(), row() - 1, column + 1, 1, columnSpan);
-	mGrid->addWidget(value->lineEdit(), row() - 1, column + 2);
+	mGrid->addWidget(value->value(), row() - 1, column + 2);
 
 	return value->slider();
 }

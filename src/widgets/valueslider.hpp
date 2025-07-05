@@ -15,7 +15,7 @@ public:
 	auto slider() const -> QSlider *;
 
 	[[nodiscard]]
-	auto lineEdit() const -> QLineEdit *;
+	auto value() const -> QWidget *;
 
 private:
 	QSlider *mSlider;
