@@ -1,4 +1,4 @@
-#include "widgets/valueslider.hpp"
+#include "widgets/propertyslider.hpp"
 #include "font.hpp"
 
 #include <QLabel>
@@ -6,7 +6,7 @@
 #include <QString>
 #include <QWidget>
 
-ValueSlider::ValueSlider(QWidget *parent)
+PropertySlider::PropertySlider(QWidget *parent)
 	: QWidget(parent),
 	mSlider(new QSlider(Qt::Horizontal, this)),
 	mLabel(new QLabel(QStringLiteral("0"), this))
@@ -14,20 +14,20 @@ ValueSlider::ValueSlider(QWidget *parent)
 	mLabel->setMinimumWidth(Font::numberWidth() * 4);
 
 	connect(mSlider, &QSlider::valueChanged,
-		this, &ValueSlider::onValueChanged);
+		this, &PropertySlider::onValueChanged);
 }
 
-auto ValueSlider::slider() const -> QSlider *
+auto PropertySlider::slider() const -> QSlider *
 {
 	return mSlider;
 }
 
-auto ValueSlider::value() const -> QWidget *
+auto PropertySlider::value() const -> QWidget *
 {
 	return mLabel;
 }
 
-void ValueSlider::onValueChanged(const int value) const
+void PropertySlider::onValueChanged(const int value) const
 {
 	mLabel->setText(QString::number(value));
 }

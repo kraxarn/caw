@@ -4,12 +4,12 @@
 #include <QSlider>
 #include <QWidget>
 
-class ValueSlider final: public QWidget
+class PropertySlider final: public QWidget
 {
 	Q_OBJECT
 
 public:
-	explicit ValueSlider(QWidget *parent);
+	explicit PropertySlider(QWidget *parent);
 
 	[[nodiscard]]
 	auto slider() const -> QSlider *;
