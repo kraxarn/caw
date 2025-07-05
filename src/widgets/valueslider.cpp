@@ -1,4 +1,5 @@
 #include "widgets/valueslider.hpp"
+#include "font.hpp"
 
 #include <QLabel>
 #include <QSlider>
@@ -10,6 +11,8 @@ ValueSlider::ValueSlider(QWidget *parent)
 	mSlider(new QSlider(Qt::Horizontal, this)),
 	mLabel(new QLabel(QStringLiteral("0"), this))
 {
+	mLabel->setMinimumWidth(Font::numberWidth() * 4);
+
 	connect(mSlider, &QSlider::valueChanged,
 		this, &ValueSlider::onValueChanged);
 }
