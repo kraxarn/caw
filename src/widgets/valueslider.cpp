@@ -3,9 +3,8 @@
 ValueSlider::ValueSlider(QWidget *parent)
 	: QWidget(parent),
 	mSlider(new QSlider(Qt::Horizontal, this)),
-	mLineEdit(new QLineEdit(this))
+	mLabel(new QLabel(QStringLiteral("0"), this))
 {
-	mLineEdit->setFixedWidth(50);
 }
 
 auto ValueSlider::slider() const -> QSlider *
@@ -15,5 +14,5 @@ auto ValueSlider::slider() const -> QSlider *
 
 auto ValueSlider::value() const -> QWidget *
 {
-	return mLineEdit;
+	return mLabel;
 }

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <QLineEdit>
+#include <QLabel>
 #include <QSlider>
 #include <QWidget>
 
@@ -19,5 +19,5 @@ public:
 
 private:
 	QSlider *mSlider;
-	QLineEdit *mLineEdit;
+	QLabel *mLabel;
 };
