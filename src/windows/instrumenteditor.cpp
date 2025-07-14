@@ -1,6 +1,7 @@
 #include "windows/instrumenteditor.hpp"
 #include "icon.hpp"
 #include "iconsizes.hpp"
+#include "widgets/instrumentpresets.hpp"
 #include "widgets/oscillatoreditor.hpp"
 #include "widgets/oscilloscope.hpp"
 
@@ -17,7 +18,8 @@
 InstrumentEditor::InstrumentEditor(QWidget *parent)
 	: QWidget(parent),
 	mOsc1(new OscillatorEditor(1, this)),
-	mOsc2(new OscillatorEditor(2, this))
+	mOsc2(new OscillatorEditor(2, this)),
+	mPresets(new InstrumentPresets(this))
 {
 	auto *layout = new QGridLayout(this);
 
@@ -25,7 +27,7 @@ InstrumentEditor::InstrumentEditor(QWidget *parent)
 	oscilloscope->setMaximumHeight(150);
 	layout->addWidget(oscilloscope, 0, 0, 1, 2);
 
-	layout->addWidget(preset(), 1, 0, 1, 2);
+	layout->addWidget(mPresets, 1, 0, 1, 2);
 
 	layout->addWidget(mOsc1, 2, 0);
 	layout->addWidget(mOsc2, 2, 1);
@@ -71,43 +73,6 @@ auto InstrumentEditor::slider(const QString &text, const int rowSpan, const QWid
 auto InstrumentEditor::slider(const QString &text, const QWidget *parent) -> QSlider *
 {
 	return slider(text, 1, parent);
-}
-
-auto InstrumentEditor::preset() -> QWidget *
-{
-	auto *group = new QGroupBox(QStringLiteral("Preset"), this);
-	auto *layout = new QHBoxLayout(group);
-
-	auto *presets = new QComboBox(this);
-	layout->addWidget(presets, 1);
-
-	presets->addItems({
-		QStringLiteral("Default"),
-		QStringLiteral("Softy"),
-		QStringLiteral("Classic 8-bit"),
-		QStringLiteral("Square"),
-		QStringLiteral("Bell"),
-		QStringLiteral("Base string"),
-		QStringLiteral("Bass drum 1"),
-		QStringLiteral("Bass drum 2"),
-		QStringLiteral("Bass drum 3"),
-		QStringLiteral("Snare 1"),
-		QStringLiteral("Snare 2"),
-		QStringLiteral("Hi-hat 1"),
-		QStringLiteral("Hi-hat 2"),
-		QStringLiteral("Smash"),
-		QStringLiteral("Pipe hit"),
-		QStringLiteral("Wind"),
-	});
-
-	auto *toolBar = new QToolBar(this);
-	toolBar->setIconSize(IconSizes::smallToolBar());
-	layout->addWidget(toolBar);
-
-	toolBar->addAction(Icon::get(Mdi::FolderOpen, this), QStringLiteral("Load preset"));
-	toolBar->addAction(Icon::get(Mdi::ContentSave, this), QStringLiteral("Save preset"));
-
-	return group;
 }
 
 auto InstrumentEditor::envelope() -> QWidget *

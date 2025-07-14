@@ -1,5 +1,6 @@
 #pragma once
 
+#include "widgets/instrumentpresets.hpp"
 #include "widgets/oscillatoreditor.hpp"
 
 #include <QSlider>
@@ -13,9 +14,6 @@ public:
 	explicit InstrumentEditor(QWidget *parent);
 
 private:
-	[[nodiscard]]
-	auto preset() -> QWidget *;
-
 	[[nodiscard]]
 	auto envelope() -> QWidget *;
 	[[nodiscard]]
@@ -34,4 +32,5 @@ private:
 
 	OscillatorEditor *mOsc1;
 	OscillatorEditor *mOsc2;
+	InstrumentPresets *mPresets;
 };
