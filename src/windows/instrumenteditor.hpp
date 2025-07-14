@@ -32,6 +32,6 @@ private:
 	[[nodiscard]]
 	auto slider(const QString &text, int row, int column, int columnSpan, const QWidget *parent) -> QSlider *;
 
-	OscillatorEditor *osc1;
-	OscillatorEditor *osc2;
+	OscillatorEditor *mOsc1;
+	OscillatorEditor *mOsc2;
 };

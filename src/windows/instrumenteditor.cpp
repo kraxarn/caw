@@ -16,8 +16,8 @@
 
 InstrumentEditor::InstrumentEditor(QWidget *parent)
 	: QWidget(parent),
-	osc1(new OscillatorEditor(1, this)),
-	osc2(new OscillatorEditor(2, this))
+	mOsc1(new OscillatorEditor(1, this)),
+	mOsc2(new OscillatorEditor(2, this))
 {
 	auto *layout = new QGridLayout(this);
 
@@ -27,8 +27,8 @@ InstrumentEditor::InstrumentEditor(QWidget *parent)
 
 	layout->addWidget(preset(), 1, 0, 1, 2);
 
-	layout->addWidget(osc1, 2, 0);
-	layout->addWidget(osc2, 2, 1);
+	layout->addWidget(mOsc1, 2, 0);
+	layout->addWidget(mOsc2, 2, 1);
 
 	layout->addWidget(envelope(), 3, 0);
 	layout->addWidget(lfo(), 3, 1);
