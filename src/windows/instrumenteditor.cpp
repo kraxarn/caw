@@ -1,6 +1,7 @@
 #include "windows/instrumenteditor.hpp"
 #include "icon.hpp"
 #include "iconsizes.hpp"
+#include "widgets/envelopeeditor.hpp"
 #include "widgets/instrumentpresets.hpp"
 #include "widgets/oscillatoreditor.hpp"
 #include "widgets/oscilloscope.hpp"
@@ -19,7 +20,8 @@ InstrumentEditor::InstrumentEditor(QWidget *parent)
 	: QWidget(parent),
 	mOsc1(new OscillatorEditor(1, this)),
 	mOsc2(new OscillatorEditor(2, this)),
-	mPresets(new InstrumentPresets(this))
+	mPresets(new InstrumentPresets(this)),
+	mEnv(new EnvelopeEditor(this))
 {
 	auto *layout = new QGridLayout(this);
 
@@ -32,7 +34,7 @@ InstrumentEditor::InstrumentEditor(QWidget *parent)
 	layout->addWidget(mOsc1, 2, 0);
 	layout->addWidget(mOsc2, 2, 1);
 
-	layout->addWidget(envelope(), 3, 0);
+	layout->addWidget(mEnv, 3, 0);
 	layout->addWidget(lfo(), 3, 1);
 
 	layout->addWidget(fx(), 4, 0, 1, 2);
@@ -73,43 +75,6 @@ auto InstrumentEditor::slider(const QString &text, const int rowSpan, const QWid
 auto InstrumentEditor::slider(const QString &text, const QWidget *parent) -> QSlider *
 {
 	return slider(text, 1, parent);
-}
-
-auto InstrumentEditor::envelope() -> QWidget *
-{
-	auto *group = new QGroupBox(QStringLiteral("Envelope"), this);
-	auto *layout = new QGridLayout(group);
-
-	auto *mastLabel = new QLabel(QStringLiteral("Master volume"), this);
-	layout->addWidget(mastLabel, 0, 0);
-
-	auto *mastSlider = new QSlider(Qt::Horizontal, this);
-	mastSlider->setRange(0, 255);
-	mastSlider->setValue(0xcc);
-	layout->addWidget(mastSlider, 0, 1);
-
-	auto *attLabel = new QLabel(QStringLiteral("Attack time"), this);
-	layout->addWidget(attLabel, 1, 0);
-
-	auto *attSlider = new QSlider(Qt::Horizontal, this);
-	attSlider->setRange(0, 200'000);
-	layout->addWidget(attSlider, 1, 1);
-
-	auto *sustLabel = new QLabel(QStringLiteral("Sustain time"), this);
-	layout->addWidget(sustLabel, 2, 0);
-
-	auto *sustSlider = new QSlider(Qt::Horizontal, this);
-	sustSlider->setRange(0, 200'000);
-	layout->addWidget(sustSlider, 2, 1);
-
-	auto *relLabel = new QLabel(QStringLiteral("Release time"), this);
-	layout->addWidget(relLabel, 3, 0);
-
-	auto *relSlider = new QSlider(Qt::Horizontal, this);
-	relSlider->setRange(0, 200'000);
-	layout->addWidget(relSlider, 3, 1);
-
-	return group;
 }
 
 auto InstrumentEditor::lfo() -> QWidget *

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "widgets/envelopeeditor.hpp"
 #include "widgets/instrumentpresets.hpp"
 #include "widgets/oscillatoreditor.hpp"
 
@@ -14,8 +15,6 @@ public:
 	explicit InstrumentEditor(QWidget *parent);
 
 private:
-	[[nodiscard]]
-	auto envelope() -> QWidget *;
 	[[nodiscard]]
 	auto lfo() -> QWidget *;
 	[[nodiscard]]
@@ -33,4 +32,5 @@ private:
 	OscillatorEditor *mOsc1;
 	OscillatorEditor *mOsc2;
 	InstrumentPresets *mPresets;
+	EnvelopeEditor *mEnv;
 };
