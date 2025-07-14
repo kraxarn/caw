@@ -8,4 +8,7 @@ class LoadPresetMenu final: public QMenu
 
 public:
 	explicit LoadPresetMenu(QWidget *parent);
+
+private:
+	static auto addAction(QMenu *menu, const QString &text) -> QAction *;
 };

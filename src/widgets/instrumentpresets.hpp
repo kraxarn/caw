@@ -1,7 +1,7 @@
 #pragma once
 
 #include <QAction>
-#include <QComboBox>
+#include <QLineEdit>
 #include <QGroupBox>
 
 class InstrumentPresets final: public QGroupBox
@@ -12,9 +12,7 @@ public:
 	explicit InstrumentPresets(QWidget *parent);
 
 private:
-	QComboBox *mPreset;
+	QLineEdit *mPreset;
 	QAction *mLoadPreset;
 	QAction *mSavePreset;
-
-	void addDefaultPresets() const;
 };
