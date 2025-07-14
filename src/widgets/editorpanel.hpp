@@ -15,19 +15,12 @@ class EditorPanel: public QGroupBox
 protected:
 	EditorPanel(const QString &title, QWidget *parent);
 
-	[[nodiscard]]
 	auto addSlider(const QString &text) -> QSlider *;
-
-	[[nodiscard]]
 	auto addSlider(const QString &text, int column) -> QSlider *;
-
-	[[nodiscard]]
 	auto addSlider(const QString &text, int column, int columnSpan) -> QSlider *;
 
-	[[nodiscard]]
 	auto addCheckBox(const QString &text) -> QCheckBox *;
 
-	[[nodiscard]]
 	auto addEnvelope() -> QComboBox *;
 
 	[[nodiscard]]
