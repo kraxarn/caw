@@ -1,5 +1,6 @@
 #pragma once
 
+#include <QAction>
 #include <QComboBox>
 #include <QGroupBox>
 
@@ -12,6 +13,8 @@ public:
 
 private:
 	QComboBox *mPreset;
+	QAction *mLoadPreset;
+	QAction *mSavePreset;
 
 	void addDefaultPresets() const;
 };

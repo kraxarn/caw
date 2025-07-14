@@ -1,7 +1,8 @@
-add_subdirectory(windows)
-add_subdirectory(models)
 add_subdirectory(lists)
+add_subdirectory(menus)
+add_subdirectory(models)
 add_subdirectory(widgets)
+add_subdirectory(windows)
 
 target_sources(${PROJECT_NAME} PRIVATE
 	${CMAKE_CURRENT_SOURCE_DIR}/font.cpp
