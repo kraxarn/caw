@@ -22,6 +22,9 @@ protected:
 	auto addCheckBox(const QString &text) -> QCheckBox *;
 
 	auto addComboBox(const QString &text) -> QComboBox *;
+	auto addComboBox(const QString &text, int column) -> QComboBox *;
+	auto addComboBox(const QString &text, int column, int columnSpan) -> QComboBox *;
+
 	auto addEnvelope() -> QComboBox *;
 
 	[[nodiscard]]

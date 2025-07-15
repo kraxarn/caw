@@ -56,11 +56,21 @@ auto EditorPanel::addCheckBox(const QString &text) -> QCheckBox *
 
 auto EditorPanel::addComboBox(const QString &text) -> QComboBox *
 {
+	return addComboBox(text, 0);
+}
+
+auto EditorPanel::addComboBox(const QString &text, const int column) -> QComboBox *
+{
+	return addComboBox(text, column, 2);
+}
+
+auto EditorPanel::addComboBox(const QString &text, const int column, const int columnSpan) -> QComboBox *
+{
 	auto *label = new QLabel(text, this);
-	mGrid->addWidget(label, row(), 0);
+	mGrid->addWidget(label, row(), column);
 
 	auto *comboBox = new QComboBox(this);
-	mGrid->addWidget(comboBox, row() - 1, 1, 1, 2);
+	mGrid->addWidget(comboBox, row() - 1, column + 1, 1, columnSpan);
 
 	return comboBox;
 }
