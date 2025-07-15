@@ -35,3 +35,11 @@ SongInfo::SongInfo(QWidget *parent)
 	comment = new QTextEdit(this);
 	layout->addWidget(comment, 3, 1);
 }
+
+auto SongInfo::sizeHint() const -> QSize
+{
+	constexpr auto width = 120;
+	constexpr auto height = 180;
+
+	return {width, height};
+}

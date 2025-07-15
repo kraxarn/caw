@@ -11,6 +11,9 @@ class SongInfo final: public QWidget
 public:
 	explicit SongInfo(QWidget *parent);
 
+	[[nodiscard]]
+	auto sizeHint() const -> QSize override;
+
 private:
 	QLineEdit *name;
 	QLineEdit *author;
