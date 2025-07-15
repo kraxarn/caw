@@ -1,6 +1,7 @@
 name: Linux
 
-on: [push, pull_request]
+# TODO: Ubuntu 24.04 only ships with Qt 6.6, wait for 25.04
+on: [ workflow_dispatch ]
 
 env:
   BUILD_TYPE: Release
@@ -10,26 +11,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Create Build Environment
-      run: cmake -E make_directory ${{runner.workspace}}/build
+      - name: Create Build Environment
+        run: cmake -E make_directory ${{runner.workspace}}/build
 
-    - name: Install Dependencies
-      run: sudo apt install build-essential libglx-dev libgl1-mesa-dev qt6-base-dev libqt6svg6-dev -y
+      - name: Install Dependencies
+        run: sudo apt install build-essential libglx-dev libgl1-mesa-dev qt6-base-dev libqt6svg6-dev -y
 
-    - name: Configure CMake
-      shell: bash
-      working-directory: ${{runner.workspace}}/build
-      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+      - name: Configure CMake
+        shell: bash
+        working-directory: ${{runner.workspace}}/build
+        run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE
 
-    - name: Build
-      working-directory: ${{runner.workspace}}/build
-      shell: bash
-      run: cmake --build . --config $BUILD_TYPE
+      - name: Build
+        working-directory: ${{runner.workspace}}/build
+        shell: bash
+        run: cmake --build . --config $BUILD_TYPE
 
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: caw
-        path: ${{runner.workspace}}/build/caw
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: caw
+          path: ${{runner.workspace}}/build/caw
