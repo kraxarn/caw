@@ -3,6 +3,7 @@
 #include "iconsizes.hpp"
 #include "widgets/envelopeeditor.hpp"
 #include "widgets/instrumentpresets.hpp"
+#include "widgets/lfoeditor.hpp"
 #include "widgets/oscillatoreditor.hpp"
 #include "widgets/oscilloscope.hpp"
 
@@ -21,7 +22,8 @@ InstrumentEditor::InstrumentEditor(QWidget *parent)
 	mOsc1(new OscillatorEditor(1, this)),
 	mOsc2(new OscillatorEditor(2, this)),
 	mPresets(new InstrumentPresets(this)),
-	mEnv(new EnvelopeEditor(this))
+	mEnv(new EnvelopeEditor(this)),
+	mLfo(new LfoEditor(this))
 {
 	auto *layout = new QGridLayout(this);
 
@@ -35,7 +37,7 @@ InstrumentEditor::InstrumentEditor(QWidget *parent)
 	layout->addWidget(mOsc2, 2, 1);
 
 	layout->addWidget(mEnv, 3, 0);
-	layout->addWidget(lfo(), 3, 1);
+	layout->addWidget(mLfo, 3, 1);
 
 	layout->addWidget(fx(), 4, 0, 1, 2);
 }
@@ -75,33 +77,6 @@ auto InstrumentEditor::slider(const QString &text, const int rowSpan, const QWid
 auto InstrumentEditor::slider(const QString &text, const QWidget *parent) -> QSlider *
 {
 	return slider(text, 1, parent);
-}
-
-auto InstrumentEditor::lfo() -> QWidget *
-{
-	auto *group = new QGroupBox(QStringLiteral("LFO"), this);
-	auto *layout = new QGridLayout(group);
-	layout->setAlignment(Qt::AlignTop);
-
-	auto *envLabel = new QLabel(QStringLiteral("Envelope"), this);
-	layout->addWidget(envLabel, 0, 0);
-
-	auto *envComboBox = new QComboBox(this);
-	envComboBox->addItems({
-		QStringLiteral("Square wave"),
-		QStringLiteral("Sine wave"),
-		QStringLiteral("Sawtooth"),
-		QStringLiteral("Triangle wave"),
-	});
-	layout->addWidget(envComboBox, 0, 1);
-
-	auto *amtSlider = slider(QStringLiteral("AMT"), group);
-	amtSlider->setRange(0, 255);
-
-	auto *freqSlider = slider(QStringLiteral("FREQ"), group);
-	freqSlider->setRange(0, 16);
-
-	return group;
 }
 
 auto InstrumentEditor::fx() -> QWidget *

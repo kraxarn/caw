@@ -2,6 +2,7 @@
 
 #include "widgets/envelopeeditor.hpp"
 #include "widgets/instrumentpresets.hpp"
+#include "widgets/lfoeditor.hpp"
 #include "widgets/oscillatoreditor.hpp"
 
 #include <QSlider>
@@ -15,8 +16,6 @@ public:
 	explicit InstrumentEditor(QWidget *parent);
 
 private:
-	[[nodiscard]]
-	auto lfo() -> QWidget *;
 	[[nodiscard]]
 	auto fx() -> QWidget *;
 
@@ -33,4 +32,5 @@ private:
 	OscillatorEditor *mOsc2;
 	InstrumentPresets *mPresets;
 	EnvelopeEditor *mEnv;
+	LfoEditor *mLfo;
 };
