@@ -33,6 +33,19 @@ auto PropertySlider::value() const -> QWidget *
 
 void PropertySlider::setRange(const int min, const int max)
 {
+	// This could be quite confusing, maybe reconsider
+	if (mStep == 1)
+	{
+		if (min % 5 == 0 && max % 5 == 0)
+		{
+			mStep = 5;
+		}
+		else if (max >= 32 && min % 2 == 0 && max % 2 == 0)
+		{
+			mStep = 2;
+		}
+	}
+
 	mMin = min / mStep;
 	mMax = max / mStep;
 
