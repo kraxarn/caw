@@ -25,16 +25,21 @@ auto EditorPanel::row() const -> int
 	return mGrid->rowCount();
 }
 
-auto EditorPanel::addSlider(const QString &text, const int column, const int columnSpan) -> QSlider *
+auto EditorPanel::addSlider(const QString &text, const int row, const int column, const int columnSpan) -> QSlider *
 {
 	auto *label = new QLabel(text, this);
-	mGrid->addWidget(label, row(), column);
+	mGrid->addWidget(label, row, column);
 
 	const auto *prop = new PropertySlider(this);
-	mGrid->addWidget(prop->slider(), row() - 1, column + 1, 1, columnSpan);
-	mGrid->addWidget(prop->value(), row() - 1, column + columnSpan + 1);
+	mGrid->addWidget(prop->slider(), row, column + 1, 1, columnSpan);
+	mGrid->addWidget(prop->value(), row, column + columnSpan + 1);
 
 	return prop->slider();
+}
+
+auto EditorPanel::addSlider(const QString &text, const int column, const int columnSpan) -> QSlider *
+{
+	return addSlider(text, row(), column, columnSpan);
 }
 
 auto EditorPanel::addSlider(const QString &text, const int column) -> QSlider *

@@ -18,6 +18,7 @@ protected:
 	auto addSlider(const QString &text) -> QSlider *;
 	auto addSlider(const QString &text, int column) -> QSlider *;
 	auto addSlider(const QString &text, int column, int columnSpan) -> QSlider *;
+	auto addSlider(const QString &text, int row, int column, int columnSpan) -> QSlider *;
 
 	auto addCheckBox(const QString &text) -> QCheckBox *;
 
