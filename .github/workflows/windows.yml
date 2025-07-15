@@ -1,0 +1,31 @@
+name: Windows
+
+on: [ push, pull_request ]
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure CMake
+        run: cmake . -G "${{env.CMAKE_GENERATOR}}" -A ${{env.CMAKE_ARCH}} -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DUSE_TESTS=ON -DUSE_LTO=ON
+
+      - name: Install Dependencies
+        run: vcpkg install qt
+
+      - name: Build
+        run: cmake --build . --config ${{env.BUILD_TYPE}}
+
+      - name: Package
+        run: windeployqt --no-opengl-sw ${{runner.workspace}}/caw/${{env.BUILD_TYPE}}/caw.exe
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: caw
+          path: ${{runner.workspace}}/caw/${{env.BUILD_TYPE}}
