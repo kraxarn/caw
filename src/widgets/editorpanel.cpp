@@ -54,12 +54,20 @@ auto EditorPanel::addCheckBox(const QString &text) -> QCheckBox *
 	return checkBox;
 }
 
-auto EditorPanel::addEnvelope() -> QComboBox *
+auto EditorPanel::addComboBox(const QString &text) -> QComboBox *
 {
-	auto *label = new QLabel(QStringLiteral("Envelope"), this);
+	auto *label = new QLabel(text, this);
 	mGrid->addWidget(label, row(), 0);
 
 	auto *comboBox = new QComboBox(this);
+	mGrid->addWidget(comboBox, row() - 1, 1, 1, 2);
+
+	return comboBox;
+}
+
+auto EditorPanel::addEnvelope() -> QComboBox *
+{
+	auto *comboBox = addComboBox(QStringLiteral("Envelope"));
 
 	comboBox->addItem(
 		Icon::get(Mdi::SquareWave, this),
@@ -84,8 +92,6 @@ auto EditorPanel::addEnvelope() -> QComboBox *
 		QStringLiteral("Triangle wave"),
 		QVariant::fromValue(Envelope::Triangle)
 	);
-
-	mGrid->addWidget(comboBox, row() - 1, 1, 1, 2);
 
 	return comboBox;
 }
