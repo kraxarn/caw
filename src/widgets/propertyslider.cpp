@@ -47,5 +47,5 @@ void PropertySlider::setStep(const int step)
 
 void PropertySlider::onValueChanged(const int value) const
 {
-	mLabel->setText(QString::number(value));
+	mLabel->setText(QString::number(value * mStep));
 }
