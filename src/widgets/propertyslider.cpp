@@ -11,7 +11,7 @@ PropertySlider::PropertySlider(QWidget *parent)
 	mSlider(new QSlider(Qt::Horizontal, this)),
 	mLabel(new QLabel(QStringLiteral("0"), this))
 {
-	mLabel->setMinimumWidth(Font::numberWidth() * 4);
+	mLabel->setMinimumWidth(Font::numberWidth() * 7);
 
 	connect(mSlider, &QSlider::valueChanged,
 		this, &PropertySlider::onValueChanged);
