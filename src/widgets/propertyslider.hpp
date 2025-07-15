@@ -17,6 +17,8 @@ public:
 	[[nodiscard]]
 	auto value() const -> QWidget *;
 
+	void setRange(int min, int max) const;
+
 private:
 	QSlider *mSlider;
 	QLabel *mLabel;

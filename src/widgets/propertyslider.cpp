@@ -27,6 +27,11 @@ auto PropertySlider::value() const -> QWidget *
 	return mLabel;
 }
 
+void PropertySlider::setRange(const int min, const int max) const
+{
+	mSlider->setRange(min, max);
+}
+
 void PropertySlider::onValueChanged(const int value) const
 {
 	mLabel->setText(QString::number(value));

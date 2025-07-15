@@ -1,10 +1,10 @@
 #pragma once
 
 #include "widgets/editorpanel.hpp"
+#include "widgets/propertyslider.hpp"
 
 #include <QCheckBox>
 #include <QComboBox>
-#include <QSlider>
 #include <QtTypes>
 #include <QWidget>
 
@@ -18,8 +18,8 @@ public:
 private:
 	QComboBox *mEnvelope;
 	QCheckBox *mXenv;
-	QSlider *mVol;
-	QSlider *mOct;
-	QSlider *mSemi;
-	QSlider *mDet;
+	PropertySlider *mVol;
+	PropertySlider *mOct;
+	PropertySlider *mSemi;
+	PropertySlider *mDet;
 };

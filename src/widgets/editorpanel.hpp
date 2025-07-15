@@ -1,10 +1,11 @@
 #pragma once
 
+#include "widgets/propertyslider.hpp"
+
 #include <QCheckBox>
 #include <QComboBox>
 #include <QGridLayout>
 #include <QGroupBox>
-#include <QSlider>
 #include <QString>
 #include <QWidget>
 
@@ -15,10 +16,10 @@ class EditorPanel: public QGroupBox
 protected:
 	EditorPanel(const QString &title, QWidget *parent);
 
-	auto addSlider(const QString &text) -> QSlider *;
-	auto addSlider(const QString &text, int column) -> QSlider *;
-	auto addSlider(const QString &text, int column, int columnSpan) -> QSlider *;
-	auto addSlider(const QString &text, int row, int column, int columnSpan) -> QSlider *;
+	auto addSlider(const QString &text) -> PropertySlider *;
+	auto addSlider(const QString &text, int column) -> PropertySlider *;
+	auto addSlider(const QString &text, int column, int columnSpan) -> PropertySlider *;
+	auto addSlider(const QString &text, int row, int column, int columnSpan) -> PropertySlider *;
 
 	auto addCheckBox(const QString &text) -> QCheckBox *;
 
