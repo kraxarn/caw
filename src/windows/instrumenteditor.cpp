@@ -2,6 +2,7 @@
 #include "icon.hpp"
 #include "iconsizes.hpp"
 #include "widgets/envelopeeditor.hpp"
+#include "widgets/fxeditor.hpp"
 #include "widgets/instrumentpresets.hpp"
 #include "widgets/lfoeditor.hpp"
 #include "widgets/oscillatoreditor.hpp"
@@ -23,7 +24,8 @@ InstrumentEditor::InstrumentEditor(QWidget *parent)
 	mOsc2(new OscillatorEditor(2, this)),
 	mPresets(new InstrumentPresets(this)),
 	mEnv(new EnvelopeEditor(this)),
-	mLfo(new LfoEditor(this))
+	mLfo(new LfoEditor(this)),
+	mFx(new FxEditor(this))
 {
 	auto *layout = new QGridLayout(this);
 
@@ -39,7 +41,7 @@ InstrumentEditor::InstrumentEditor(QWidget *parent)
 	layout->addWidget(mEnv, 3, 0);
 	layout->addWidget(mLfo, 3, 1);
 
-	layout->addWidget(fx(), 4, 0, 1, 2);
+	layout->addWidget(mFx, 4, 0, 1, 2);
 }
 
 auto InstrumentEditor::slider(const QString &text, const int row, const int column,

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "widgets/envelopeeditor.hpp"
+#include "widgets/fxeditor.hpp"
 #include "widgets/instrumentpresets.hpp"
 #include "widgets/lfoeditor.hpp"
 #include "widgets/oscillatoreditor.hpp"
@@ -33,4 +34,5 @@ private:
 	InstrumentPresets *mPresets;
 	EnvelopeEditor *mEnv;
 	LfoEditor *mLfo;
+	FxEditor *mFx;
 };
