@@ -16,7 +16,7 @@ jobs:
         run: cmake -E make_directory ${{runner.workspace}}/build
 
       - name: Install Dependencies
-        run: vcpkg install qt
+        run: vcpkg install qtbase qttools qtsvg qtmultimedia
 
       - name: Configure CMake
         working-directory: ${{runner.workspace}}/build
