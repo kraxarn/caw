@@ -10,5 +10,7 @@ public:
 	explicit LoadPresetMenu(QWidget *parent);
 
 private:
-	static auto addAction(QMenu *menu, const QString &text) -> QAction *;
+	QMenu *mBuiltIn;
+
+	void onBuiltInAboutToShow() const;
 };
