@@ -5,6 +5,9 @@ LfoEditor::LfoEditor(QWidget *parent)
 {
 	addEnvelope();
 
+	addCheckBox(QStringLiteral("FX"));
+	addCheckBox(QStringLiteral("Oscillator 1"));
+
 	auto *amt = addSlider(QStringLiteral("AMT"));
 	amt->setRange(0, 255);
 
