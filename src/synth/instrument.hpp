@@ -57,7 +57,7 @@ using Lfo = struct
 	Waveform waveform; // waveform
 };
 
-using instrument = struct
+using Instrument = struct
 {
 	Oscillator osc1;
 	Oscillator osc2;
