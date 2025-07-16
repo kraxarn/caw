@@ -22,7 +22,11 @@ Oscilloscope::Oscilloscope(QWidget *parent)
 void Oscilloscope::showEvent(QShowEvent *event)
 {
 	QGraphicsView::showEvent(event);
-	line = scene()->addLine(defaultLine(), color);
+
+	if (line == nullptr)
+	{
+		line = scene()->addLine(defaultLine(), color);
+	}
 }
 
 void Oscilloscope::resizeEvent(QResizeEvent *event)
