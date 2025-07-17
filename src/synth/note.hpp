@@ -2,9 +2,9 @@
 
 #include <QtTypes>
 
-using Note = struct note_t
+using Note = struct
 {
-	quint8 key;
+	quint8 key; // note
 	quint8 velocity;
 	quint8 effect;
 	quint8 parameter;
