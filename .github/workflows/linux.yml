@@ -1,6 +1,7 @@
 name: Linux
 
-on: [ push, pull_request ]
+# TODO: Ubuntu 24.04 only ships with Qt 6.4
+on: [ workflow_dispatch ]
 
 env:
   BUILD_TYPE: Release
