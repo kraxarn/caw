@@ -1,6 +1,6 @@
 #pragma once
 
-#include "note.hpp"
+#include "synth/note.hpp"
 
 #include <QAbstractItemModel>
 #include <QList>
