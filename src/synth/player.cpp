@@ -4,6 +4,7 @@
 #include <QAudioFormat>
 #include <QAudioSink>
 #include <QDebug>
+#include <QElapsedTimer>
 #include <QMediaDevices>
 #include <QtTypes>
 
@@ -70,24 +71,25 @@ Player::~Player()
 
 void Player::play()
 {
+	QElapsedTimer timer;
+	timer.start();
+
 	std::array<float, PL_SYNTH_TAB_SIZE> synthTab;
 	pl_synth_init(synthTab.data());
 
 	const auto numSamples = static_cast<qsizetype>(pl_synth_song_len(&song));
-	auto *outputSamples = new qint16[numSamples * 2];
 	auto *tempSamples = new qint16[numSamples * 2];
 
-	buffer.open(QIODevice::WriteOnly);
+	// [220 ms] pl_synth_song
+	// [620 ms] int16_y* (samples) -> qbuffer
+
+	buffer.open(QIODevice::ReadWrite);
 	buffer.seek(0);
 
-	pl_synth_song(&song, outputSamples, tempSamples);
+	render(&song, buffer, tempSamples);
 	delete[] tempSamples;
 
-	const qsizetype bufferSize = numSamples * 2 * static_cast<qsizetype>(sizeof(qint16));
-	buffer.write(reinterpret_cast<const char *>(outputSamples), bufferSize);
-	delete[] outputSamples;
-
-	buffer.close();
+	qInfo() << "Song rendered in " << timer.elapsed() << "ms";
 
 	QAudioFormat format;
 	format.setSampleRate(PL_SYNTH_SAMPLERATE);
@@ -103,7 +105,6 @@ void Player::play()
 		return;
 	}
 
-	buffer.open(QIODevice::ReadOnly);
 	buffer.seek(0);
 
 	if (sink != nullptr)
@@ -116,6 +117,54 @@ void Player::play()
 		this, &Player::onSinkStateChanged);
 
 	sink->start(&buffer);
+}
+
+auto Player::render(pl_synth_song_t *song, QBuffer &samples, qint16 *tempSamples) -> int
+{
+	// TODO: Too similar to pl_synth_song
+
+	const int len = pl_synth_song_len(song);
+	const int len2 = len * 2;
+
+	for (auto t = 0; t < song->num_tracks; t++) {
+		pl_synth_track_t *track = &song->tracks[t];
+		memset(tempSamples, 0, sizeof(int16_t) * len2);
+
+		for (auto si = 0; si < track->sequence_len; si++) {
+			int writePos = song->row_len * si * 32;
+			if (const int pi = track->sequence[si]; pi > 0) {
+				const unsigned char *pattern = track->patterns[pi-1].notes;
+				for (auto row = 0; row < 32; row++) {
+					if (const int note = pattern[row]; note > 0) {
+						pl_synth_gen(tempSamples, writePos, song->row_len, note, &track->synth);
+					}
+					writePos += song->row_len;
+				}
+			}
+		}
+
+		if (track->synth.fx_delay_amt) {
+			const int delayShift = (track->synth.fx_delay_time * song->row_len) / 2;
+			const float delayAmount = track->synth.fx_delay_amt / 255.0;
+			pl_synth_apply_delay(tempSamples, len, delayShift, delayAmount);
+		}
+
+		for (auto i = 0; i < len2; i++) {
+			samples.seek(i * (sizeof(qint16) / sizeof(char)));
+
+			qint16 current;
+			const auto count = samples.peek(reinterpret_cast<char *>(&current), sizeof(qint16));
+			if (count < sizeof(qint16))
+			{
+				current = 0;
+			}
+
+			const auto clamped = pl_synth_clamp_s16(current + tempSamples[i]);
+			samples.write(reinterpret_cast<const char *>(&clamped), sizeof(qint16));
+		}
+	}
+
+	return len;
 }
 
 void Player::onSinkStateChanged(const QAudio::State state)

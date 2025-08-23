@@ -6,6 +6,8 @@
 #include <QObject>
 #include <QtTypes>
 
+#include "pl/pl_synth.h"
+
 class Player final: public QObject
 {
 	Q_OBJECT
@@ -22,4 +24,6 @@ private:
 	QAudioSink *sink;
 
 	void onSinkStateChanged(QAudio::State state);
+
+	auto render(pl_synth_song_t *song, QBuffer &samples, qint16 *tempSamples) -> int;
 };
