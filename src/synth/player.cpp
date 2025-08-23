@@ -101,6 +101,11 @@ void Player::play()
 	buffer.open(QIODevice::ReadOnly);
 	buffer.seek(0);
 
+	if (sink != nullptr)
+	{
+		sink->deleteLater();
+	}
+
 	sink = new QAudioSink(format, this);
 	sink->start(&buffer);
 }
