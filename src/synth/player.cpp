@@ -152,7 +152,7 @@ auto Player::render(pl_synth_song_t *song, qint16 *samples, qint16 *tempSamples)
 		}
 
 		for (auto i = 0; i < len2; i++) {
-			samples[i] = pl_synth_clamp_s16(samples[i] + (int)tempSamples[i]);
+			samples[i] = clamp<qint16>(samples[i] + static_cast<int>(tempSamples[i]));
 		}
 	}
 
