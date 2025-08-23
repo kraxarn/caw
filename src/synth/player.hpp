@@ -20,10 +20,10 @@ public:
 	void play();
 
 private:
-	QBuffer buffer;
-	QAudioSink *sink;
+	QBuffer mBuffer;
+	QAudioSink *mSink;
 
 	void onSinkStateChanged(QAudio::State state);
 
-	auto render(pl_synth_song_t *song, QBuffer &samples, qint16 *tempSamples) -> int;
+	auto render(pl_synth_song_t *song, qint16 *samples, qint16 *tempSamples) -> int;
 };

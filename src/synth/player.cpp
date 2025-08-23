@@ -7,6 +7,7 @@
 #include <QElapsedTimer>
 #include <QMediaDevices>
 #include <QtTypes>
+#include <QVarLengthArray>
 
 #include <array>
 
@@ -57,15 +58,15 @@ pl_synth_song_t song = {
 };
 
 Player::Player()
-	: sink(nullptr)
+	: mSink(nullptr)
 {
 }
 
 Player::~Player()
 {
-	if (sink != nullptr)
+	if (mSink != nullptr)
 	{
-		sink->deleteLater();
+		mSink->deleteLater();
 	}
 }
 
@@ -81,12 +82,12 @@ void Player::play()
 	auto *tempSamples = new qint16[numSamples * 2];
 
 	// [220 ms] pl_synth_song
-	// [620 ms] int16_y* (samples) -> qbuffer
+	// [620 ms] int16_y* (samples) -> QBuffer
+	// [225 ms] QBuffer -> QVarLengthArray
 
-	buffer.open(QIODevice::ReadWrite);
-	buffer.seek(0);
-
-	render(&song, buffer, tempSamples);
+	QVarLengthArray<qint16> buffer(numSamples*2);
+	render(&song, buffer.data(), tempSamples);
+	mBuffer.setData(reinterpret_cast<const char *>(buffer.data()), buffer.size() * sizeof(qint16));
 	delete[] tempSamples;
 
 	qInfo() << "Song rendered in " << timer.elapsed() << "ms";
@@ -105,21 +106,22 @@ void Player::play()
 		return;
 	}
 
-	buffer.seek(0);
+	mBuffer.open(QIODevice::ReadOnly);
+	mBuffer.seek(0);
 
-	if (sink != nullptr)
+	if (mSink != nullptr)
 	{
-		sink->deleteLater();
+		mSink->deleteLater();
 	}
 
-	sink = new QAudioSink(format, this);
-	connect(sink, &QAudioSink::stateChanged,
+	mSink = new QAudioSink(format, this);
+	connect(mSink, &QAudioSink::stateChanged,
 		this, &Player::onSinkStateChanged);
 
-	sink->start(&buffer);
+	mSink->start(&mBuffer);
 }
 
-auto Player::render(pl_synth_song_t *song, QBuffer &samples, qint16 *tempSamples) -> int
+auto Player::render(pl_synth_song_t *song, qint16 *samples, qint16 *tempSamples) -> int
 {
 	// TODO: Too similar to pl_synth_song
 
@@ -150,17 +152,7 @@ auto Player::render(pl_synth_song_t *song, QBuffer &samples, qint16 *tempSamples
 		}
 
 		for (auto i = 0; i < len2; i++) {
-			samples.seek(i * (sizeof(qint16) / sizeof(char)));
-
-			qint16 current;
-			const auto count = samples.peek(reinterpret_cast<char *>(&current), sizeof(qint16));
-			if (count < sizeof(qint16))
-			{
-				current = 0;
-			}
-
-			const auto clamped = pl_synth_clamp_s16(current + tempSamples[i]);
-			samples.write(reinterpret_cast<const char *>(&clamped), sizeof(qint16));
+			samples[i] = pl_synth_clamp_s16(samples[i] + (int)tempSamples[i]);
 		}
 	}
 
