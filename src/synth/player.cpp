@@ -77,12 +77,17 @@ void Player::play()
 	auto *outputSamples = new qint16[numSamples * 2];
 	auto *tempSamples = new qint16[numSamples * 2];
 
+	buffer.open(QIODevice::WriteOnly);
+	buffer.seek(0);
+
 	pl_synth_song(&song, outputSamples, tempSamples);
 	delete[] tempSamples;
 
 	const qsizetype bufferSize = numSamples * 2 * static_cast<qsizetype>(sizeof(qint16));
-	buffer.setData(reinterpret_cast<const char *>(outputSamples), bufferSize);
+	buffer.write(reinterpret_cast<const char *>(outputSamples), bufferSize);
 	delete[] outputSamples;
+
+	buffer.close();
 
 	QAudioFormat format;
 	format.setSampleRate(PL_SYNTH_SAMPLERATE);
