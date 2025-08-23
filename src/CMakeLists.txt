@@ -1,6 +1,7 @@
 add_subdirectory(lists)
 add_subdirectory(menus)
 add_subdirectory(models)
+add_subdirectory(synth)
 add_subdirectory(widgets)
 add_subdirectory(windows)
 
