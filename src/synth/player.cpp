@@ -107,6 +107,9 @@ void Player::play()
 	}
 
 	sink = new QAudioSink(format, this);
+	connect(sink, &QAudioSink::stateChanged,
+		this, &Player::onSinkStateChanged);
+
 	sink->start(&buffer);
 }
 

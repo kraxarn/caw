@@ -6,7 +6,7 @@
 #include <QObject>
 #include <QtTypes>
 
-class Player final: QObject
+class Player final: public QObject
 {
 	Q_OBJECT
 
