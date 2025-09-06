@@ -68,7 +68,7 @@ void LoadPresetMenu::onBuiltInAboutToShow() const
 	}
 }
 
-void LoadPresetMenu::onActionTriggered(const QAction *action) const
+void LoadPresetMenu::onActionTriggered(const QAction *action)
 {
 	if (action == nullptr)
 	{
@@ -80,6 +80,7 @@ void LoadPresetMenu::onActionTriggered(const QAction *action) const
 	{
 		const auto data = action->data().toJsonObject();
 		const auto instrument = instrumentFromJson(data);
+		emit presetLoaded(instrument);
 
 		for (auto *buildInAction: mBuiltIn->actions())
 		{

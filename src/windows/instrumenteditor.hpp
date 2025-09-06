@@ -17,6 +17,13 @@ public:
 	explicit InstrumentEditor(QWidget *parent);
 
 private:
+	OscillatorEditor *mOsc1;
+	OscillatorEditor *mOsc2;
+	InstrumentPresets *mPresets;
+	EnvelopeEditor *mEnv;
+	LfoEditor *mLfo;
+	FxEditor *mFx;
+
 	[[nodiscard]]
 	auto fx() -> QWidget *;
 
@@ -29,10 +36,5 @@ private:
 	[[nodiscard]]
 	auto slider(const QString &text, int row, int column, int columnSpan, const QWidget *parent) -> QSlider *;
 
-	OscillatorEditor *mOsc1;
-	OscillatorEditor *mOsc2;
-	InstrumentPresets *mPresets;
-	EnvelopeEditor *mEnv;
-	LfoEditor *mLfo;
-	FxEditor *mFx;
+	void onPresetLoaded(const Instrument &instrument);
 };

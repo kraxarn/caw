@@ -23,9 +23,16 @@ InstrumentPresets::InstrumentPresets(QWidget *parent)
 	toolBar->setIconSize(IconSizes::smallToolBar());
 	layout->addWidget(toolBar);
 
+	auto *presetMenu = new LoadPresetMenu(this);
+	connect(presetMenu,
+		&LoadPresetMenu::presetLoaded,
+		this,
+		&InstrumentPresets::onPresetLoaded
+	);
+
 	mLoadPreset->setText(QStringLiteral("Load preset"));
 	mLoadPreset->setIcon(Icon::get(Mdi::FolderOpen, this));
-	mLoadPreset->setMenu(new LoadPresetMenu(this));
+	mLoadPreset->setMenu(presetMenu);
 	toolBar->addAction(mLoadPreset);
 
 	auto *loadButton = qobject_cast<QToolButton *>(toolBar->widgetForAction(mLoadPreset));
@@ -34,4 +41,9 @@ InstrumentPresets::InstrumentPresets(QWidget *parent)
 	mSavePreset->setText(QStringLiteral("Save preset"));
 	mSavePreset->setIcon(Icon::get(Mdi::ContentSave, this));
 	toolBar->addAction(mSavePreset);
+}
+
+void InstrumentPresets::onPresetLoaded(const Instrument &instrument)
+{
+	emit presetLoaded(instrument);
 }

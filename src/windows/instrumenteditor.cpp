@@ -42,6 +42,9 @@ InstrumentEditor::InstrumentEditor(QWidget *parent)
 	layout->addWidget(mLfo, 3, 1);
 
 	layout->addWidget(mFx, 4, 0, 1, 2);
+
+	connect(mPresets, &InstrumentPresets::presetLoaded,
+		this, &InstrumentEditor::onPresetLoaded);
 }
 
 auto InstrumentEditor::slider(const QString &text, const int row, const int column,
@@ -122,4 +125,9 @@ auto InstrumentEditor::fx() -> QWidget *
 	noiseSlider->setRange(0, 255);
 
 	return group;
+}
+
+void InstrumentEditor::onPresetLoaded(const Instrument &instrument)
+{
+	qInfo() << "Loaded:" << instrument.name;
 }

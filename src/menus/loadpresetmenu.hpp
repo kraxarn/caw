@@ -1,5 +1,7 @@
 #pragma once
 
+#include "synth/instrument.hpp"
+
 #include <QMenu>
 
 class LoadPresetMenu final: public QMenu
@@ -9,10 +11,13 @@ class LoadPresetMenu final: public QMenu
 public:
 	explicit LoadPresetMenu(QWidget *parent);
 
+signals:
+	void presetLoaded(const Instrument &instrument);
+
 private:
 	QMenu *mBuiltIn;
 
 	void onBuiltInAboutToShow() const;
 
-	void onActionTriggered(const QAction *action) const;
+	void onActionTriggered(const QAction *action);
 };
