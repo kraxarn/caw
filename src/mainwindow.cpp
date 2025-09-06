@@ -1,7 +1,7 @@
 #include "mainwindow.hpp"
 #include "maintoolbar.hpp"
 #include "lists/patternlist.hpp"
-#include "windows/instrumentview.hpp"
+#include "windows/instruments.hpp"
 #include "windows/instrumenteditor.hpp"
 #include "windows/order.hpp"
 #include "windows/oscilloscopechannel.hpp"
@@ -33,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent)
 	addDockWidget(Qt::TopDockWidgetArea, playback);
 
 	auto *instruments = new QDockWidget(QStringLiteral("Instruments"), this);
-	instruments->setWidget(new InstrumentView(instruments));
+	instruments->setWidget(new Instruments(instruments));
 	addDockWidget(Qt::TopDockWidgetArea, instruments);
 
 	auto *songInfo = new QDockWidget(QStringLiteral("Song Info"), this);
