@@ -1,4 +1,4 @@
-#include "windows/instrument.hpp"
+#include "windows/instrumentview.hpp"
 #include "icon.hpp"
 #include "iconsizes.hpp"
 #include "lists/instrumentlist.hpp"
@@ -6,7 +6,7 @@
 #include <QToolBar>
 #include <QVBoxLayout>
 
-Instrument::Instrument(QWidget *parent)
+InstrumentView::InstrumentView(QWidget *parent)
 	: QWidget(parent)
 {
 	auto *layout = new QVBoxLayout(this);
@@ -18,12 +18,12 @@ Instrument::Instrument(QWidget *parent)
 	layout->addWidget(list, 1);
 }
 
-QSize Instrument::sizeHint() const
+QSize InstrumentView::sizeHint() const
 {
 	return {160, 180};
 }
 
-auto Instrument::toolBar() -> QToolBar *
+auto InstrumentView::toolBar() -> QToolBar *
 {
 	auto *toolbar = new QToolBar(this);
 	toolbar->setIconSize(IconSizes::smallToolBar());

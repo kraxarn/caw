@@ -3,12 +3,12 @@
 #include <QToolBar>
 #include <QWidget>
 
-class Instrument final: public QWidget
+class InstrumentView final: public QWidget
 {
 	Q_OBJECT
 
 public:
-	explicit Instrument(QWidget *parent);
+	explicit InstrumentView(QWidget *parent);
 
 	QSize sizeHint() const override;
 
