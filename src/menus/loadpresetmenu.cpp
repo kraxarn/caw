@@ -10,17 +10,23 @@ LoadPresetMenu::LoadPresetMenu(QWidget *parent)
 {
 	mBuiltIn = addMenu(QStringLiteral("Built-in"));
 
-	connect(mBuiltIn, &QMenu::aboutToShow,
-		this, &LoadPresetMenu::onBuiltInAboutToShow);
+	connect(mBuiltIn,
+		&QMenu::aboutToShow,
+		this,
+		&LoadPresetMenu::onBuiltInAboutToShow
+	);
 
-	connect(mBuiltIn, &QMenu::triggered,
-		this, &LoadPresetMenu::onActionTriggered);
+	connect(mBuiltIn,
+		&QMenu::triggered,
+		this,
+		&LoadPresetMenu::onActionTriggered
+	);
 
 	auto *custom = addMenu(QStringLiteral("Custom"));
 	custom->addAction(QStringLiteral("Nothing here"))->setEnabled(false);
 
 	addSeparator();
-	QMenu::addAction(QStringLiteral("Load from file..."));
+	addAction(QStringLiteral("Load from file..."));
 }
 
 void LoadPresetMenu::onBuiltInAboutToShow() const
@@ -64,11 +70,23 @@ void LoadPresetMenu::onBuiltInAboutToShow() const
 
 void LoadPresetMenu::onActionTriggered(const QAction *action) const
 {
+	if (action == nullptr)
+	{
+		return;
+	}
+
 	// Preset
 	if (action->data().canConvert<QJsonObject>())
 	{
 		const auto data = action->data().toJsonObject();
 		const auto instrument = instrumentFromJson(data);
-		qInfo() << "Loaded:" << instrument.name;
+
+		for (auto *buildInAction: mBuiltIn->actions())
+		{
+			if (buildInAction != action)
+			{
+				buildInAction->setChecked(false);
+			}
+		}
 	}
 }
