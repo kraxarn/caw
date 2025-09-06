@@ -19,7 +19,7 @@ enum class Filter: quint8
 	Notch = 4,
 };
 
-using Oscillator = struct
+struct Oscillator
 {
 	quint8 octave;     // oct
 	quint8 semitone;   // det
@@ -29,7 +29,7 @@ using Oscillator = struct
 	Waveform waveform; // waveform
 };
 
-using Envelope = struct
+struct Envelope
 {
 	quint32 attackTime;  // attack
 	quint32 sustainTime; // sustain
@@ -37,7 +37,7 @@ using Envelope = struct
 	quint32 volume;      // master
 };
 
-using Fx = struct
+struct Fx
 {
 	Filter filter;       // filter
 	quint32 frequency;   // freq
@@ -48,7 +48,7 @@ using Fx = struct
 	quint8 panAmount;    // pan_amt
 };
 
-using Lfo = struct
+struct Lfo
 {
 	bool osc1;         // osc_freq
 	bool fx;           // fx_freq
@@ -57,7 +57,7 @@ using Lfo = struct
 	Waveform waveform; // waveform
 };
 
-using Instrument = struct
+struct Instrument
 {
 	Oscillator osc1;
 	Oscillator osc2;
