@@ -1,4 +1,5 @@
 #include "menus/loadpresetmenu.hpp"
+#include "synth/instrument.hpp"
 
 #include <QDirIterator>
 #include <QJsonDocument>
@@ -11,6 +12,9 @@ LoadPresetMenu::LoadPresetMenu(QWidget *parent)
 
 	connect(mBuiltIn, &QMenu::aboutToShow,
 		this, &LoadPresetMenu::onBuiltInAboutToShow);
+
+	connect(mBuiltIn, &QMenu::triggered,
+		this, &LoadPresetMenu::onActionTriggered);
 
 	auto *custom = addMenu(QStringLiteral("Custom"));
 	custom->addAction(QStringLiteral("Nothing here"))->setEnabled(false);
@@ -54,5 +58,17 @@ void LoadPresetMenu::onBuiltInAboutToShow() const
 		auto *action = mBuiltIn->addAction(name);
 		action->setCheckable(true);
 		action->setChecked(name == QStringLiteral("Default"));
+		action->setData(QVariant::fromValue(object));
+	}
+}
+
+void LoadPresetMenu::onActionTriggered(const QAction *action) const
+{
+	// Preset
+	if (action->data().canConvert<QJsonObject>())
+	{
+		const auto data = action->data().toJsonObject();
+		const auto instrument = instrumentFromJson(data);
+		qInfo() << "Loaded:" << instrument.name;
 	}
 }

@@ -1,6 +1,8 @@
 #pragma once
 
 #include <QtTypes>
+#include <QJsonObject>
+#include <QString>
 
 enum class Waveform: quint8
 {
@@ -21,11 +23,11 @@ enum class Filter: quint8
 
 struct Oscillator
 {
-	quint8 octave;     // oct
-	quint8 semitone;   // det
-	quint8 detune;     // detune
-	bool xenv;         // xenv
-	quint8 volume;     // vol
+	quint8   octave;   // oct
+	quint8   semitone; // det
+	quint8   detune;   // detune
+	bool     xenv;     // xenv
+	quint8   volume;   // vol
 	Waveform waveform; // waveform
 };
 
@@ -39,30 +41,34 @@ struct Envelope
 
 struct Fx
 {
-	Filter filter;       // filter
-	quint32 frequency;   // freq
-	quint8 resonance;    // resonance
-	quint8 delayTime;    // delay_time
-	quint8 delayAmount;  // delay_amt
-	quint8 panFrequency; // pan_freq
-	quint8 panAmount;    // pan_amt
+	Filter  filter;       // filter
+	quint32 frequency;    // freq
+	quint8  resonance;    // resonance
+	quint8  delayTime;    // delay_time
+	quint8  delayAmount;  // delay_amt
+	quint8  panFrequency; // pan_freq
+	quint8  panAmount;    // pan_amt
 };
 
 struct Lfo
 {
-	bool osc1;         // osc_freq
-	bool fx;           // fx_freq
-	quint8 frequency;  // freq
-	quint8 amount;     // amt;
-	Waveform waveform; // waveform
+	bool     osc1;      // osc_freq
+	bool     fx;        // fx_freq
+	quint8   frequency; // freq
+	quint8   amount;    // amt;
+	Waveform waveform;  // waveform
 };
 
 struct Instrument
 {
+	QString    name;
 	Oscillator osc1;
 	Oscillator osc2;
-	quint8 noiseFader;
-	Envelope env;
-	Fx fx;
-	Lfo lfo;
+	quint8     noiseFader;
+	Envelope   env;
+	Fx         fx;
+	Lfo        lfo;
 };
+
+[[nodiscard]]
+auto instrumentFromJson(const QJsonObject &json) -> Instrument;

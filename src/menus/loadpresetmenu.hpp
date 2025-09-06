@@ -13,4 +13,6 @@ private:
 	QMenu *mBuiltIn;
 
 	void onBuiltInAboutToShow() const;
+
+	void onActionTriggered(const QAction *action) const;
 };
