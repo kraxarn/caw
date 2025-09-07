@@ -1,32 +1,32 @@
 {
     "name": "Wind",
-    "osc1_oct": 8,
-    "osc1_det": 0,
-    "osc1_detune": 0,
-    "osc1_xenv": 0,
-    "osc1_vol": 0,
-    "osc1_waveform": 0,
-    "osc2_oct": 8,
-    "osc2_det": 0,
-    "osc2_detune": 0,
-    "osc2_xenv": 0,
-    "osc2_vol": 0,
-    "osc2_waveform": 0,
+    "osc": [
+        {
+            "oct": 8
+        },
+        {
+            "oct": 8
+        }
+    ],
     "noise_fader": 255,
-    "env_attack": 100000,
-    "env_sustain": 100000,
-    "env_release": 100000,
-    "env_master": 192,
-    "fx_filter": 2,
-    "fx_freq": 2500,
-    "fx_resonance": 16,
-    "fx_delay_time": 2,
-    "fx_delay_amt": 157,
-    "fx_pan_freq": 1,
-    "fx_pan_amt": 88,
-    "lfo_osc1_freq": 0,
-    "lfo_fx_freq": 1,
-    "lfo_freq": 2,
-    "lfo_amt": 51,
-    "lfo_waveform": 0
+    "env": {
+        "attack": 100000,
+        "sustain": 100000,
+        "release": 100000,
+        "master": 192
+    },
+    "fx": {
+        "filter": 2,
+        "freq": 2500,
+        "resonance": 16,
+        "delay_time": 2,
+        "delay_amt": 157,
+        "pan_freq": 1,
+        "pan_amt": 88
+    },
+    "lfo": {
+        "fx_freq": 1,
+        "freq": 2,
+        "amt": 51
+    }
 }

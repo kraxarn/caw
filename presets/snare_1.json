@@ -1,32 +1,36 @@
 {
     "name": "Snare 1",
-    "osc1_oct": 8,
-    "osc1_det": 0,
-    "osc1_detune": 0,
-    "osc1_xenv": 1,
-    "osc1_vol": 160,
-    "osc1_waveform": 0,
-    "osc2_oct": 8,
-    "osc2_det": 0,
-    "osc2_detune": 0,
-    "osc2_xenv": 1,
-    "osc2_vol": 160,
-    "osc2_waveform": 0,
+    "osc": [
+        {
+            "oct": 8,
+            "xenv": 1,
+            "vol": 160
+        },
+        {
+            "oct": 8,
+            "xenv": 1,
+            "vol": 160
+        }
+    ],
     "noise_fader": 210,
-    "env_attack": 50,
-    "env_sustain": 200,
-    "env_release": 6800,
-    "env_master": 160,
-    "fx_filter": 4,
-    "fx_freq": 11025,
-    "fx_resonance": 254,
-    "fx_delay_time": 6,
-    "fx_delay_amt": 32,
-    "fx_pan_freq": 5,
-    "fx_pan_amt": 61,
-    "lfo_osc1_freq": 0,
-    "lfo_fx_freq": 1,
-    "lfo_freq": 4,
-    "lfo_amt": 60,
-    "lfo_waveform": 0
+    "env": {
+        "attack": 50,
+        "sustain": 200,
+        "release": 6800,
+        "master": 160
+    },
+    "fx": {
+        "filter": 4,
+        "freq": 11025,
+        "resonance": 254,
+        "delay_time": 6,
+        "delay_amt": 32,
+        "pan_freq": 5,
+        "pan_amt": 61
+    },
+    "lfo": {
+        "fx_freq": 1,
+        "freq": 4,
+        "amt": 60
+    }
 }

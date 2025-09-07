@@ -1,32 +1,36 @@
 {
     "name": "Smash",
-    "osc1_oct": 5,
-    "osc1_det": 0,
-    "osc1_detune": 0,
-    "osc1_xenv": 1,
-    "osc1_vol": 214,
-    "osc1_waveform": 0,
-    "osc2_oct": 5,
-    "osc2_det": 0,
-    "osc2_detune": 0,
-    "osc2_xenv": 1,
-    "osc2_vol": 204,
-    "osc2_waveform": 0,
+    "osc": [
+        {
+            "oct": 5,
+            "xenv": 1,
+            "vol": 214
+        },
+        {
+            "oct": 5,
+            "xenv": 1,
+            "vol": 204
+        }
+    ],
     "noise_fader": 229,
-    "env_attack": 50,
-    "env_sustain": 6363,
-    "env_release": 1818,
-    "env_master": 158,
-    "fx_filter": 3,
-    "fx_freq": 7924,
-    "fx_resonance": 240,
-    "fx_delay_time": 6,
-    "fx_delay_amt": 74,
-    "fx_pan_freq": 4,
-    "fx_pan_amt": 232,
-    "lfo_osc1_freq": 0,
-    "lfo_fx_freq": 1,
-    "lfo_freq": 6,
-    "lfo_amt": 231,
-    "lfo_waveform": 0
+    "env": {
+        "attack": 50,
+        "sustain": 6363,
+        "release": 1818,
+        "master": 158
+    },
+    "fx": {
+        "filter": 3,
+        "freq": 7924,
+        "resonance": 240,
+        "delay_time": 6,
+        "delay_amt": 74,
+        "pan_freq": 4,
+        "pan_amt": 232
+    },
+    "lfo": {
+        "fx_freq": 1,
+        "freq": 6,
+        "amt": 231
+    }
 }
