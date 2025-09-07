@@ -1,0 +1,26 @@
+{
+    "name": "Hihat 1",
+    "osc": [
+        {
+            "oct": 8,
+            "xenv": 1,
+            "vol": 82,
+            "waveform": 2
+        },
+        {
+            "oct": 8
+        }
+    ],
+    "noise_fader": 255,
+    "env": {
+        "attack": 100,
+        "release": 9090,
+        "master": 232
+    },
+    "fx": {
+        "filter": 3,
+        "freq": 5200,
+        "resonance": 63
+    },
+    "lfo": {}
+}

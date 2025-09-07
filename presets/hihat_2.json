@@ -1,0 +1,31 @@
+{
+    "name": "Hihat 2",
+    "osc": [
+        {
+            "oct": 8
+        },
+        {
+            "oct": 8
+        }
+    ],
+    "noise_fader": 60,
+    "env": {
+        "attack": 50,
+        "sustain": 419,
+        "release": 4607,
+        "master": 130
+    },
+    "fx": {
+        "filter": 1,
+        "freq": 10332,
+        "resonance": 120,
+        "delay_time": 4,
+        "delay_amt": 16,
+        "pan_freq": 5,
+        "pan_amt": 108
+    },
+    "lfo": {
+        "freq": 5,
+        "amt": 187
+    }
+}
