@@ -42,5 +42,7 @@ InstrumentPresets::InstrumentPresets(QWidget *parent)
 
 void InstrumentPresets::onPresetLoaded(const Instrument &instrument)
 {
+	mPreset->setText(QStringLiteral("Built-in/%1").arg(instrument.name));
+
 	emit presetLoaded(instrument);
 }
