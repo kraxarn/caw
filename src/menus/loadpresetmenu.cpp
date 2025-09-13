@@ -36,6 +36,7 @@ void LoadPresetMenu::onBuiltInAboutToShow() const
 		return;
 	}
 
+	QList<QJsonObject> presets;
 	QDirIterator iter(QStringLiteral(":/presets"));
 	while (iter.hasNext())
 	{
@@ -58,13 +59,24 @@ void LoadPresetMenu::onBuiltInAboutToShow() const
 			continue;
 		}
 
-		const auto object = json.object();
-		const auto name = object[QStringLiteral("name")].toString();
+		presets.append(json.object());
+	}
+
+	std::ranges::sort(presets, [](QJsonObject &a, QJsonObject &b) -> bool
+	{
+		const auto name1 = a[QStringLiteral("name")].toString();
+		const auto name2 = b[QStringLiteral("name")].toString();
+		return name1.localeAwareCompare(name2);
+	});
+
+	for (const auto &preset: presets)
+	{
+		const auto name = preset[QStringLiteral("name")].toString();
 
 		auto *action = mBuiltIn->addAction(name);
 		action->setCheckable(true);
 		action->setChecked(name == QStringLiteral("Default"));
-		action->setData(QVariant::fromValue(object));
+		action->setData(QVariant::fromValue(preset));
 	}
 }
 
