@@ -36,7 +36,7 @@ void LoadPresetMenu::onBuiltInAboutToShow() const
 		return;
 	}
 
-	QList<QJsonObject> presets;
+	QList<Instrument> presets;
 	QDirIterator iter(QStringLiteral(":/presets"));
 	while (iter.hasNext())
 	{
@@ -59,23 +59,19 @@ void LoadPresetMenu::onBuiltInAboutToShow() const
 			continue;
 		}
 
-		presets.append(json.object());
+		presets.append(Instrument::fromJson(json.object()));
 	}
 
-	std::ranges::sort(presets, [](QJsonObject &a, QJsonObject &b) -> bool
+	std::ranges::sort(presets, [](const Instrument &a, const Instrument &b) -> bool
 	{
-		const auto name1 = a[QStringLiteral("name")].toString();
-		const auto name2 = b[QStringLiteral("name")].toString();
-		return name1.localeAwareCompare(name2);
+		return a.name.localeAwareCompare(b.name) < 0;
 	});
 
 	for (const auto &preset: presets)
 	{
-		const auto name = preset[QStringLiteral("name")].toString();
-
-		auto *action = mBuiltIn->addAction(name);
+		auto *action = mBuiltIn->addAction(preset.name);
 		action->setCheckable(true);
-		action->setChecked(name == QStringLiteral("Default"));
+		action->setChecked(preset.name == QStringLiteral("Default"));
 		action->setData(QVariant::fromValue(preset));
 	}
 }
@@ -88,10 +84,9 @@ void LoadPresetMenu::onActionTriggered(const QAction *action)
 	}
 
 	// Preset
-	if (action->data().canConvert<QJsonObject>())
+	if (action->data().canConvert<Instrument>())
 	{
-		const auto data = action->data().toJsonObject();
-		const auto instrument = Instrument::fromJson(data);
+		const auto instrument = action->data().value<Instrument>();
 		emit presetLoaded(instrument);
 
 		for (auto *buildInAction: mBuiltIn->actions())
