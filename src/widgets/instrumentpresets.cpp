@@ -10,9 +10,9 @@
 
 InstrumentPresets::InstrumentPresets(QWidget *parent)
 	: QGroupBox(QStringLiteral("Preset"), parent),
-	mPreset(new QLineEdit(this)),
-	mLoadPreset(new QAction(this)),
-	mSavePreset(new QAction(this))
+	  mPreset(new QLineEdit(this)),
+	  mLoadPreset(new QAction(this)),
+	  mSavePreset(new QAction(this))
 {
 	auto *layout = new QHBoxLayout(this);
 
@@ -24,11 +24,8 @@ InstrumentPresets::InstrumentPresets(QWidget *parent)
 	layout->addWidget(toolBar);
 
 	auto *presetMenu = new LoadPresetMenu(this);
-	connect(presetMenu,
-		&LoadPresetMenu::presetLoaded,
-		this,
-		&InstrumentPresets::onPresetLoaded
-	);
+	connect(presetMenu, &LoadPresetMenu::presetLoaded,
+		this, &InstrumentPresets::onPresetLoaded);
 
 	mLoadPreset->setText(QStringLiteral("Load preset"));
 	mLoadPreset->setIcon(Icon::get(Mdi::FolderOpen, this));
