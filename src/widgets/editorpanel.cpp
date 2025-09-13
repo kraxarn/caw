@@ -88,25 +88,25 @@ auto EditorPanel::addEnvelope() -> QComboBox *
 	comboBox->addItem(
 		Icon::get(Mdi::SquareWave, this),
 		QStringLiteral("Square wave"),
-		QVariant::fromValue(Envelope::Square)
+		QVariant::fromValue(Waveform::SquareWave)
 	);
 
 	comboBox->addItem(
 		Icon::get(Mdi::SineWave, this),
 		QStringLiteral("Sine wave"),
-		QVariant::fromValue(Envelope::Sine)
+		QVariant::fromValue(Waveform::SineWave)
 	);
 
 	comboBox->addItem(
 		Icon::get(Mdi::SawtoothWave, this),
 		QStringLiteral("Sawtooth"),
-		QVariant::fromValue(Envelope::Sawtooth)
+		QVariant::fromValue(Waveform::Sawtooth)
 	);
 
 	comboBox->addItem(
 		Icon::get(Mdi::TriangleWave, this),
 		QStringLiteral("Triangle wave"),
-		QVariant::fromValue(Envelope::Triangle)
+		QVariant::fromValue(Waveform::TriangleWave)
 	);
 
 	return comboBox;
