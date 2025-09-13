@@ -91,7 +91,7 @@ void LoadPresetMenu::onActionTriggered(const QAction *action)
 	if (action->data().canConvert<QJsonObject>())
 	{
 		const auto data = action->data().toJsonObject();
-		const auto instrument = instrumentFromJson(data);
+		const auto instrument = Instrument::fromJson(data);
 		emit presetLoaded(instrument);
 
 		for (auto *buildInAction: mBuiltIn->actions())

@@ -55,7 +55,7 @@ struct Lfo
 	bool     osc1;      // osc_freq
 	bool     fx;        // fx_freq
 	quint8   frequency; // freq
-	quint8   amount;    // amt;
+	quint8   amount;    // amt
 	Waveform waveform;  // waveform
 };
 
@@ -68,7 +68,7 @@ struct Instrument
 	Envelope   env;
 	Fx         fx;
 	Lfo        lfo;
-};
 
-[[nodiscard]]
-auto instrumentFromJson(const QJsonObject &json) -> Instrument;
+	[[nodiscard]]
+	static auto fromJson(const QJsonObject &json) -> Instrument;
+};
