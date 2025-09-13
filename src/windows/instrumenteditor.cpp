@@ -84,49 +84,6 @@ auto InstrumentEditor::slider(const QString &text, const QWidget *parent) -> QSl
 	return slider(text, 1, parent);
 }
 
-auto InstrumentEditor::fx() -> QWidget *
-{
-	auto *group = new QGroupBox(QStringLiteral("FX"), this);
-	auto *layout = new QGridLayout(group);
-	layout->setAlignment(Qt::AlignTop);
-
-	auto *filterLabel = new QLabel(QStringLiteral("Filter"), this);
-	layout->addWidget(filterLabel, 0, 0);
-
-	auto *filterComboBox = new QComboBox(this);
-	filterComboBox->addItems({
-		QStringLiteral("None"),
-		QStringLiteral("Low pass"),
-		QStringLiteral("High pass"),
-		QStringLiteral("Band pass"),
-		QStringLiteral("Notch"),
-	});
-	layout->addWidget(filterComboBox, 0, 1, 1, 3);
-
-	auto *freqSlider = slider(QStringLiteral("Filter frequency"), 3, group);
-	freqSlider->setRange(0, 11025);
-
-	auto *resSlider = slider(QStringLiteral("Filter resonance"), 3, group);
-	resSlider->setRange(0, 255);
-
-	auto *delaySlider = slider(QStringLiteral("Delay"), group);
-	delaySlider->setRange(0, 248);
-
-	auto *delayTimeSlider = slider(QStringLiteral("Time"), 3, 2, group);
-	delayTimeSlider->setRange(0, 16);
-
-	auto *panSlider = slider(QStringLiteral("Pan"), group);
-	panSlider->setRange(0, 255);
-
-	auto *panFreqSlider = slider(QStringLiteral("Frequency"), 4, 2, group);
-	panFreqSlider->setRange(0, 16);
-
-	auto *noiseSlider = slider(QStringLiteral("Noise volume"), 3, group);
-	noiseSlider->setRange(0, 255);
-
-	return group;
-}
-
 void InstrumentEditor::onPresetLoaded(const Instrument &instrument)
 {
 	qInfo() << "Loaded:" << instrument.name;

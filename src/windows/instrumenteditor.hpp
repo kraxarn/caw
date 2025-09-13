@@ -25,9 +25,6 @@ private:
 	FxEditor *mFx;
 
 	[[nodiscard]]
-	auto fx() -> QWidget *;
-
-	[[nodiscard]]
 	auto slider(const QString &text, const QWidget *parent) -> QSlider *;
 	[[nodiscard]]
 	auto slider(const QString &text, int rowSpan, const QWidget *parent) -> QSlider *;
