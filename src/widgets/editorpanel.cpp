@@ -1,6 +1,5 @@
 #include "widgets/editorpanel.hpp"
 #include "icon.hpp"
-#include "enums/envelope.hpp"
 #include "widgets/propertyslider.hpp"
 
 #include <QCheckBox>
