@@ -8,4 +8,5 @@ qt_add_qml_module(${PROJECT_NAME}_app
 	VERSION ${PROJECT_VERSION}
 	QML_FILES
 	qml/Main.qml
+	qml/AppMenuBar.qml
 )
