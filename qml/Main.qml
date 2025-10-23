@@ -4,7 +4,7 @@ import QtQuick.Layouts
 
 ApplicationWindow {
 	id: root
-	title: "caw"
+	title: `${AppName} ${AppVersion} (Qt ${QtVersion})`
 	visible: true
 	width: 1280
 	height: 720
