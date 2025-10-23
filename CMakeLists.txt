@@ -22,6 +22,7 @@ target_include_directories(${PROJECT_NAME}_app PRIVATE
 
 include(qml.cmake)
 include(deps/mdi.cmake)
+include(resources.cmake)
 
 target_compile_definitions(${PROJECT_NAME}_app PRIVATE APP_NAME="${PROJECT_NAME}")
 target_compile_definitions(${PROJECT_NAME}_app PRIVATE APP_VERSION="v${PROJECT_VERSION}")
