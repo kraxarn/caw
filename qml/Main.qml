@@ -20,7 +20,7 @@ ApplicationWindow {
 			}
 			Action {
 				text: "&Save"
-				icon.name: ":/mdi/save-content.svg"
+				icon.name: ":/mdi/content-save.svg"
 			}
 			Action {
 				text: "Save &As..."
