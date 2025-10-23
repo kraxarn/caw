@@ -1,13 +1,13 @@
 set(MDI_DIR "${mdi_SOURCE_DIR}/svg")
 
-qt_add_resources(${PROJECT_NAME} "logos"
+qt_add_resources(${PROJECT_NAME}_app "logos"
 	PREFIX "/logos"
 	BASE "res"
 	FILES
 	"res/caw.svg"
 )
 
-qt_add_resources(${PROJECT_NAME} "mdi"
+qt_add_resources(${PROJECT_NAME}_app "mdi"
 	PREFIX "/mdi"
 	BASE "${MDI_DIR}"
 	FILES
@@ -36,7 +36,7 @@ qt_add_resources(${PROJECT_NAME} "mdi"
 	"${MDI_DIR}/triangle-wave.svg"
 )
 
-qt_add_resources(${PROJECT_NAME} "presets"
+qt_add_resources(${PROJECT_NAME}_app "presets"
 	PREFIX "/presets"
 	BASE "presets"
 	FILES
