@@ -29,6 +29,9 @@ auto main(int argc, char *argv[]) -> int
 	QCoreApplication::setApplicationName(QStringLiteral(APP_NAME));
 	QCoreApplication::setApplicationVersion(QStringLiteral(APP_VERSION));
 
+	// For now at least
+	QGuiApplication::setAttribute(Qt::AA_DontUseNativeMenuBar);
+
 	const QGuiApplication app(argc, argv);
 
 	QQuickStyle::setStyle(QStringLiteral("Imagine"));
