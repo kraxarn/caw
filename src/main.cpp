@@ -6,6 +6,10 @@
 #include <QString>
 #include <QQuickStyle>
 
+#include "models/instrumentmodel.hpp"
+#include "models/ordermodel.hpp"
+#include "models/patternmodel.hpp"
+
 namespace
 {
 	void defineTypes(const QQmlApplicationEngine &engine)
@@ -21,6 +25,10 @@ namespace
 
 		engine.rootContext()->setContextProperty(QStringLiteral("BuildDate"),
 			QStringLiteral(__DATE__));
+
+		qmlRegisterType<InstrumentModel>("InstrumentModel", 1, 0, "InstrumentModel");
+		qmlRegisterType<OrderModel>("OrderModel", 1, 0, "OrderModel");
+		qmlRegisterType<PatternModel>("PatternModel", 1, 0, "PatternModel");
 	}
 }
 
