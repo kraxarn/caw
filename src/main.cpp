@@ -4,6 +4,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QString>
+#include <QQuickStyle>
 
 namespace
 {
@@ -30,12 +31,14 @@ auto main(int argc, char *argv[]) -> int
 
 	const QGuiApplication app(argc, argv);
 
+	QQuickStyle::setStyle(QStringLiteral("Imagine"));
+
 	QFontDatabase::addApplicationFont(QStringLiteral(":/fontawesome.otf"));
 
 	QQmlApplicationEngine engine;
 	defineTypes(engine);
 
-	engine.loadFromModule(APP_NAME,"Main");
+	engine.loadFromModule(APP_NAME, "Main");
 
 	return QGuiApplication::exec();
 }
