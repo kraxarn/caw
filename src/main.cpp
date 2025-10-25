@@ -4,7 +4,6 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QString>
-#include <QQuickStyle>
 
 #include "models/instrumentmodel.hpp"
 #include "models/ordermodel.hpp"
@@ -41,8 +40,6 @@ auto main(int argc, char *argv[]) -> int
 	QGuiApplication::setAttribute(Qt::AA_DontUseNativeMenuBar);
 
 	const QGuiApplication app(argc, argv);
-
-	QQuickStyle::setStyle(QStringLiteral("Imagine"));
 
 	QFontDatabase::addApplicationFont(QStringLiteral(":/fontawesome.otf"));
 

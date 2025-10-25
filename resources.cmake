@@ -57,3 +57,23 @@ qt_add_resources(${PROJECT_NAME}_app "presets"
 	"presets/square.json"
 	"presets/wind.json"
 )
+
+qt_add_resources(${PROJECT_NAME}_app "conf"
+	BASE "res"
+	FILES
+	"res/qtquickcontrols2.conf"
+)
+
+qt_add_resources(${PROJECT_NAME}_app "dark_theme"
+	PREFIX "/themes/dark"
+	BASE "res/themes/dark"
+	FILES
+	"res/themes/dark/applicationwindow-background.png"
+	"res/themes/dark/applicationwindow-overlay.png"
+	"res/themes/dark/applicationwindow-overlay-modal.png"
+	"res/themes/dark/busyindicator-animation.webp"
+	"res/themes/dark/button-background.9.png"
+	"res/themes/dark/menu-background.9.png"
+	"res/themes/dark/menuitem-background.9.png"
+	"res/themes/dark/menuitem-background-highlighted.9.png"
+)
