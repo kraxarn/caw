@@ -58,12 +58,6 @@ qt_add_resources(${PROJECT_NAME}_app "presets"
 	"presets/wind.json"
 )
 
-qt_add_resources(${PROJECT_NAME}_app "conf"
-	BASE "res"
-	FILES
-	"res/qtquickcontrols2.conf"
-)
-
 qt_add_resources(${PROJECT_NAME}_app "dark_theme"
 	PREFIX "/themes/dark"
 	BASE "res/themes/dark"

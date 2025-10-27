@@ -1,4 +1,3 @@
-#include <QCoreApplication>
 #include <QFontDatabase>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
@@ -8,6 +7,7 @@
 #include "models/instrumentmodel.hpp"
 #include "models/ordermodel.hpp"
 #include "models/patternmodel.hpp"
+#include "apptheme.hpp"
 
 namespace
 {
@@ -45,6 +45,8 @@ auto main(int argc, char *argv[]) -> int
 
 	QQmlApplicationEngine engine;
 	defineTypes(engine);
+
+	QGuiApplication::setPalette(AppTheme());
 
 	engine.loadFromModule(APP_NAME, "Main");
 
