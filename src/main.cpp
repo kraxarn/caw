@@ -1,7 +1,5 @@
 #include <QFontDatabase>
 #include <QGuiApplication>
-#include <QQmlApplicationEngine>
-#include <QQmlContext>
 #include <QString>
 
 #include "models/instrumentmodel.hpp"
@@ -11,7 +9,7 @@
 
 namespace
 {
-	void defineTypes(const QQmlApplicationEngine &engine)
+	void defineTypes(QQmlApplicationEngine &engine)
 	{
 		engine.rootContext()->setContextProperty(QStringLiteral("AppName"),
 			QCoreApplication::applicationName());
@@ -25,9 +23,14 @@ namespace
 		engine.rootContext()->setContextProperty(QStringLiteral("BuildDate"),
 			QStringLiteral(__DATE__));
 
+		engine.addImportPath(QStringLiteral(":/"));
+
 		qmlRegisterType<InstrumentModel>("InstrumentModel", 1, 0, "InstrumentModel");
 		qmlRegisterType<OrderModel>("OrderModel", 1, 0, "OrderModel");
 		qmlRegisterType<PatternModel>("PatternModel", 1, 0, "PatternModel");
+
+		qmlRegisterUncreatableType<AppTheme>("AppTheme", 1, 0, "AppTheme",
+			QStringLiteral("Attached property"));
 	}
 }
 
@@ -46,7 +49,7 @@ auto main(int argc, char *argv[]) -> int
 	QQmlApplicationEngine engine;
 	defineTypes(engine);
 
-	QGuiApplication::setPalette(AppTheme());
+	AppTheme::setStyle();
 
 	engine.loadFromModule(APP_NAME, "Main");
 
