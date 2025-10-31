@@ -20,9 +20,9 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
 )
 
 # More portable or something, i dunno, it's funny
-set_target_properties(${PROJECT_NAME} PROPERTIES
-	LINK_FLAGS "-nostdlib"
-)
+#set_target_properties(${PROJECT_NAME} PROPERTIES
+#	LINK_FLAGS "-nostdlib"
+#)
 
 find_package(SDL3 REQUIRED)
 
