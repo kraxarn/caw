@@ -64,7 +64,7 @@ NK_INTERN void nk_sdl_device_upload_atlas(const struct nk_context *ctx, const vo
 		sdl->ogl.font_tex = nullptr;
 	}
 
-	auto *texture = SDL_CreateTexture(
+	const auto texture = SDL_CreateTexture(
 		sdl->renderer,
 		SDL_PIXELFORMAT_ARGB8888,
 		SDL_TEXTUREACCESS_STATIC,
@@ -86,7 +86,7 @@ NK_API void nk_sdl_render(const struct nk_context *ctx, enum nk_anti_aliasing aa
 {
 	SDL_assert(ctx != nullptr);
 
-	auto *sdl = (struct nk_sdl *) ctx->userdata.ptr;
+	const auto sdl = (struct nk_sdl *) ctx->userdata.ptr;
 	SDL_assert(sdl != nullptr);
 
 	SDL_Rect saved_clip;
