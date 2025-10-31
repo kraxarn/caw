@@ -421,8 +421,7 @@ NK_API int nk_sdl_handle_event(struct nk_context *ctx, const SDL_Event *event)
 	return 0;
 }
 
-NK_API
-void nk_sdl_shutdown(struct nk_context *ctx)
+NK_API void nk_sdl_shutdown(struct nk_context *ctx)
 {
 	SDL_assert(ctx != nullptr);
 
@@ -438,7 +437,7 @@ void nk_sdl_shutdown(struct nk_context *ctx)
 		sdl->ogl.font_tex = nullptr;
 	}
 
-	ctx->userdata = nk_handle_ptr(0);
+	ctx->userdata = nk_handle_ptr(nullptr);
 	SDL_free(sdl);
 	nk_free(ctx);
 }
