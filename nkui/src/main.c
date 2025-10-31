@@ -40,7 +40,7 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 		return SDL_APP_FAILURE;
 	}
 
-	auto state = (app_state_t *)SDL_malloc(sizeof(app_state_t));
+	const auto state = (app_state_t *) SDL_malloc(sizeof(app_state_t));
 	if (state == nullptr)
 	{
 		SDL_LogError(LOG_CATEGORY_CORE, "SDL_malloc error: %s", SDL_GetError());
