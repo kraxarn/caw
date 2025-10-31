@@ -3,8 +3,8 @@
 // For NK_BUFFER_DEFAULT_INITIAL_SIZE
 #include "src/nuklear_internal.h"
 
-#include <SDL3/SDL_stdinc.h>
 #include <SDL3/SDL_assert.h>
+#include <SDL3/SDL_stdinc.h>
 
 NK_LIB void *nk_sdl_malloc([[maybe_unused]] nk_handle handle,
 	[[maybe_unused]] void *old, const nk_size size)
@@ -45,7 +45,7 @@ NK_API void nk_font_atlas_init_default(struct nk_font_atlas *atlas)
 		return;
 	}
 
-	nk_zero_struct(*atlas);
+	NK_MEMSET(atlas, 0, sizeof(struct nk_font_atlas));
 	atlas->temporary.userdata.ptr = nullptr;
 	atlas->temporary.alloc = nk_sdl_malloc;
 	atlas->temporary.free = nk_sdl_free;
