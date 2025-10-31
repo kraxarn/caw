@@ -16,7 +16,10 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE
 	APP_NAME="${PROJECT_NAME}"
-	APP_VERSION="v${PROJECT_VERSION}"
+	APP_VERSION="${PROJECT_VERSION}"
+	APP_IDENTIFIER="com.kraxarn.${PROJECT_NAME}"
+	APP_CREATOR="kraxie"
+	APP_TYPE="application"
 )
 
 # More portable or something, i dunno, it's funny
