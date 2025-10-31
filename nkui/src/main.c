@@ -24,6 +24,10 @@ typedef struct app_state_t
 SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 	[[maybe_unused]] int argc, [[maybe_unused]] char **argv)
 {
+#ifndef NDEBUG
+	SDL_SetLogPriorities(SDL_LOG_PRIORITY_DEBUG);
+#endif
+
 	if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS))
 	{
 		SDL_LogError(LOG_CATEGORY_CORE, "SDL_Init error: %s", SDL_GetError());
