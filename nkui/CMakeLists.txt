@@ -25,4 +25,8 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 )
 
 find_package(SDL3 REQUIRED)
-target_link_libraries(${PROJECT_NAME} PRIVATE SDL3::SDL3)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE
+	SDL3::SDL3
+	m
+)
