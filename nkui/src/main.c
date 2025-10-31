@@ -71,8 +71,8 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 
 	SDL_GetCurrentRenderOutputSize(state->renderer, &render_w, &render_h);
 	SDL_GetWindowSize(state->window, &window_w, &window_h);
-	const auto scale_x = (float)render_w / (float)window_w;
-	const auto scale_y = (float)render_h / (float)window_h;
+	const auto scale_x = (float) render_w / (float) window_w;
+	const auto scale_y = (float) render_h / (float) window_h;
 	SDL_SetRenderScale(state->renderer, scale_x, scale_y);
 
 	state->ctx = nk_sdl_init(state->window, state->renderer);
@@ -91,7 +91,7 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 
 SDL_AppResult SDL_AppIterate([[maybe_unused]] void *appstate)
 {
-	const auto state = (app_state_t *)appstate;
+	const auto state = (app_state_t *) appstate;
 	if (state == nullptr)
 	{
 		return SDL_APP_FAILURE;
@@ -119,7 +119,7 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event)
 		return SDL_APP_SUCCESS;
 	}
 
-	const auto state = (app_state_t *)appstate;
+	const auto state = (app_state_t *) appstate;
 	if (state == nullptr)
 	{
 		return SDL_APP_FAILURE;
@@ -131,7 +131,7 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event)
 
 void SDL_AppQuit(void *appstate, [[maybe_unused]] SDL_AppResult result)
 {
-	const auto state = (app_state_t *)appstate;
+	const auto state = (app_state_t *) appstate;
 	if (state != nullptr)
 	{
 		nk_sdl_shutdown(state->ctx);
