@@ -14,6 +14,11 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 	"${nuklear_SOURCE_DIR}"
 )
 
+target_compile_definitions(${PROJECT_NAME} PRIVATE
+	APP_NAME="${PROJECT_NAME}"
+	APP_VERSION="v${PROJECT_VERSION}"
+)
+
 # More portable or something, i dunno, it's funny
 set_target_properties(${PROJECT_NAME} PROPERTIES
 	LINK_FLAGS "-nostdlib"
