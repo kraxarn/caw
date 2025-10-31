@@ -1,13 +1,10 @@
 #include "caw/renderer/nk_sdl.h"
 #include "caw/renderer/allocator.h"
 
-#define NK_IMPLEMENTATION
-#include "caw/ui.h"
-
 #include <SDL3/SDL_assert.h>
+#include <SDL3/SDL_clipboard.h>
 #include <SDL3/SDL_log.h>
 #include <SDL3/SDL_stdinc.h>
-#include <SDL3/SDL_clipboard.h>
 
 struct nk_sdl_device
 {
