@@ -1,4 +1,5 @@
 #include "caw/logcategory.h"
+#include "caw/gui/apptheme.h"
 #include "caw/gui/tracker.h"
 #include "caw/renderer/nk_sdl.h"
 
@@ -62,12 +63,8 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 
 	SDL_StartTextInput(state->window);
 
-	state->bg = (SDL_Color){
-		.r = 0x00,
-		.g = 0x00,
-		.b = 0x00,
-		.a = SDL_ALPHA_OPAQUE,
-	};
+	state->bg = app_color_sdl(COLOR_CLEAR);
+	SDL_SetRenderDrawColor(state->renderer, state->bg.r, state->bg.g, state->bg.b, state->bg.a);
 
 	int render_w;
 	int render_h;
@@ -106,9 +103,7 @@ SDL_AppResult SDL_AppIterate([[maybe_unused]] void *appstate)
 
 	draw_tracker(state->ctx);
 
-	SDL_SetRenderDrawColor(state->renderer, state->bg.r, state->bg.g, state->bg.b, state->bg.a);
 	SDL_RenderClear(state->renderer);
-
 	nk_sdl_render(state->ctx, NK_ANTI_ALIASING_OFF);
 	SDL_RenderPresent(state->renderer);
 
