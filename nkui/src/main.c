@@ -94,7 +94,7 @@ SDL_AppResult SDL_AppIterate([[maybe_unused]] void *appstate)
 
 	nk_input_end(state->ctx);
 
-	draw_tracker(state->ctx);
+	draw_tracker(state);
 
 	SDL_RenderClear(state->renderer);
 	nk_sdl_render(state->ctx, NK_ANTI_ALIASING_OFF);

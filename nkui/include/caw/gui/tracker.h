@@ -1,5 +1,5 @@
 #pragma once
 
-#include "caw/ui.h"
+#include "caw/appstate.h"
 
-void draw_tracker(struct nk_context *ctx);
+void draw_tracker(const app_state_t *state);
