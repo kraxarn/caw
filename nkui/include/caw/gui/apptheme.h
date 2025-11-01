@@ -26,11 +26,18 @@ typedef enum app_color_t: Uint32
 	COLOR_WINDOW_BORDER      = COLOR6,
 	COLOR_CONTROL_BACKGROUND = COLOR6,
 	COLOR_CONTROL_HOVER      = COLOR4,
-	COLOR_CONTROL_ACTIVE     = COLOR6,
+	COLOR_CONTROL_ACTIVE     = COLOR5,
 	COLOR_CLEAR              = COLOR6,
 
 	COLOR_INVALID = 0xff'00'ff,
 } app_color_t;
+
+typedef enum app_size_t: Uint8
+{
+	SIZE_GAP              = 6,
+	SIZE_MENUBAR_HEIGHT   = 38,
+	SIZE_MENU_ITEM_HEIGHT = 26,
+} app_size_t;
 
 SDL_Color app_color_sdl(app_color_t color);
 
