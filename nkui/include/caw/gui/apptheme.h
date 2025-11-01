@@ -19,9 +19,9 @@ typedef enum app_color_t: Uint32
 	COLOR6 = 0x27'27'44,
 
 	COLOR_FOREGROUND         = COLOR1,
-	COLOR_CLEAR              = COLOR4,
 	COLOR_WINDOW_BACKGROUND  = COLOR5,
 	COLOR_CONTROL_BACKGROUND = COLOR6,
+	COLOR_CLEAR              = COLOR6,
 } app_color_t;
 
 SDL_Color app_color_sdl(app_color_t color);
