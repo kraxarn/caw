@@ -1,5 +1,7 @@
 #pragma once
 
+#include "caw/ui.h"
+
 #include <SDL3/SDL_pixels.h>
 #include <SDL3/SDL_stdinc.h>
 
@@ -20,8 +22,17 @@ typedef enum app_color_t: Uint32
 
 	COLOR_FOREGROUND         = COLOR1,
 	COLOR_WINDOW_BACKGROUND  = COLOR5,
+	COLOR_WINDOW_BORDER      = COLOR4,
 	COLOR_CONTROL_BACKGROUND = COLOR6,
+	COLOR_CONTROL_HOVER      = COLOR4,
+	COLOR_CONTROL_ACTIVE     = COLOR6,
 	COLOR_CLEAR              = COLOR6,
+
+	COLOR_INVALID = 0xff'00'ff,
 } app_color_t;
 
 SDL_Color app_color_sdl(app_color_t color);
+
+struct nk_color app_color_nk(app_color_t color);
+
+void set_style(struct nk_context *ctx);

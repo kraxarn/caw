@@ -90,6 +90,8 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 	font->handle.height /= scale_y;
 	nk_style_set_font(state->ctx, &font->handle);
 
+	set_style(state->ctx);
+
 	*appstate = state;
 	return SDL_APP_CONTINUE;
 }
