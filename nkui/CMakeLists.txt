@@ -8,6 +8,7 @@ add_executable(${PROJECT_NAME})
 add_subdirectory(src)
 
 include(../deps/nuklear.cmake)
+include(../deps/maple-font.cmake)
 
 target_include_directories(${PROJECT_NAME} PRIVATE
 	"${CMAKE_CURRENT_SOURCE_DIR}/include"

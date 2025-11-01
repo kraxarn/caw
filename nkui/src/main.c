@@ -3,6 +3,7 @@
 #include "caw/gui/apptheme.h"
 #include "caw/gui/tracker.h"
 #include "caw/renderer/nk_sdl.h"
+#include "caw/res/maplemononlregular.h"
 
 #define SDL_MAIN_USE_CALLBACKS
 #include <SDL3/SDL_main.h>
@@ -74,7 +75,10 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 
 	const struct nk_font_config config = nk_font_config(0.F);
 	struct nk_font_atlas *atlas = nk_sdl_font_stash_begin(state->ctx);
-	struct nk_font *font = nk_font_atlas_add_default(atlas, 13 * scale_y, &config);
+	struct nk_font *font = nk_font_atlas_add_from_memory(atlas,
+		maple_mono_nl_regular_ttf, maple_mono_nl_regular_ttf_len,
+		16 * scale_y, &config
+	);
 	nk_sdl_font_stash_end(state->ctx);
 
 	font->handle.height /= scale_y;
