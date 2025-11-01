@@ -101,7 +101,7 @@ void draw_help_menu(const app_state_t *state)
 	}
 }
 
-void draw_menubar(const app_state_t *state)
+void draw_menubar(app_state_t *state)
 {
 	const auto rect = nk_rect(
 		SIZE_GAP, SIZE_GAP,

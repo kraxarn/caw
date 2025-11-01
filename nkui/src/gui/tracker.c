@@ -3,7 +3,7 @@
 #include "caw/ui.h"
 #include "caw/gui/menubar.h"
 
-void draw_tracker(const app_state_t *state)
+void draw_tracker(app_state_t *state)
 {
 	draw_menubar(state);
 
