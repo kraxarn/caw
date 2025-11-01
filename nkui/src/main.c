@@ -55,7 +55,7 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 		return SDL_APP_FAILURE;
 	}
 
-	if (!SDL_SetRenderVSync(state->renderer, SDL_RENDERER_VSYNC_ADAPTIVE))
+	if (!SDL_SetRenderVSync(state->renderer, 1))
 	{
 		SDL_LogWarn(LOG_CATEGORY_CORE, "SDL_SetRenderVSync error: %s", SDL_GetError());
 	}
