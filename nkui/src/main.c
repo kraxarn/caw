@@ -55,6 +55,12 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 		SDL_LogWarn(LOG_CATEGORY_CORE, "SDL_SetRenderVSync error: %s", SDL_GetError());
 	}
 
+	if (!SDL_GetRenderOutputSize(state->renderer, &state->gui.out.width, &state->gui.out.height))
+	{
+		SDL_LogError(LOG_CATEGORY_GUI, "SDL_GetRenderOutputSize error: %s", SDL_GetError());
+		return SDL_APP_FAILURE;
+	}
+
 	SDL_StartTextInput(state->window);
 
 	state->bg = app_color_sdl(COLOR_CLEAR);
@@ -120,6 +126,16 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event)
 	if (state == nullptr)
 	{
 		return SDL_APP_FAILURE;
+	}
+
+	switch (event->type)
+	{
+		case SDL_EVENT_WINDOW_RESIZED:
+			SDL_LogDebug(LOG_CATEGORY_GUI, "Window resized: %d %d",
+				event->window.data1, event->window.data2);
+			state->gui.out.width = event->window.data1;
+			state->gui.out.height = event->window.data2;
+			break;
 	}
 
 	nk_sdl_handle_event(state->ctx, event);

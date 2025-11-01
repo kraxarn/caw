@@ -5,4 +5,5 @@
 typedef enum log_category
 {
 	LOG_CATEGORY_CORE = SDL_LOG_CATEGORY_CUSTOM,
+	LOG_CATEGORY_GUI,
 } log_category;
