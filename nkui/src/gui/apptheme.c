@@ -40,7 +40,7 @@ void set_style(struct nk_context *ctx)
 
 	table[NK_COLOR_TEXT] = app_color_nk(COLOR_FOREGROUND);
 	table[NK_COLOR_WINDOW] = app_color_nk(COLOR_WINDOW_BACKGROUND);
-	table[NK_COLOR_HEADER] = app_color_nk(COLOR_WINDOW_BORDER);
+	table[NK_COLOR_HEADER] = app_color_nk(COLOR_WINDOW_HEADER);
 	table[NK_COLOR_BORDER] = app_color_nk(COLOR_WINDOW_BORDER);
 	table[NK_COLOR_BUTTON] = app_color_nk(COLOR_CONTROL_BACKGROUND);
 	table[NK_COLOR_BUTTON_HOVER] = app_color_nk(COLOR_CONTROL_HOVER);
