@@ -1,3 +1,4 @@
+#include "caw/appstate.h"
 #include "caw/logcategory.h"
 #include "caw/gui/apptheme.h"
 #include "caw/gui/tracker.h"
@@ -13,14 +14,6 @@
 
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 720
-
-typedef struct app_state_t
-{
-	SDL_Window *window;
-	SDL_Renderer *renderer;
-	struct nk_context *ctx;
-	SDL_Color bg;
-} app_state_t;
 
 SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 	[[maybe_unused]] int argc, [[maybe_unused]] char **argv)
