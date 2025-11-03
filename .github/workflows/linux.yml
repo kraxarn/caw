@@ -1,6 +1,6 @@
 name: Linux
 
-# TODO: Ubuntu 24.04 only ships with Qt 6.4
+# TODO: Ubuntu 24.04 only ships with SDL2
 on: [ workflow_dispatch ]
 
 env:
