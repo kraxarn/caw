@@ -22,7 +22,7 @@ jobs:
         working-directory: ${{runner.workspace}}/build
         run: |
           eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-          cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_MODULE_PATH="/home/linuxbrew/.linuxbrew/Cellar/sdl3/3.2.26"
+          cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE
 
       - name: Build
         working-directory: ${{runner.workspace}}/build
