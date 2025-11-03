@@ -29,7 +29,7 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 	SDL_SetAppMetadataProperty(SDL_PROP_APP_METADATA_CREATOR_STRING, APP_CREATOR);
 	SDL_SetAppMetadataProperty(SDL_PROP_APP_METADATA_TYPE_STRING, APP_TYPE);
 
-	if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS))
+	if (!SDL_Init(SDL_INIT_EVENTS | SDL_INIT_VIDEO | SDL_INIT_AUDIO))
 	{
 		SDL_LogError(LOG_CATEGORY_CORE, "SDL_Init error: %s", SDL_GetError());
 		return SDL_APP_FAILURE;
