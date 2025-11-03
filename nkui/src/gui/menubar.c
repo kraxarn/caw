@@ -90,12 +90,7 @@ void draw_help_menu(const app_state_t *state)
 	{
 		nk_layout_row_dynamic(state->ctx, SIZE_MENU_ITEM_HEIGHT, 1);
 
-		nk_menu_item_label(state->ctx, "New...", NK_TEXT_LEFT);
-		nk_menu_item_label(state->ctx, "Open...", NK_TEXT_LEFT);
-		nk_menu_item_label(state->ctx, "Save", NK_TEXT_LEFT);
-		nk_menu_item_label(state->ctx, "Save As...", NK_TEXT_LEFT);
-		nk_menu_item_label(state->ctx, "Export...", NK_TEXT_LEFT);
-		nk_menu_item_label(state->ctx, "Quit", NK_TEXT_LEFT);
+		nk_menu_item_label(state->ctx, "About...", NK_TEXT_LEFT);
 
 		nk_menu_end(state->ctx);
 	}
