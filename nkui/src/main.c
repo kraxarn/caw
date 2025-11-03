@@ -42,7 +42,11 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 		return SDL_APP_FAILURE;
 	}
 
-	if (!SDL_CreateWindowAndRenderer(APP_NAME, WINDOW_WIDTH, WINDOW_HEIGHT,
+	constexpr size_t app_info_len = 16;
+	char app_info[app_info_len];
+	SDL_snprintf(app_info, app_info_len, "%s v%s", APP_NAME, APP_VERSION);
+
+	if (!SDL_CreateWindowAndRenderer(app_info, WINDOW_WIDTH, WINDOW_HEIGHT,
 		SDL_WINDOW_RESIZABLE, &state->window, &state->renderer))
 	{
 		SDL_free(state);
