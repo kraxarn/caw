@@ -16,7 +16,7 @@ jobs:
         run: cmake -E make_directory ${{runner.workspace}}/build
 
       - name: Install Dependencies
-        run: brew install qt
+        run: brew install sdl3
 
       - name: Configure CMake
         working-directory: ${{runner.workspace}}/build
