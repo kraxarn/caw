@@ -1,7 +1,6 @@
 name: Linux
 
-# TODO: Ubuntu 24.04 only ships with SDL2
-on: [ workflow_dispatch ]
+on: [ push, pull_request ]
 
 env:
   BUILD_TYPE: Release
@@ -17,9 +16,7 @@ jobs:
         run: cmake -E make_directory ${{runner.workspace}}/build
 
       - name: Install Dependencies
-        run: |
-          sudo apt update
-          sudo apt install build-essential qt6-base-dev qt6-multimedia-dev libqt6svg6-dev -y
+        run: brew install sdl3
 
       - name: Configure CMake
         shell: bash
