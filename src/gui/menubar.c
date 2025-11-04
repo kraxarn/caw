@@ -35,77 +35,80 @@ enum nk_symbol_type radio_symbol(const int checked)
 		: NK_SYMBOL_CIRCLE_OUTLINE;
 }
 
-void draw_settings_menu(app_state_t *state)
+void draw_view_menu(app_state_t *state)
 {
 	constexpr auto content_height = 340.F;
-	constexpr auto content_width = 380.F;
+	constexpr auto content_width = 180.F;
 
-	gui_settings_state_t *settings = &state->gui.settings;
+	// gui_settings_state_t *settings = &state->gui.settings;
 
-	if (nk_menu_begin_label(state->ctx, "Settings", 0, nk_vec2(content_width, content_height)))
+	if (nk_menu_begin_label(state->ctx, "View", 0, nk_vec2(content_width, content_height)))
 	{
 		constexpr auto item_height = 30.F;
+		nk_layout_row_dynamic(state->ctx, item_height, 1);
 
-		nk_layout_row_dynamic(state->ctx, item_height, 2);
+		nk_checkbox_label(state->ctx, "Settings", &state->gui.windows.settings);
 
-		nk_label(state->ctx, " Renderer", NK_TEXT_ALIGN_LEFT);
-		nk_label(state->ctx, " Audio driver", NK_TEXT_ALIGN_LEFT);
+		// nk_layout_row_dynamic(state->ctx, item_height, 2);
+		//
+		// nk_label(state->ctx, " Renderer", NK_TEXT_ALIGN_LEFT);
+		// nk_label(state->ctx, " Audio driver", NK_TEXT_ALIGN_LEFT);
+		//
+		// nk_layout_row_dynamic(state->ctx, content_height, 2);
 
-		nk_layout_row_dynamic(state->ctx, content_height, 2);
+		// if (nk_group_begin(state->ctx, "", 0))
+		// {
+		// 	nk_layout_row_dynamic(state->ctx, item_height, 1);
+		//
+		// 	if (nk_button_symbol_label(state->ctx, radio_symbol(settings->renderer == nullptr),
+		// 		"auto", NK_TEXT_ALIGN_LEFT))
+		// 	{
+		// 		settings->renderer = nullptr;
+		// 	}
+		//
+		// 	const auto num = SDL_GetNumRenderDrivers();
+		// 	for (auto i = 0; i < num; i++)
+		// 	{
+		// 		const auto driver = SDL_GetRenderDriver(i);
+		// 		const auto checked = settings->renderer != nullptr && SDL_strcmp(driver,
+		// 			settings->renderer) == 0;
+		//
+		// 		if (nk_button_symbol_label(state->ctx, radio_symbol(checked), driver,
+		// 			NK_TEXT_ALIGN_LEFT))
+		// 		{
+		// 			settings->renderer = driver;
+		// 		}
+		// 	}
+		//
+		// 	nk_group_end(state->ctx);
+		// }
 
-		if (nk_group_begin(state->ctx, "", 0))
-		{
-			nk_layout_row_dynamic(state->ctx, item_height, 1);
-
-			if (nk_button_symbol_label(state->ctx, radio_symbol(settings->renderer == nullptr),
-				"auto", NK_TEXT_ALIGN_LEFT))
-			{
-				settings->renderer = nullptr;
-			}
-
-			const auto num = SDL_GetNumRenderDrivers();
-			for (auto i = 0; i < num; i++)
-			{
-				const auto driver = SDL_GetRenderDriver(i);
-				const auto checked = settings->renderer != nullptr && SDL_strcmp(driver,
-					settings->renderer) == 0;
-
-				if (nk_button_symbol_label(state->ctx, radio_symbol(checked), driver,
-					NK_TEXT_ALIGN_LEFT))
-				{
-					settings->renderer = driver;
-				}
-			}
-
-			nk_group_end(state->ctx);
-		}
-
-		if (nk_group_begin(state->ctx, "", 0))
-		{
-			nk_layout_row_dynamic(state->ctx, item_height, 1);
-
-			if (nk_button_symbol_label(state->ctx, radio_symbol(settings->audio_driver == nullptr),
-				"auto", NK_TEXT_ALIGN_LEFT))
-			{
-				settings->audio_driver = nullptr;
-			}
-
-			const auto num = SDL_GetNumAudioDrivers();
-			for (auto i = 0; i < num; i++)
-			{
-				const auto driver = SDL_GetAudioDriver(i);
-				const auto checked = settings->audio_driver != nullptr && SDL_strcmp(driver,
-					settings->audio_driver) == 0;
-
-				if (nk_button_symbol_label(state->ctx, radio_symbol(checked), driver,
-					NK_TEXT_ALIGN_LEFT))
-				{
-					settings->audio_driver = driver;
-				}
-			}
-
-			nk_group_end(state->ctx);
-		}
+		// if (nk_group_begin(state->ctx, "", 0))
+		// {
+		// 	nk_layout_row_dynamic(state->ctx, item_height, 1);
+		//
+		// 	if (nk_button_symbol_label(state->ctx, radio_symbol(settings->audio_driver == nullptr),
+		// 		"auto", NK_TEXT_ALIGN_LEFT))
+		// 	{
+		// 		settings->audio_driver = nullptr;
+		// 	}
+		//
+		// 	const auto num = SDL_GetNumAudioDrivers();
+		// 	for (auto i = 0; i < num; i++)
+		// 	{
+		// 		const auto driver = SDL_GetAudioDriver(i);
+		// 		const auto checked = settings->audio_driver != nullptr && SDL_strcmp(driver,
+		// 			settings->audio_driver) == 0;
+		//
+		// 		if (nk_button_symbol_label(state->ctx, radio_symbol(checked), driver,
+		// 			NK_TEXT_ALIGN_LEFT))
+		// 		{
+		// 			settings->audio_driver = driver;
+		// 		}
+		// 	}
+		//
+		// 	nk_group_end(state->ctx);
+		// }
 
 		nk_menu_end(state->ctx);
 	}
@@ -152,16 +155,16 @@ void draw_menubar(app_state_t *state)
 		{
 			nk_layout_row_begin(state->ctx, NK_STATIC, 0, 4);
 			{
-				constexpr auto file_width = 48.F;
-				constexpr auto settings_width = 78.F;
-				constexpr auto debug_width = 58.F;
-				constexpr auto help_width = 64.F;
+				constexpr auto file_width = 50.F;
+				constexpr auto view_width = 50.F;
+				constexpr auto debug_width = 60.F;
+				constexpr auto help_width = 60.F;
 
 				nk_layout_row_push(state->ctx, file_width);
 				draw_file_menu(state);
 
-				nk_layout_row_push(state->ctx, settings_width);
-				draw_settings_menu(state);
+				nk_layout_row_push(state->ctx, view_width);
+				draw_view_menu(state);
 
 				nk_layout_row_push(state->ctx, debug_width);
 				draw_debug_menu(state);

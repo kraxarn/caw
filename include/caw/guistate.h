@@ -12,8 +12,14 @@ typedef struct gui_settings_state_t
 	const char *audio_driver;
 } gui_settings_state_t;
 
+typedef struct gui_windows_state_t
+{
+	bool settings;
+} gui_windows_state_t;
+
 typedef struct gui_state_t
 {
 	gui_output_state_t out;
 	gui_settings_state_t settings;
+	gui_windows_state_t windows;
 } gui_state_t;
