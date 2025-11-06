@@ -42,6 +42,8 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 		return SDL_APP_FAILURE;
 	}
 
+	state->result = SDL_APP_CONTINUE;
+
 	constexpr size_t app_info_len = 16;
 	char app_info[app_info_len];
 	SDL_snprintf(app_info, app_info_len, "%s v%s", APP_NAME, APP_VERSION);
@@ -118,7 +120,7 @@ SDL_AppResult SDL_AppIterate([[maybe_unused]] void *appstate)
 
 	nk_input_begin(state->ctx);
 
-	return SDL_APP_CONTINUE;
+	return state->result;
 }
 
 SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event)

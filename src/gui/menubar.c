@@ -7,8 +7,9 @@
 #include <SDL3/SDL_render.h>
 #include <SDL3/SDL_stdinc.h>
 #include <SDL3/SDL_audio.h>
+#include <SDL3/SDL_init.h>
 
-void draw_file_menu(const app_state_t *state)
+void draw_file_menu(app_state_t *state)
 {
 	constexpr auto content_height = 256.F;
 	constexpr auto content_width = 160.F;
@@ -22,7 +23,11 @@ void draw_file_menu(const app_state_t *state)
 		nk_menu_item_label(state->ctx, "Save", NK_TEXT_LEFT);
 		nk_menu_item_label(state->ctx, "Save As...", NK_TEXT_LEFT);
 		nk_menu_item_label(state->ctx, "Export...", NK_TEXT_LEFT);
-		nk_menu_item_label(state->ctx, "Quit", NK_TEXT_LEFT);
+
+		if (nk_menu_item_label(state->ctx, "Quit", NK_TEXT_LEFT))
+		{
+			state->result = SDL_APP_SUCCESS;
+		}
 
 		nk_menu_end(state->ctx);
 	}
