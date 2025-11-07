@@ -9,6 +9,7 @@ add_subdirectory(src)
 
 include(deps/nuklear.cmake)
 include(deps/maple-font.cmake)
+include(deps/sdl.cmake)
 
 target_include_directories(${PROJECT_NAME} PRIVATE
 	"${CMAKE_CURRENT_SOURCE_DIR}/include"
@@ -40,10 +41,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 
 find_package(SDL3 REQUIRED)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE
-	SDL3::SDL3
-	m
-)
+target_link_libraries(${PROJECT_NAME} PRIVATE m)
 
 include(GNUInstallDirs)
 install(TARGETS ${PROJECT_NAME}
