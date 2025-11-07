@@ -4,10 +4,12 @@
 #include "caw/ui.h"
 #include "caw/gui/apptheme.h"
 
-#include <SDL3/SDL_render.h>
-#include <SDL3/SDL_stdinc.h>
-#include <SDL3/SDL_audio.h>
 #include <SDL3/SDL_init.h>
+#include <SDL3/SDL_dialog.h>
+
+void SDLCALL on_file_opened(void *userdata, const char *const *filelist, int filter)
+{
+}
 
 void draw_file_menu(app_state_t *state)
 {
@@ -19,7 +21,17 @@ void draw_file_menu(app_state_t *state)
 		nk_layout_row_dynamic(state->ctx, SIZE_MENU_ITEM_HEIGHT, 1);
 
 		nk_menu_item_label(state->ctx, "New...", NK_TEXT_LEFT);
-		nk_menu_item_label(state->ctx, "Open...", NK_TEXT_LEFT);
+
+		if (nk_menu_item_label(state->ctx, "Open...", NK_TEXT_LEFT))
+		{
+			const SDL_DialogFileFilter filters[] = {
+				{"caw project", "caw"},
+			};
+
+			SDL_ShowOpenFileDialog(on_file_opened, nullptr, state->window, filters, 1, nullptr,
+				false);
+		}
+
 		nk_menu_item_label(state->ctx, "Save", NK_TEXT_LEFT);
 		nk_menu_item_label(state->ctx, "Save As...", NK_TEXT_LEFT);
 		nk_menu_item_label(state->ctx, "Export...", NK_TEXT_LEFT);
