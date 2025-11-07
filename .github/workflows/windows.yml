@@ -1,0 +1,31 @@
+name: Windows
+
+on: [ push, pull_request ]
+
+env:
+  BUILD_TYPE: Release
+  CMAKE_GENERATOR: "Visual Studio 17 2022"
+  CMAKE_ARCH: "x64"
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Create Build Environment
+        run: cmake -E make_directory ${{runner.workspace}}/build
+
+      - name: Configure CMake
+        run: cmake "${{env.GITHUB_WORKSPACE}}" -G "${{env.CMAKE_GENERATOR}}" -A ${{env.CMAKE_ARCH}} -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+
+      - name: Build
+        working-directory: ${{runner.workspace}}/build
+        run: cmake --build . --config $BUILD_TYPE
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: caw
+          path: ${{runner.workspace}}/build/caw.exe
