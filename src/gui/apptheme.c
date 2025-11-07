@@ -45,9 +45,9 @@ void set_style(struct nk_context *ctx)
 	table[NK_COLOR_BUTTON] = app_color_nk(COLOR_CONTROL_BACKGROUND);
 	table[NK_COLOR_BUTTON_HOVER] = app_color_nk(COLOR_CONTROL_HOVER);
 	table[NK_COLOR_BUTTON_ACTIVE] = app_color_nk(COLOR_CONTROL_ACTIVE);
-	table[NK_COLOR_TOGGLE] = app_color_nk(COLOR_INVALID);
-	table[NK_COLOR_TOGGLE_HOVER] = app_color_nk(COLOR_INVALID);
-	table[NK_COLOR_TOGGLE_CURSOR] = app_color_nk(COLOR_INVALID);
+	table[NK_COLOR_TOGGLE] = app_color_nk(COLOR_CONTROL_BACKGROUND);
+	table[NK_COLOR_TOGGLE_HOVER] = app_color_nk(COLOR_CONTROL_HOVER);
+	table[NK_COLOR_TOGGLE_CURSOR] = app_color_nk(COLOR_CONTROL_CURSOR);
 	table[NK_COLOR_SELECT] = app_color_nk(COLOR_INVALID);
 	table[NK_COLOR_SELECT_ACTIVE] = app_color_nk(COLOR_INVALID);
 	table[NK_COLOR_SLIDER] = app_color_nk(COLOR_INVALID);
@@ -57,7 +57,7 @@ void set_style(struct nk_context *ctx)
 	table[NK_COLOR_PROPERTY] = app_color_nk(COLOR_INVALID);
 	table[NK_COLOR_EDIT] = app_color_nk(COLOR_INVALID);
 	table[NK_COLOR_EDIT_CURSOR] = app_color_nk(COLOR_INVALID);
-	table[NK_COLOR_COMBO] = app_color_nk(COLOR_INVALID);
+	table[NK_COLOR_COMBO] = app_color_nk(COLOR_CONTROL_BACKGROUND);
 	table[NK_COLOR_CHART] = app_color_nk(COLOR_INVALID);
 	table[NK_COLOR_CHART_COLOR] = app_color_nk(COLOR_INVALID);
 	table[NK_COLOR_CHART_COLOR_HIGHLIGHT] = app_color_nk(COLOR_INVALID);
