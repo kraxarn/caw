@@ -6,5 +6,9 @@
 void draw_tracker(app_state_t *state)
 {
 	draw_menubar(state);
-	draw_settings_window(state);
+
+	if (state->gui.windows.settings)
+	{
+		draw_settings_window(state);
+	}
 }
