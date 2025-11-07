@@ -74,7 +74,12 @@ void draw_combo_audio_driver(app_state_t *state)
 
 void draw_settings_window(app_state_t *state)
 {
-	if (nk_begin(state->ctx, "Settings", nk_rect(50, 50, 220, 220),
+	constexpr auto width = 300.F;
+	constexpr auto height = 300.F;
+	const auto pos_x = ((float) state->gui.out.width / 2.F) - (width / 2.F);
+	const auto pos_y = ((float) state->gui.out.height / 2.F) - (height / 2.F);
+
+	if (nk_begin(state->ctx, "Settings", nk_rect(pos_x, pos_y, width, height),
 		NK_WINDOW_BORDER | NK_WINDOW_MOVABLE | NK_WINDOW_CLOSABLE | NK_WINDOW_SCALABLE))
 	{
 		nk_layout_row_dynamic(state->ctx, 30, 2);
