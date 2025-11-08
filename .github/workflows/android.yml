@@ -1,17 +1,12 @@
 name: Android
 
-on: [ workflow_dispatch ]
+on: [ push, pull_request ]
 
 env:
   BUILD_TYPE: Release
-  QT_VERSION: "6.9.0"
-  QT_ARCH: "android_arm64_v8a"
-  QT_HOST_ARCH: "linux_gcc_64"
-  QT_TARGET: "android"
-  # https://doc.qt.io/qt-6/android.html
   PLATFORM_VERSION: "35"
   BUILD_TOOLS_VERSION: "35.0.0"
-  NDK_VERSION: "27.2.12479018"
+  NDK_VERSION: "27.3.13750724"
 
 jobs:
   build:
@@ -31,31 +26,8 @@ jobs:
         with:
           packages: 'cmdline-tools;latest platform-tools platforms;android-${{env.PLATFORM_VERSION}} build-tools;${{env.BUILD_TOOLS_VERSION}} ndk;${{env.NDK_VERSION}}'
 
-      - name: Install Qt (Android)
-        uses: jurplel/install-qt-action@v3
-        with:
-          cache: true
-          version: ${{env.QT_VERSION}}
-          arch: ${{env.QT_ARCH}}
-          target: ${{env.QT_TARGET}}
-          modules: 'qtmultimedia'
-
-      - name: Install Qt (Linux)
-        uses: jurplel/install-qt-action@v3
-        with:
-          cache: true
-          version: ${{env.QT_VERSION}}
-          arch: ${{env.QT_HOST_ARCH}}
-          modules: 'qtmultimedia'
-
-      - name: Configure CMake
-        env:
-          QT_HOST_PATH: ${{runner.workspace}}/Qt/${{env.QT_VERSION}}/gcc_64
-          ANDROID_NDK_ROOT: /usr/local/lib/android/sdk/ndk/${{env.NDK_VERSION}}
-        run: ${{runner.workspace}}/Qt/$QT_VERSION/$QT_ARCH/bin/qt-cmake . -DCMAKE_BUILD_TYPE=$BUILD_TYPE
-
       - name: Build
-        run: cmake --build .
+        run: ./gradlew assembleDebug
 
       - name: Sign APK
         uses: r0adkll/sign-android-release@v1
