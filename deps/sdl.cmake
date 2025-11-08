@@ -9,8 +9,9 @@ find_package(SDL3 QUIET)
 
 if (SDL3_FOUND)
 	message(STATUS "Using system SDL")
-	target_link_libraries(${PROJECT_NAME} PRIVATE SDL3::SDL3)
 else ()
 	message(STATUS "Downloading SDL")
 	FetchContent_MakeAvailable(sdl)
 endif ()
+
+target_link_libraries(${PROJECT_NAME} PRIVATE SDL3::SDL3)
