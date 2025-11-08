@@ -83,3 +83,9 @@ CMakeLists.txt.user*
 
 cmake-build-*/
 .idea/
+
+android/app/.cxx
+android/app/build
+android/.gradle
+android/local.properties
+android/keystore.properties
