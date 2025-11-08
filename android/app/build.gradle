@@ -2,8 +2,6 @@ plugins {
      id 'com.android.application'
 }
 
-def buildWithCMake = true;
-
 def keystorePropertiesFile = rootProject.file("keystore.properties")
 def keystoreProperties = new Properties()
 if (keystorePropertiesFile.exists()) {
@@ -60,14 +58,8 @@ android {
             jniLibs.srcDir 'libs'
         }
         externalNativeBuild {
-            if (buildWithCMake) {
-                cmake {
-                    path "../../CMakeLists.txt"
-                }
-            } else {
-                ndkBuild {
-                    path 'jni/Android.mk'
-                }
+            cmake {
+                path "../../CMakeLists.txt"
             }
         }
 
