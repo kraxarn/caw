@@ -4,6 +4,12 @@ plugins {
 
 def buildWithCMake = true;
 
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
 android {
     namespace = "org.libsdl.app"
     compileSdkVersion 35
@@ -31,6 +37,12 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    signingConfigs {
+        keyAlias keystoreProperties["keyAlias"]
+        keyPassword keystoreProperties["keyPassword"]
+        storeFile file(keystoreProperties["storeFile"])
+        storePassword keystoreProperties["storePassword"]
     }
     applicationVariants.all { variant ->
         tasks["merge${variant.name.capitalize()}Assets"]

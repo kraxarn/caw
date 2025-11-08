@@ -18,22 +18,20 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Prepare signing
+        env:
+          KEYSTORE_FILE: ${{ secrets.KEYSTORE_FILE }}
+          KEYSTORE_PROPERTIES: ${{ secrets.KEYSTORE_PROPERTIES }}
+        run:
+          echo "$KEYSTORE_FILE" | base64 -d > "android/release.keystore"
+          echo "$KEYSTORE_PROPERTIES" > "android/keystore.properties"
+
       - name: Build
         working-directory: ${{runner.workspace}}/caw/android
-        run: ./gradlew assembleDebug
-
-      - name: Sign APK
-        uses: r0adkll/sign-android-release@v1
-        id: signApk
-        with:
-          releaseDirectory: android-build/build/outputs/apk/release
-          signingKeyBase64: ${{ secrets.KEYSTORE_FILE }}
-          alias: 'caw'
-          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEYSTORE_PASSWORD }}
+        run: ./gradlew assembleRelease
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: caw
-          path: ${{steps.signApk.outputs.signedReleaseFile}}
+          path: android/app/release
