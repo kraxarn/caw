@@ -4,7 +4,12 @@ project(caw LANGUAGES C VERSION 0.0.1)
 set(CMAKE_C_STANDARD 23)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
-add_executable(${PROJECT_NAME})
+if (ANDROID)
+	add_library(${PROJECT_NAME} SHARED)
+else ()
+	add_executable(${PROJECT_NAME})
+endif ()
+
 add_subdirectory(src)
 
 include(deps/nuklear.cmake)
