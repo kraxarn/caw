@@ -99,8 +99,10 @@ void draw_help_menu(const app_state_t *state)
 void draw_menubar(app_state_t *state)
 {
 	const auto rect = nk_rect(
-		SIZE_GAP, SIZE_GAP,
-		(float) state->gui.out.width - (SIZE_GAP * 2), SIZE_MENUBAR_HEIGHT
+		(float)state->gui.out.safe_area.x + SIZE_GAP,
+		(float)state->gui.out.safe_area.y + SIZE_GAP,
+		(float)state->gui.out.width - (SIZE_GAP * 2),
+		SIZE_MENUBAR_HEIGHT
 	);
 
 	nk_begin(state->ctx, "", rect, NK_WINDOW_BORDER);

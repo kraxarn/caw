@@ -1,9 +1,12 @@
 #pragma once
 
+#include <SDL3/SDL_rect.h>
+
 typedef struct gui_output_state_t
 {
 	int width;
 	int height;
+	SDL_Rect safe_area;
 } gui_output_state_t;
 
 typedef struct gui_settings_state_t

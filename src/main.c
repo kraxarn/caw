@@ -67,6 +67,12 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 		return SDL_APP_FAILURE;
 	}
 
+	if (!SDL_GetWindowSafeArea(state->window, &state->gui.out.safe_area))
+	{
+		SDL_LogError(LOG_CATEGORY_GUI, "SDL_GetWindowSafeArea error: %s", SDL_GetError());
+		return SDL_APP_FAILURE;
+	}
+
 	SDL_StartTextInput(state->window);
 
 	state->bg = app_color_sdl(COLOR_CLEAR);
@@ -143,6 +149,16 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event)
 				event->window.data1, event->window.data2);
 			state->gui.out.width = event->window.data1;
 			state->gui.out.height = event->window.data2;
+			break;
+
+		case SDL_EVENT_WINDOW_SAFE_AREA_CHANGED:
+			if (SDL_GetWindowSafeArea(state->window, &state->gui.out.safe_area))
+			{
+				SDL_LogDebug(LOG_CATEGORY_GUI, "Safe area changed: %d %d %d %d",
+					state->gui.out.safe_area.x, state->gui.out.safe_area.y,
+					state->gui.out.safe_area.w, state->gui.out.safe_area.h
+				);
+			}
 			break;
 	}
 
