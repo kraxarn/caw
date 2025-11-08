@@ -22,7 +22,7 @@ jobs:
         env:
           KEYSTORE_FILE: ${{ secrets.KEYSTORE_FILE }}
           KEYSTORE_PROPERTIES: ${{ secrets.KEYSTORE_PROPERTIES }}
-        run:
+        run: |
           echo "$KEYSTORE_FILE" | base64 -d > "android/release.keystore"
           echo "$KEYSTORE_PROPERTIES" > "android/keystore.properties"
 
