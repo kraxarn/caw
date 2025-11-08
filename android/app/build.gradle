@@ -39,10 +39,12 @@ android {
         }
     }
     signingConfigs {
-        keyAlias keystoreProperties["keyAlias"]
-        keyPassword keystoreProperties["keyPassword"]
-        storeFile file(keystoreProperties["storeFile"])
-        storePassword keystoreProperties["storePassword"]
+        config {
+            keyAlias keystoreProperties["keyAlias"]
+            keyPassword keystoreProperties["keyPassword"]
+            storeFile file(keystoreProperties["storeFile"])
+            storePassword keystoreProperties["storePassword"]
+        }
     }
     applicationVariants.all { variant ->
         tasks["merge${variant.name.capitalize()}Assets"]
