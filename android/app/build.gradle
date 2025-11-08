@@ -2,7 +2,7 @@ plugins {
      id 'com.android.application'
 }
 
-def buildWithCMake = project.hasProperty('BUILD_WITH_CMAKE');
+def buildWithCMake = true;
 
 android {
     namespace = "org.libsdl.app"
@@ -42,7 +42,7 @@ android {
         externalNativeBuild {
             if (buildWithCMake) {
                 cmake {
-                    path 'jni/CMakeLists.txt'
+                    path "../../CMakeLists.txt"
                 }
             } else {
                 ndkBuild {
