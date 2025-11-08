@@ -27,7 +27,7 @@ jobs:
           packages: 'cmdline-tools;latest platform-tools platforms;android-${{env.PLATFORM_VERSION}} build-tools;${{env.BUILD_TOOLS_VERSION}} ndk;${{env.NDK_VERSION}}'
 
       - name: Build
-        working-directory: ${{runner.workspace}}/android
+        working-directory: ${{runner.workspace}}/caw/android
         run: ./gradlew assembleDebug
 
       - name: Sign APK
