@@ -89,4 +89,4 @@ android/app/build
 android/.gradle
 android/local.properties
 android/keystore.properties
-android/**/*.java
+android/app/src/main/java/org/libsdl/app/*.java

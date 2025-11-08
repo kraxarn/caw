@@ -6,9 +6,6 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 
 if (ANDROID)
 	add_library(${PROJECT_NAME} SHARED)
-	set_target_properties(${PROJECT_NAME} PROPERTIES
-		OUTPUT_NAME "libmain"
-	)
 else ()
 	add_executable(${PROJECT_NAME})
 endif ()
