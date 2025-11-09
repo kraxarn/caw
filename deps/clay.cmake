@@ -1,10 +1,9 @@
 include(FetchContent)
 
-set(CLAY_INCLUDE_ALL_EXAMPLES OFF)
-
 FetchContent_Declare(clay
 	GIT_REPOSITORY https://github.com/nicbarker/clay.git
 	GIT_TAG v0.14
+	SOURCE_SUBDIR ignore
 )
 
 message(STATUS "Downloading Clay UI")
