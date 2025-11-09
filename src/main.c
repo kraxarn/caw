@@ -5,6 +5,8 @@
 #include "caw/renderer/nk_sdl.h"
 #include "caw/res/maplemononlregular.h"
 
+#include "clay.h"
+
 #define SDL_MAIN_USE_CALLBACKS
 #include <SDL3/SDL_main.h>
 
@@ -12,6 +14,7 @@
 #include <SDL3/SDL_render.h>
 #include <SDL3/SDL_stdinc.h>
 #include <SDL3/SDL_video.h>
+#include <SDL3_ttf/SDL_ttf.h>
 
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 720
@@ -85,6 +88,42 @@ void nk_state_event(app_state_t *state, const SDL_Event *event)
 	nk_sdl_handle_event(state->ctx, event);
 }
 
+Clay_Dimensions measure_text(const Clay_StringSlice text, const Clay_TextElementConfig *config, TTF_Font **fonts)
+{
+	TTF_Font *font = fonts[config->fontId];
+	TTF_SetFontSize(font, config->fontSize);
+
+	int width;
+	int height;
+	if (!TTF_GetStringSize(font, text.chars, text.length, &width, &height))
+	{
+		SDL_LogError(LOG_CATEGORY_GUI, "Font error: %s", SDL_GetError());
+	}
+
+	return (Clay_Dimensions){(float) width, (float) height};
+}
+
+void handle_clay_error(const Clay_ErrorData data)
+{
+	SDL_LogError(LOG_CATEGORY_GUI, "UI error %d: %s", data.errorType, data.errorText.chars);
+}
+
+void clay_state_init(app_state_t *state)
+{
+	const size_t mem_size = Clay_MinMemorySize();
+	state->arena = Clay_CreateArenaWithCapacityAndMemory(mem_size, SDL_malloc(mem_size));
+
+	Clay_Initialize(state->arena,
+		(Clay_Dimensions){
+			.width = (float) state->gui.out.width,
+			.height = (float) state->gui.out.height,
+		},
+		(Clay_ErrorHandler){
+			.errorHandlerFunction = handle_clay_error,
+		}
+	);
+}
+
 SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 	[[maybe_unused]] int argc, [[maybe_unused]] char **argv)
 {
@@ -146,6 +185,7 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 	SDL_SetRenderDrawColor(state->renderer, state->bg.r, state->bg.g, state->bg.b, state->bg.a);
 
 	nk_state_init(state);
+	clay_state_init(state);
 
 	*appstate = state;
 	return SDL_APP_CONTINUE;
@@ -187,6 +227,7 @@ void SDL_AppQuit(void *appstate, [[maybe_unused]] SDL_AppResult result)
 	const auto state = (app_state_t *) appstate;
 	if (state != nullptr)
 	{
+		SDL_free(state->arena.memory);
 		nk_sdl_shutdown(state->ctx);
 		SDL_DestroyRenderer(state->renderer);
 		SDL_DestroyWindow(state->window);
