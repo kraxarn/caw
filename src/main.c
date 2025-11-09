@@ -152,27 +152,8 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event)
 		return SDL_APP_FAILURE;
 	}
 
-	switch (event->type)
-	{
-		case SDL_EVENT_WINDOW_RESIZED:
-			SDL_LogDebug(LOG_CATEGORY_GUI, "Window resized: %d %d",
-				event->window.data1, event->window.data2);
-			state->gui.out.width = event->window.data1;
-			state->gui.out.height = event->window.data2;
-			break;
+	nk_state_event(state, event);
 
-		case SDL_EVENT_WINDOW_SAFE_AREA_CHANGED:
-			if (SDL_GetWindowSafeArea(state->window, &state->gui.out.safe_area))
-			{
-				SDL_LogDebug(LOG_CATEGORY_GUI, "Safe area changed: %d %d %d %d",
-					state->gui.out.safe_area.x, state->gui.out.safe_area.y,
-					state->gui.out.safe_area.w, state->gui.out.safe_area.h
-				);
-			}
-			break;
-	}
-
-	nk_sdl_handle_event(state->ctx, event);
 	return SDL_APP_CONTINUE;
 }
 
