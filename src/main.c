@@ -47,6 +47,19 @@ void nk_state_init(app_state_t *state)
 	set_style(state->ctx);
 }
 
+void nk_state_iterate(app_state_t *state)
+{
+	nk_input_end(state->ctx);
+
+	draw_tracker(state);
+
+	SDL_RenderClear(state->renderer);
+	nk_sdl_render(state->ctx, NK_ANTI_ALIASING_OFF);
+	SDL_RenderPresent(state->renderer);
+
+	nk_input_begin(state->ctx);
+}
+
 SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 	[[maybe_unused]] int argc, [[maybe_unused]] char **argv)
 {
@@ -121,15 +134,7 @@ SDL_AppResult SDL_AppIterate([[maybe_unused]] void *appstate)
 		return SDL_APP_FAILURE;
 	}
 
-	nk_input_end(state->ctx);
-
-	draw_tracker(state);
-
-	SDL_RenderClear(state->renderer);
-	nk_sdl_render(state->ctx, NK_ANTI_ALIASING_OFF);
-	SDL_RenderPresent(state->renderer);
-
-	nk_input_begin(state->ctx);
+	nk_state_iterate(state);
 
 	return state->result;
 }
