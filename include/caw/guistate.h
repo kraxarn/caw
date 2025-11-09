@@ -20,9 +20,16 @@ typedef struct gui_windows_state_t
 	bool settings;
 } gui_windows_state_t;
 
+typedef struct gui_timer_state_t
+{
+	uint64_t previous;
+	uint64_t dt;
+} gui_timer_state_t;
+
 typedef struct gui_state_t
 {
 	gui_output_state_t out;
 	gui_settings_state_t settings;
 	gui_windows_state_t windows;
+	gui_timer_state_t timer;
 } gui_state_t;

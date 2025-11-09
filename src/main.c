@@ -151,6 +151,7 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 	}
 
 	state->result = SDL_APP_CONTINUE;
+	state->gui.timer.previous = 0;
 
 	constexpr size_t app_info_len = 16;
 	char app_info[app_info_len];
@@ -198,6 +199,10 @@ SDL_AppResult SDL_AppIterate([[maybe_unused]] void *appstate)
 	{
 		return SDL_APP_FAILURE;
 	}
+
+	const uint64_t ticks = SDL_GetTicks();
+	state->gui.timer.dt = ticks - state->gui.timer.previous;
+	state->gui.timer.previous = ticks;
 
 	nk_state_iterate(state);
 
