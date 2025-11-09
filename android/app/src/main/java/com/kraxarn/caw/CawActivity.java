@@ -8,7 +8,7 @@ public class CawActivity extends SDLActivity {
 		return new String[] {
 			"SDL3",
 			"SDL3_ttf",
-			"SDL3_image"
+			"SDL3_image",
 			"caw"
 		};
 	}
