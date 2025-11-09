@@ -124,6 +124,41 @@ void clay_state_init(app_state_t *state)
 	);
 }
 
+void clay_state_iterate(app_state_t *state)
+{
+}
+
+void clay_state_event(const app_state_t *state, const SDL_Event *event)
+{
+	if (event->type == SDL_EVENT_WINDOW_RESIZED)
+	{
+		Clay_SetLayoutDimensions((Clay_Dimensions){
+			.width = (float) event->window.data1,
+			.height = (float) event->window.data2,
+		});
+		return;
+	}
+
+	if (event->type == SDL_EVENT_MOUSE_MOTION
+		|| event->type == SDL_EVENT_MOUSE_BUTTON_DOWN
+		|| event->type == SDL_EVENT_MOUSE_BUTTON_UP)
+	{
+		Clay_SetPointerState((Clay_Vector2){
+			.x = event->motion.x,
+			.y = event->motion.y,
+		}, (event->motion.state & SDL_BUTTON_LEFT) > 0);
+		return;
+	}
+
+	if (event->type == SDL_EVENT_MOUSE_WHEEL)
+	{
+		Clay_UpdateScrollContainers(true, (Clay_Vector2){
+			.x = event->wheel.x,
+			.y = event->wheel.y,
+		}, (float) state->gui.timer.dt / 1000.F);
+	}
+}
+
 SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 	[[maybe_unused]] int argc, [[maybe_unused]] char **argv)
 {
@@ -205,6 +240,7 @@ SDL_AppResult SDL_AppIterate([[maybe_unused]] void *appstate)
 	state->gui.timer.previous = ticks;
 
 	nk_state_iterate(state);
+	clay_state_iterate(state);
 
 	return state->result;
 }
@@ -223,6 +259,7 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event)
 	}
 
 	nk_state_event(state, event);
+	clay_state_event(state, event);
 
 	return SDL_APP_CONTINUE;
 }
