@@ -16,6 +16,37 @@
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 720
 
+void nk_state_init(app_state_t *state)
+{
+	SDL_StartTextInput(state->window);
+
+	int render_w;
+	int render_h;
+	int window_w;
+	int window_h;
+
+	SDL_GetCurrentRenderOutputSize(state->renderer, &render_w, &render_h);
+	SDL_GetWindowSize(state->window, &window_w, &window_h);
+	const auto scale_x = (float) render_w / (float) window_w;
+	const auto scale_y = (float) render_h / (float) window_h;
+	SDL_SetRenderScale(state->renderer, scale_x, scale_y);
+
+	state->ctx = nk_sdl_init(state->window, state->renderer);
+
+	const struct nk_font_config config = nk_font_config(0.F);
+	struct nk_font_atlas *atlas = nk_sdl_font_stash_begin(state->ctx);
+	struct nk_font *font = nk_font_atlas_add_from_memory(atlas,
+		maple_mono_nl_regular_ttf, maple_mono_nl_regular_ttf_len,
+		16 * scale_y, &config
+	);
+	nk_sdl_font_stash_end(state->ctx);
+
+	font->handle.height /= scale_y;
+	nk_style_set_font(state->ctx, &font->handle);
+
+	set_style(state->ctx);
+}
+
 SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 	[[maybe_unused]] int argc, [[maybe_unused]] char **argv)
 {
@@ -73,36 +104,10 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 		return SDL_APP_FAILURE;
 	}
 
-	SDL_StartTextInput(state->window);
-
 	state->bg = app_color_sdl(COLOR_CLEAR);
 	SDL_SetRenderDrawColor(state->renderer, state->bg.r, state->bg.g, state->bg.b, state->bg.a);
 
-	int render_w;
-	int render_h;
-	int window_w;
-	int window_h;
-
-	SDL_GetCurrentRenderOutputSize(state->renderer, &render_w, &render_h);
-	SDL_GetWindowSize(state->window, &window_w, &window_h);
-	const auto scale_x = (float) render_w / (float) window_w;
-	const auto scale_y = (float) render_h / (float) window_h;
-	SDL_SetRenderScale(state->renderer, scale_x, scale_y);
-
-	state->ctx = nk_sdl_init(state->window, state->renderer);
-
-	const struct nk_font_config config = nk_font_config(0.F);
-	struct nk_font_atlas *atlas = nk_sdl_font_stash_begin(state->ctx);
-	struct nk_font *font = nk_font_atlas_add_from_memory(atlas,
-		maple_mono_nl_regular_ttf, maple_mono_nl_regular_ttf_len,
-		16 * scale_y, &config
-	);
-	nk_sdl_font_stash_end(state->ctx);
-
-	font->handle.height /= scale_y;
-	nk_style_set_font(state->ctx, &font->handle);
-
-	set_style(state->ctx);
+	nk_state_init(state);
 
 	*appstate = state;
 	return SDL_APP_CONTINUE;
