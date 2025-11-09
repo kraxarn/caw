@@ -13,6 +13,7 @@ endif ()
 add_subdirectory(src)
 
 include(deps/nuklear.cmake)
+include(deps/clay.cmake)
 include(deps/maple-font.cmake)
 include(deps/sdl.cmake)
 

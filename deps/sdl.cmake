@@ -5,16 +5,34 @@ FetchContent_Declare(sdl
 	GIT_TAG release-3.2.26
 )
 
-find_package(SDL3 QUIET)
+FetchContent_Declare(sdl_ttf
+	GIT_REPOSITORY https://github.com/libsdl-org/SDL_ttf.git
+	GIT_TAG release-3.2.2
+)
 
-if (SDL3_FOUND)
+FetchContent_Declare(sdl_image
+	GIT_REPOSITORY https://github.com/libsdl-org/SDL_image.git
+	GIT_TAG release-3.2.4
+)
+
+find_package(SDL3 QUIET)
+find_package(SDL3_ttf QUIET)
+find_package(SDL3_image QUIET)
+
+if (SDL3_FOUND AND SDL3_ttf_FOUND AND SDL3_image_FOUND)
 	message(STATUS "Using system SDL")
 else ()
 	message(STATUS "Downloading SDL")
 	FetchContent_MakeAvailable(sdl)
+	FetchContent_MakeAvailable(sdl_ttf)
+	FetchContent_MakeAvailable(sdl_image)
 endif ()
 
-target_link_libraries(${PROJECT_NAME} PRIVATE SDL3::SDL3)
+target_link_libraries(${PROJECT_NAME} PRIVATE
+	SDL3::SDL3
+	SDL3_ttf::SDL3_ttf
+	SDL3_image::SDL3_image
+)
 
 if (ANDROID)
 	set(JAVA_SRC "${sdl_SOURCE_DIR}/android-project/app/src/main/java/org/libsdl/app")
