@@ -124,6 +124,8 @@ void clay_state_init(app_state_t *state)
 			.errorHandlerFunction = handle_clay_error,
 		}
 	);
+
+	Clay_SetMeasureTextFunction(measure_text, state->clay.fonts);
 }
 
 void clay_state_iterate(app_state_t *state)
