@@ -1,6 +1,7 @@
 #pragma once
 
 #include "caw/guistate.h"
+#include "caw/renderer/clayrenderersdl3.h"
 
 #include "clay.h"
 
@@ -14,6 +15,7 @@ typedef struct app_state_t
 	SDL_Renderer *renderer;
 	struct nk_context *ctx;
 	Clay_Arena arena;
+	Clay_SDL3RendererData clay;
 	SDL_Color bg;
 	gui_state_t gui;
 	SDL_AppResult result;
