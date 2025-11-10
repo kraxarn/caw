@@ -2,6 +2,7 @@
 #include "caw/logcategory.h"
 #include "caw/gui/apptheme.h"
 #include "caw/gui/tracker.h"
+#include "caw/renderer/clayrenderersdl3.h"
 #include "caw/renderer/nk_sdl.h"
 #include "caw/res/maplemononlregular.h"
 
@@ -88,8 +89,9 @@ void nk_state_event(app_state_t *state, const SDL_Event *event)
 	nk_sdl_handle_event(state->ctx, event);
 }
 
-Clay_Dimensions measure_text(const Clay_StringSlice text, const Clay_TextElementConfig *config, TTF_Font **fonts)
+Clay_Dimensions measure_text(Clay_StringSlice text, Clay_TextElementConfig *config, void *user_data)
 {
+	TTF_Font **fonts = user_data;
 	TTF_Font *font = fonts[config->fontId];
 	TTF_SetFontSize(font, config->fontSize);
 
@@ -206,6 +208,32 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 		return SDL_APP_FAILURE;
 	}
 
+	state->clay.renderer = state->renderer;
+	state->clay.textEngine = TTF_CreateRendererTextEngine(state->renderer);
+	if (state->clay.textEngine == nullptr)
+	{
+		SDL_LogError(LOG_CATEGORY_CORE, "%s", SDL_GetError());
+		return SDL_APP_FAILURE;
+	}
+
+	state->clay.fonts = SDL_malloc(sizeof(TTF_Font*));
+	if (state->clay.fonts == nullptr)
+	{
+		SDL_LogError(LOG_CATEGORY_CORE, "Font allocation error: %s", SDL_GetError());
+		return SDL_APP_FAILURE;
+	}
+
+	SDL_IOStream *font_data = SDL_IOFromConstMem(
+		maple_mono_nl_regular_ttf,
+		maple_mono_nl_regular_ttf_len
+	);
+	state->clay.fonts[0] = TTF_OpenFontIO(font_data, true, 24);
+	if (state->clay.fonts[0] == nullptr)
+	{
+		SDL_LogError(LOG_CATEGORY_CORE, "Font error: %s", SDL_GetError());
+		return SDL_APP_FAILURE;
+	}
+
 	if (!SDL_SetRenderVSync(state->renderer, 1))
 	{
 		SDL_LogWarn(LOG_CATEGORY_CORE, "SDL_SetRenderVSync error: %s", SDL_GetError());
@@ -276,6 +304,8 @@ void SDL_AppQuit(void *appstate, [[maybe_unused]] SDL_AppResult result)
 	if (state != nullptr)
 	{
 		SDL_free(state->arena.memory);
+		SDL_free((void*)state->clay.fonts);
+
 		nk_sdl_shutdown(state->ctx);
 		SDL_DestroyRenderer(state->renderer);
 		SDL_DestroyWindow(state->window);
