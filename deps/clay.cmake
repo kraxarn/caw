@@ -12,7 +12,3 @@ FetchContent_MakeAvailable(clay)
 target_include_directories(${PROJECT_NAME} PUBLIC
 	"${clay_SOURCE_DIR}"
 )
-
-target_sources(${PROJECT_NAME} PRIVATE
-	${clay_SOURCE_DIR}/renderers/SDL3/clay_renderer_SDL3.c
-)
