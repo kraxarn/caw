@@ -160,6 +160,14 @@ void clay_state_event(const app_state_t *state, const SDL_Event *event)
 			.x = event->wheel.x,
 			.y = event->wheel.y,
 		}, (float) state->gui.timer.dt / 1000.F);
+		return;
+	}
+
+	if (event->type == SDL_EVENT_KEY_DOWN
+		&& event->key.key == SDLK_I)
+	{
+		Clay_SetDebugModeEnabled((bool)!Clay_IsDebugModeEnabled());
+		return;
 	}
 }
 
