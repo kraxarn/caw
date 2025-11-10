@@ -2,6 +2,12 @@
 
 #include <SDL3/SDL_rect.h>
 
+typedef enum ui_mode_t
+{
+	UI_NUKLEAR,
+	UI_CLAY,
+} ui_mode_t;
+
 typedef struct gui_output_state_t
 {
 	int width;
@@ -32,4 +38,5 @@ typedef struct gui_state_t
 	gui_settings_state_t settings;
 	gui_windows_state_t windows;
 	gui_timer_state_t timer;
+	ui_mode_t mode;
 } gui_state_t;

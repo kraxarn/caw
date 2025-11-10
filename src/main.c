@@ -197,6 +197,7 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 
 	state->result = SDL_APP_CONTINUE;
 	state->gui.timer.previous = 0;
+	state->gui.mode = UI_NUKLEAR;
 
 	constexpr size_t app_info_len = 16;
 	char app_info[app_info_len];
@@ -275,8 +276,16 @@ SDL_AppResult SDL_AppIterate([[maybe_unused]] void *appstate)
 	state->gui.timer.dt = ticks - state->gui.timer.previous;
 	state->gui.timer.previous = ticks;
 
-	nk_state_iterate(state);
-	clay_state_iterate(state);
+	switch (state->gui.mode)
+	{
+		case UI_NUKLEAR:
+			nk_state_iterate(state);
+			break;
+
+		case UI_CLAY:
+			clay_state_iterate(state);
+			break;
+	}
 
 	return state->result;
 }
@@ -292,6 +301,14 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event)
 	if (state == nullptr)
 	{
 		return SDL_APP_FAILURE;
+	}
+
+	if (event->type == SDL_EVENT_KEY_DOWN
+		&& event->key.key == SDLK_SPACE)
+	{
+		state->gui.mode = state->gui.mode == UI_NUKLEAR
+			? UI_CLAY
+			: UI_NUKLEAR;
 	}
 
 	nk_state_event(state, event);
