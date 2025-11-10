@@ -178,6 +178,12 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 		return SDL_APP_FAILURE;
 	}
 
+	if (!TTF_Init())
+	{
+		SDL_LogError(LOG_CATEGORY_CORE, "Font initialisation error: %s", SDL_GetError());
+		return SDL_APP_FAILURE;
+	}
+
 	const auto state = (app_state_t *) SDL_malloc(sizeof(app_state_t));
 	if (state == nullptr)
 	{
@@ -276,4 +282,5 @@ void SDL_AppQuit(void *appstate, [[maybe_unused]] SDL_AppResult result)
 	}
 
 	SDL_free(appstate);
+	TTF_Quit();
 }
