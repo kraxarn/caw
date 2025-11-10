@@ -2,7 +2,6 @@
 #include "caw/logcategory.h"
 #include "caw/gui/apptheme.h"
 #include "caw/gui/tracker.h"
-#include "caw/renderer/clayrenderersdl3.h"
 #include "caw/renderer/nk_sdl.h"
 #include "caw/res/maplemononlregular.h"
 
