@@ -17,7 +17,7 @@
 #include <SDL3_ttf/SDL_ttf.h>
 
 #define WINDOW_WIDTH 1280
-#define WINDOW_HEIGHT 720
+#define WINDOW_HEIGHT 800
 
 void nk_state_init(app_state_t *state)
 {
