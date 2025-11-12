@@ -129,6 +129,15 @@ void clay_state_init(app_state_t *state)
 
 void clay_state_iterate(app_state_t *state)
 {
+	Clay_BeginLayout();
+	{
+		draw_tracker(state);
+	}
+	Clay_RenderCommandArray commands = Clay_EndLayout();
+
+	SDL_RenderClear(state->clay.renderer);
+	SDL_Clay_RenderClayCommands(&state->clay, &commands);
+	SDL_RenderPresent(state->clay.renderer);
 }
 
 void clay_state_event(const app_state_t *state, const SDL_Event *event)

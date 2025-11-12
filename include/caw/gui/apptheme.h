@@ -40,6 +40,8 @@ typedef enum app_size_t: Uint8
 	SIZE_GAP              = 6,
 	SIZE_MENUBAR_HEIGHT   = 38,
 	SIZE_MENU_ITEM_HEIGHT = 26,
+	SIZE_MENUBAR_GAP      = 25,
+	SIZE_MENUBAR_PADDING  = 10,
 } app_size_t;
 
 SDL_Color app_color_sdl(app_color_t color);
