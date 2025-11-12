@@ -2,4 +2,4 @@
 
 #include "caw/appstate.h"
 
-void draw_tracker(app_state_t *state);
+void tracker(app_state_t *state);

@@ -1,136 +1,200 @@
 #include "caw/gui/menubar.h"
 #include "caw/appstate.h"
 #include "caw/guistate.h"
-#include "caw/ui.h"
 #include "caw/gui/apptheme.h"
+
+#include "clay.h"
 
 #include <SDL3/SDL_init.h>
 #include <SDL3/SDL_dialog.h>
+
+typedef struct menu_item_config_t
+{
+	Clay_String text;
+	void (*clicked)(app_state_t *);
+} menu_item_config_t;
 
 void SDLCALL on_file_opened(void *userdata, const char *const *filelist, int filter)
 {
 }
 
-void draw_file_menu(app_state_t *state)
+Clay_TextElementConfig text_config()
 {
-	constexpr auto content_height = 256.F;
-	constexpr auto content_width = 160.F;
+	return (Clay_TextElementConfig){
+		.fontSize = 12,
+		.textColor = app_color_clay(COLOR_FOREGROUND),
+	};
+}
 
-	if (nk_menu_begin_label(state->ctx, "File", 0, nk_vec2(content_width, content_height)))
+void menu_item(const menu_item_config_t *item)
+{
+	const Clay_ElementDeclaration element = {
+		.layout = (Clay_LayoutConfig){
+			.padding = CLAY_PADDING_ALL(12)
+		},
+	};
+
+	CLAY_AUTO_ID(element)
 	{
-		nk_layout_row_dynamic(state->ctx, SIZE_MENU_ITEM_HEIGHT, 1);
+		CLAY_TEXT(item->text, CLAY_TEXT_CONFIG(text_config()));
+	}
+}
 
-		nk_menu_item_label(state->ctx, "New...", NK_TEXT_LEFT);
+void menu_items(const menu_item_config_t *items, const size_t count)
+{
+	const Clay_ElementDeclaration element = {
+		.layout = (Clay_LayoutConfig){
+			.layoutDirection = CLAY_TOP_TO_BOTTOM,
+			.sizing = (Clay_Sizing){
+				.width = CLAY_SIZING_FIXED(200),
+			},
+		},
+		.backgroundColor = app_color_clay(COLOR_WINDOW_BACKGROUND),
+	};
 
-		if (nk_menu_item_label(state->ctx, "Open...", NK_TEXT_LEFT))
+	CLAY_AUTO_ID(element)
+	{
+		for (size_t i = 0; i < count; i++)
 		{
-			const SDL_DialogFileFilter filters[] = {
-				{"caw project", "caw"},
-			};
-
-			SDL_ShowOpenFileDialog(on_file_opened, nullptr, state->window, filters, 1, nullptr,
-				false);
+			menu_item(items + i);
 		}
+	}
+}
 
-		nk_menu_item_label(state->ctx, "Save", NK_TEXT_LEFT);
-		nk_menu_item_label(state->ctx, "Save As...", NK_TEXT_LEFT);
-		nk_menu_item_label(state->ctx, "Export...", NK_TEXT_LEFT);
+void menu_content(const menu_item_config_t *items, const size_t count)
+{
+	const Clay_ElementDeclaration element = {
+		.floating = (Clay_FloatingElementConfig){
+			.attachTo = CLAY_ATTACH_TO_PARENT,
+			.attachPoints = (Clay_FloatingAttachPoints){
+				.parent = CLAY_ATTACH_POINT_LEFT_BOTTOM,
+			},
+		},
+		.layout = (Clay_LayoutConfig){
+			.sizing = (Clay_Sizing){
+				.width = CLAY_SIZING_FIXED(200),
+			},
+			.padding = (Clay_Padding){
+				.top = SIZE_MENUBAR_PADDING + SIZE_GAP,
+			},
+		},
+	};
 
-		if (nk_menu_item_label(state->ctx, "Quit", NK_TEXT_LEFT))
+	CLAY_AUTO_ID(element)
+	{
+		menu_items(items, count);
+	}
+}
+
+void menubar_item(app_state_t *state, const Clay_String item_id, const Clay_String text,
+	const menu_item_config_t *items, const size_t count)
+{
+	CLAY(CLAY_SID(item_id))
+	{
+		CLAY_TEXT(text, CLAY_TEXT_CONFIG(text_config()));
+
+		if (Clay_Hovered())
 		{
-			state->result = SDL_APP_SUCCESS;
+			menu_content(items, count);
 		}
-
-		nk_menu_end(state->ctx);
 	}
 }
 
-enum nk_symbol_type radio_symbol(const int checked)
+void on_file_open_clicked(app_state_t *state)
 {
-	return checked
-		? NK_SYMBOL_CIRCLE_SOLID
-		: NK_SYMBOL_CIRCLE_OUTLINE;
+	const SDL_DialogFileFilter filters[] = {
+		{"caw project", "caw"},
+	};
+
+	SDL_ShowOpenFileDialog(on_file_opened, nullptr, state->window, filters,
+		1, nullptr, false);
 }
 
-void draw_view_menu(app_state_t *state)
+void on_file_quit_clicked(app_state_t *state)
 {
-	constexpr auto content_height = 340.F;
-	constexpr auto content_width = 180.F;
-
-	if (nk_menu_begin_label(state->ctx, "View", 0, nk_vec2(content_width, content_height)))
-	{
-		constexpr auto item_height = 30.F;
-		nk_layout_row_dynamic(state->ctx, item_height, 1);
-
-		nk_checkbox_label(state->ctx, "Settings", &state->gui.windows.settings);
-
-		nk_menu_end(state->ctx);
-	}
+	state->result = SDL_APP_SUCCESS;
 }
 
-void draw_debug_menu(const app_state_t *state)
+void file_menu(app_state_t *state)
 {
-	constexpr auto content_height = 256.F;
-	constexpr auto content_width = 160.F;
-
-	if (nk_menu_begin_label(state->ctx, "Debug", 0, nk_vec2(content_width, content_height)))
-	{
-		nk_layout_row_dynamic(state->ctx, SIZE_MENU_ITEM_HEIGHT, 1);
-
-		nk_menu_end(state->ctx);
-	}
-}
-
-void draw_help_menu(const app_state_t *state)
-{
-	constexpr auto content_height = 256.F;
-	constexpr auto content_width = 160.F;
-
-	if (nk_menu_begin_label(state->ctx, "Help", 0, nk_vec2(content_width, content_height)))
-	{
-		nk_layout_row_dynamic(state->ctx, SIZE_MENU_ITEM_HEIGHT, 1);
-
-		nk_menu_item_label(state->ctx, "About...", NK_TEXT_LEFT);
-
-		nk_menu_end(state->ctx);
-	}
-}
-
-void draw_menubar(app_state_t *state)
-{
-	const auto rect = nk_rect(
-		(float)state->gui.out.safe_area.x + SIZE_GAP,
-		(float)state->gui.out.safe_area.y + SIZE_GAP,
-		(float)state->gui.out.width - (SIZE_GAP * 2),
-		SIZE_MENUBAR_HEIGHT
-	);
-
-	nk_begin(state->ctx, "", rect, NK_WINDOW_BORDER);
-	{
-		nk_menubar_begin(state->ctx);
-		{
-			nk_layout_row_begin(state->ctx, NK_STATIC, 0, 4);
+	menubar_item(state, CLAY_STRING("FileMenuItem"), CLAY_STRING("File"),
+		(menu_item_config_t[]){
+			{.text = CLAY_STRING("New..."),},
 			{
-				constexpr auto file_width = 50.F;
-				constexpr auto view_width = 50.F;
-				constexpr auto debug_width = 60.F;
-				constexpr auto help_width = 60.F;
+				.text = CLAY_STRING("Open..."),
+				.clicked = on_file_open_clicked,
+			},
+			{.text = CLAY_STRING("Save"),},
+			{.text = CLAY_STRING("Save As..."),},
+			{.text = CLAY_STRING("Export..."),},
+			{
+				.text = CLAY_STRING("Quit"),
+				.clicked = on_file_quit_clicked,
+			},
+		}, 6
+	);
+}
 
-				nk_layout_row_push(state->ctx, file_width);
-				draw_file_menu(state);
+// enum nk_symbol_type radio_symbol(const int checked)
+// {
+// 	return checked
+// 		? NK_SYMBOL_CIRCLE_SOLID
+// 		: NK_SYMBOL_CIRCLE_OUTLINE;
+// }
 
-				nk_layout_row_push(state->ctx, view_width);
-				draw_view_menu(state);
+void on_view_settings_clicked(app_state_t *state)
+{
+	state->gui.windows.settings = (bool) !state->gui.windows.settings;
+}
 
-				nk_layout_row_push(state->ctx, debug_width);
-				draw_debug_menu(state);
+void view_menu(app_state_t *state)
+{
+	menubar_item(state, CLAY_STRING("ViewMenuItem"), CLAY_STRING("View"),
+		(menu_item_config_t[]){
+			{.text = CLAY_STRING("Settings"),},
+		}, 1
+	);
+}
 
-				nk_layout_row_push(state->ctx, help_width);
-				draw_help_menu(state);
-			}
-			nk_layout_row_end(state->ctx);
-		}
-		nk_menubar_end(state->ctx);
+void debug_menu(app_state_t *state)
+{
+	menubar_item(state, CLAY_STRING("DebugMenuItem"), CLAY_STRING("Debug"),
+		(menu_item_config_t[]){
+		}, 0
+	);
+}
+
+void help_menu(app_state_t *state)
+{
+	menubar_item(state, CLAY_STRING("HelpMenuItem"), CLAY_STRING("Help"),
+		(menu_item_config_t[]){
+			{.text = CLAY_STRING("About..."),},
+		}, 1
+	);
+}
+
+void menubar(app_state_t *state)
+{
+	const Clay_LayoutConfig layout = {
+		.layoutDirection = CLAY_LEFT_TO_RIGHT,
+		.sizing = (Clay_Sizing){
+			.width = CLAY_SIZING_GROW(0),
+			.height = CLAY_SIZING_FIXED(0),
+		},
+		.padding = CLAY_PADDING_ALL(SIZE_MENUBAR_PADDING),
+		.childGap = SIZE_MENUBAR_GAP,
+	};
+
+	const Clay_ElementDeclaration element = {
+		.layout = layout,
+		.backgroundColor = app_color_clay(COLOR_WINDOW_BACKGROUND),
+	};
+
+	CLAY(CLAY_ID("Menubar"), element)
+	{
+		file_menu(state);
+		view_menu(state);
+		debug_menu(state);
+		help_menu(state);
 	}
-	nk_end(state->ctx);
 }
