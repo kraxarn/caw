@@ -14,6 +14,12 @@ typedef struct menu_item_config_t
 	void (*clicked)(app_state_t *);
 } menu_item_config_t;
 
+typedef struct menu_item_hover_data_t
+{
+	menu_item_config_t config;
+	app_state_t *state;
+} menu_item_hover_data_t;
+
 void SDLCALL on_file_opened(void *userdata, const char *const *filelist, int filter)
 {
 }
@@ -26,7 +32,23 @@ Clay_TextElementConfig text_config()
 	};
 }
 
-void menu_item(const menu_item_config_t *item)
+void on_menu_item_hover([[maybe_unused]] Clay_ElementId element_id,
+	Clay_PointerData pointer_data, intptr_t user_data)
+{
+	if (pointer_data.state == CLAY_POINTER_DATA_PRESSED_THIS_FRAME)
+	{
+		const auto data = (menu_item_hover_data_t *) user_data;
+		if (data->config.clicked != nullptr)
+		{
+			data->config.clicked(data->state);
+			data->state->gui.menu.visible = false;
+		}
+	}
+
+	SDL_free((void *) user_data);
+}
+
+void menu_item(app_state_t *state, const menu_item_config_t *item)
 {
 	Clay_ElementDeclaration element = {
 		.layout = (Clay_LayoutConfig){
@@ -39,12 +61,17 @@ void menu_item(const menu_item_config_t *item)
 	CLAY_AUTO_ID(element)
 	{
 		element.layout.padding = CLAY_PADDING_ALL(SIZE_MENU_ITEM_PADDING);
-		element.cornerRadius = CLAY_CORNER_RADIUS(SIZE_CORNER_RADIUS),
+		element.cornerRadius = CLAY_CORNER_RADIUS(SIZE_CORNER_RADIUS);
 		element.backgroundColor = app_color_clay(
 			(int) Clay_Hovered()
 				? COLOR_CONTROL_HOVER
 				: COLOR_CONTROL_ACTIVE
 		);
+
+		menu_item_hover_data_t *data = SDL_malloc(sizeof(menu_item_hover_data_t));
+		data->config = *item;
+		data->state = state;
+		Clay_OnHover(on_menu_item_hover, (intptr_t) data);
 
 		CLAY_AUTO_ID(element)
 		{
@@ -53,7 +80,7 @@ void menu_item(const menu_item_config_t *item)
 	}
 }
 
-void menu_items(const menu_item_config_t *items, const size_t count)
+void menu_items(app_state_t *state, const menu_item_config_t *items, const size_t count)
 {
 	const Clay_ElementDeclaration element = {
 		.layout = (Clay_LayoutConfig){
@@ -70,12 +97,12 @@ void menu_items(const menu_item_config_t *items, const size_t count)
 	{
 		for (size_t i = 0; i < count; i++)
 		{
-			menu_item(items + i);
+			menu_item(state, items + i);
 		}
 	}
 }
 
-void menu_content(const menu_item_config_t *items, const size_t count)
+void menu_content(app_state_t *state, const menu_item_config_t *items, const size_t count)
 {
 	const Clay_ElementDeclaration element = {
 		.floating = (Clay_FloatingElementConfig){
@@ -96,7 +123,7 @@ void menu_content(const menu_item_config_t *items, const size_t count)
 
 	CLAY_AUTO_ID(element)
 	{
-		menu_items(items, count);
+		menu_items(state, items, count);
 	}
 }
 
@@ -121,7 +148,7 @@ void menubar_item(app_state_t *state, const Clay_String item_id, const Clay_Stri
 
 		if ((int) state->gui.menu.visible && state->gui.menu.current.id == Clay__HashString(item_id, 0).id)
 		{
-			menu_content(items, count);
+			menu_content(state, items, count);
 		}
 	}
 }
