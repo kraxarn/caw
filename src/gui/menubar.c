@@ -39,6 +39,7 @@ void menu_item(const menu_item_config_t *item)
 	CLAY_AUTO_ID(element)
 	{
 		element.layout.padding = CLAY_PADDING_ALL(SIZE_MENU_ITEM_PADDING);
+		element.cornerRadius = CLAY_CORNER_RADIUS(SIZE_CORNER_RADIUS),
 		element.backgroundColor = app_color_clay(
 			(int) Clay_Hovered()
 				? COLOR_CONTROL_HOVER
@@ -61,6 +62,7 @@ void menu_items(const menu_item_config_t *items, const size_t count)
 				.width = CLAY_SIZING_FIXED(200),
 			},
 		},
+		.cornerRadius = CLAY_CORNER_RADIUS(SIZE_CORNER_RADIUS),
 		.backgroundColor = app_color_clay(COLOR_WINDOW_BACKGROUND),
 	};
 
@@ -199,18 +201,17 @@ void help_menu(app_state_t *state)
 
 void menubar(app_state_t *state)
 {
-	const Clay_LayoutConfig layout = {
-		.layoutDirection = CLAY_LEFT_TO_RIGHT,
-		.sizing = (Clay_Sizing){
-			.width = CLAY_SIZING_GROW(0),
-			.height = CLAY_SIZING_FIXED(0),
-		},
-		.padding = CLAY_PADDING_ALL(SIZE_MENUBAR_PADDING),
-		.childGap = SIZE_MENUBAR_GAP,
-	};
-
 	const Clay_ElementDeclaration element = {
-		.layout = layout,
+		.layout = (Clay_LayoutConfig){
+			.layoutDirection = CLAY_LEFT_TO_RIGHT,
+			.sizing = (Clay_Sizing){
+				.width = CLAY_SIZING_GROW(0),
+				.height = CLAY_SIZING_FIXED(0),
+			},
+			.padding = CLAY_PADDING_ALL(SIZE_MENUBAR_PADDING),
+			.childGap = SIZE_MENUBAR_GAP,
+		},
+		.cornerRadius = CLAY_CORNER_RADIUS(SIZE_CORNER_RADIUS),
 		.backgroundColor = app_color_clay(COLOR_WINDOW_BACKGROUND),
 	};
 
