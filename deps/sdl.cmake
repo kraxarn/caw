@@ -19,7 +19,7 @@ if (SDL3_FOUND AND SDL3_ttf_FOUND AND SDL3_image_FOUND)
 else ()
 	message(STATUS "Downloading SDL")
 	FetchContent_MakeAvailable(sdl)
-	include(sdl_image.cmake)
+	include(deps/sdl_image.cmake)
 	FetchContent_MakeAvailable(sdl_ttf)
 endif ()
 
