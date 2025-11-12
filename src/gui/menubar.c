@@ -28,15 +28,27 @@ Clay_TextElementConfig text_config()
 
 void menu_item(const menu_item_config_t *item)
 {
-	const Clay_ElementDeclaration element = {
+	Clay_ElementDeclaration element = {
 		.layout = (Clay_LayoutConfig){
-			.padding = CLAY_PADDING_ALL(12)
+			.sizing = (Clay_Sizing){
+				.width = CLAY_SIZING_GROW(0),
+			},
 		},
 	};
 
 	CLAY_AUTO_ID(element)
 	{
-		CLAY_TEXT(item->text, CLAY_TEXT_CONFIG(text_config()));
+		element.layout.padding = CLAY_PADDING_ALL(SIZE_MENU_ITEM_PADDING);
+		element.backgroundColor = app_color_clay(
+			(int) Clay_Hovered()
+				? COLOR_CONTROL_HOVER
+				: COLOR_CONTROL_ACTIVE
+		);
+
+		CLAY_AUTO_ID(element)
+		{
+			CLAY_TEXT(item->text, CLAY_TEXT_CONFIG(text_config()));
+		}
 	}
 }
 
@@ -86,14 +98,14 @@ void menu_content(const menu_item_config_t *items, const size_t count)
 	}
 }
 
-void on_menubar_item_hover(Clay_ElementId element_id,Clay_PointerData pointer_data, intptr_t user_data)
+void on_menubar_item_hover(Clay_ElementId element_id, Clay_PointerData pointer_data, intptr_t user_data)
 {
 	const auto state = (app_state_t *) user_data;
 	state->gui.menu.current = element_id;
 
 	if (pointer_data.state == CLAY_POINTER_DATA_PRESSED_THIS_FRAME)
 	{
-		state->gui.menu.visible = (bool)!state->gui.menu.visible;
+		state->gui.menu.visible = (bool) !state->gui.menu.visible;
 	}
 }
 
