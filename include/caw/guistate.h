@@ -1,5 +1,7 @@
 #pragma once
 
+#include "clay.h"
+
 #include <stdint.h>
 #include <SDL3/SDL_rect.h>
 
@@ -18,9 +20,14 @@ typedef struct gui_settings_state_t
 
 typedef struct gui_windows_state_t
 {
-	bool menu;
 	bool settings;
 } gui_windows_state_t;
+
+typedef struct gui_menu_state_t
+{
+	bool visible;
+	Clay_ElementId current;
+} gui_menu_state_t;
 
 typedef struct gui_timer_state_t
 {
@@ -33,5 +40,6 @@ typedef struct gui_state_t
 	gui_output_state_t out;
 	gui_settings_state_t settings;
 	gui_windows_state_t windows;
+	gui_menu_state_t menu;
 	gui_timer_state_t timer;
 } gui_state_t;

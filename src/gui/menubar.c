@@ -86,13 +86,14 @@ void menu_content(const menu_item_config_t *items, const size_t count)
 	}
 }
 
-void on_menubar_item_hover([[maybe_unused]] Clay_ElementId element_id,
-	Clay_PointerData pointer_data, intptr_t user_data)
+void on_menubar_item_hover(Clay_ElementId element_id,Clay_PointerData pointer_data, intptr_t user_data)
 {
+	const auto state = (app_state_t *) user_data;
+	state->gui.menu.current = element_id;
+
 	if (pointer_data.state == CLAY_POINTER_DATA_PRESSED_THIS_FRAME)
 	{
-		const auto state = (app_state_t *) user_data;
-		state->gui.windows.menu = true;
+		state->gui.menu.visible = (bool)!state->gui.menu.visible;
 	}
 }
 
@@ -104,7 +105,7 @@ void menubar_item(app_state_t *state, const Clay_String item_id, const Clay_Stri
 		CLAY_TEXT(text, CLAY_TEXT_CONFIG(text_config()));
 		Clay_OnHover(on_menubar_item_hover, (intptr_t) state);
 
-		if ((int) state->gui.windows.menu && (int) Clay_Hovered())
+		if ((int) state->gui.menu.visible && state->gui.menu.current.id == Clay__HashString(item_id, 0).id)
 		{
 			menu_content(items, count);
 		}
