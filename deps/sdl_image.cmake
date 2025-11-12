@@ -1,0 +1,25 @@
+FetchContent_Declare(sdl_image
+	GIT_REPOSITORY https://github.com/libsdl-org/SDL_image.git
+	GIT_TAG release-3.2.4
+)
+
+set(SDLIMAGE_ANI OFF)
+set(SDLIMAGE_AVIF OFF)
+set(SDLIMAGE_BMP OFF)
+set(SDLIMAGE_GIF OFF)
+set(SDLIMAGE_JPG OFF)
+set(SDLIMAGE_JXL OFF)
+set(SDLIMAGE_LBM OFF)
+set(SDLIMAGE_PCX OFF)
+set(SDLIMAGE_PNG OFF)
+set(SDLIMAGE_PNM OFF)
+set(SDLIMAGE_QOI OFF)
+set(SDLIMAGE_SVG ON)
+set(SDLIMAGE_TGA OFF)
+set(SDLIMAGE_TIF OFF)
+set(SDLIMAGE_WEBP OFF)
+set(SDLIMAGE_XCF OFF)
+set(SDLIMAGE_XPM OFF)
+set(SDLIMAGE_XV OFF)
+
+FetchContent_MakeAvailable(sdl_image)
