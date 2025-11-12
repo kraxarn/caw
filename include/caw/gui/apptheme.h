@@ -1,7 +1,5 @@
 #pragma once
 
-#include "caw/ui.h"
-
 #include "clay.h"
 
 #include <SDL3/SDL_pixels.h>
@@ -46,8 +44,4 @@ typedef enum app_size_t: Uint8
 
 SDL_Color app_color_sdl(app_color_t color);
 
-struct nk_color app_color_nk(app_color_t color);
-
 Clay_Color app_color_clay(app_color_t color);
-
-void set_style(struct nk_context *ctx);

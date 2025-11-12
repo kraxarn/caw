@@ -2,7 +2,6 @@
 #include "caw/logcategory.h"
 #include "caw/gui/apptheme.h"
 #include "caw/gui/tracker.h"
-#include "caw/renderer/nk_sdl.h"
 #include "caw/res/maplemononlregular.h"
 
 #include "clay.h"
@@ -18,50 +17,6 @@
 
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 800
-
-void nk_state_init(app_state_t *state)
-{
-	SDL_StartTextInput(state->window);
-
-	int render_w;
-	int render_h;
-	int window_w;
-	int window_h;
-
-	SDL_GetCurrentRenderOutputSize(state->renderer, &render_w, &render_h);
-	SDL_GetWindowSize(state->window, &window_w, &window_h);
-	const auto scale_x = (float) render_w / (float) window_w;
-	const auto scale_y = (float) render_h / (float) window_h;
-	SDL_SetRenderScale(state->renderer, scale_x, scale_y);
-
-	state->ctx = nk_sdl_init(state->window, state->renderer);
-
-	const struct nk_font_config config = nk_font_config(0.F);
-	struct nk_font_atlas *atlas = nk_sdl_font_stash_begin(state->ctx);
-	struct nk_font *font = nk_font_atlas_add_from_memory(atlas,
-		maple_mono_nl_regular_ttf, maple_mono_nl_regular_ttf_len,
-		16 * scale_y, &config
-	);
-	nk_sdl_font_stash_end(state->ctx);
-
-	font->handle.height /= scale_y;
-	nk_style_set_font(state->ctx, &font->handle);
-
-	set_style(state->ctx);
-}
-
-void nk_state_iterate(app_state_t *state)
-{
-	nk_input_end(state->ctx);
-
-	draw_tracker(state);
-
-	SDL_RenderClear(state->renderer);
-	nk_sdl_render(state->ctx, NK_ANTI_ALIASING_OFF);
-	SDL_RenderPresent(state->renderer);
-
-	nk_input_begin(state->ctx);
-}
 
 void nk_state_event(app_state_t *state, const SDL_Event *event)
 {
@@ -84,8 +39,6 @@ void nk_state_event(app_state_t *state, const SDL_Event *event)
 			}
 			break;
 	}
-
-	nk_sdl_handle_event(state->ctx, event);
 }
 
 Clay_Dimensions measure_text(Clay_StringSlice text, Clay_TextElementConfig *config, void *user_data)
@@ -131,7 +84,7 @@ void clay_state_iterate(app_state_t *state)
 {
 	Clay_BeginLayout();
 	{
-		draw_tracker(state);
+		tracker(state);
 	}
 	Clay_RenderCommandArray commands = Clay_EndLayout();
 
@@ -174,7 +127,7 @@ void clay_state_event(const app_state_t *state, const SDL_Event *event)
 	if (event->type == SDL_EVENT_KEY_DOWN
 		&& event->key.key == SDLK_I)
 	{
-		Clay_SetDebugModeEnabled((bool)!Clay_IsDebugModeEnabled());
+		Clay_SetDebugModeEnabled((bool) !Clay_IsDebugModeEnabled());
 		return;
 	}
 }
@@ -213,7 +166,6 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 
 	state->result = SDL_APP_CONTINUE;
 	state->gui.timer.previous = 0;
-	state->gui.mode = UI_NUKLEAR;
 
 	constexpr size_t app_info_len = 16;
 	char app_info[app_info_len];
@@ -235,7 +187,7 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 		return SDL_APP_FAILURE;
 	}
 
-	state->clay.fonts = SDL_malloc(sizeof(TTF_Font*));
+	state->clay.fonts = SDL_malloc(sizeof(TTF_Font *));
 	if (state->clay.fonts == nullptr)
 	{
 		SDL_LogError(LOG_CATEGORY_CORE, "Font allocation error: %s", SDL_GetError());
@@ -273,7 +225,6 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 	state->bg = app_color_sdl(COLOR_CLEAR);
 	SDL_SetRenderDrawColor(state->renderer, state->bg.r, state->bg.g, state->bg.b, state->bg.a);
 
-	nk_state_init(state);
 	clay_state_init(state);
 
 	*appstate = state;
@@ -292,16 +243,7 @@ SDL_AppResult SDL_AppIterate([[maybe_unused]] void *appstate)
 	state->gui.timer.dt = ticks - state->gui.timer.previous;
 	state->gui.timer.previous = ticks;
 
-	switch (state->gui.mode)
-	{
-		case UI_NUKLEAR:
-			nk_state_iterate(state);
-			break;
-
-		case UI_CLAY:
-			clay_state_iterate(state);
-			break;
-	}
+	clay_state_iterate(state);
 
 	return state->result;
 }
@@ -319,14 +261,6 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event)
 		return SDL_APP_FAILURE;
 	}
 
-	if (event->type == SDL_EVENT_KEY_DOWN
-		&& event->key.key == SDLK_SPACE)
-	{
-		state->gui.mode = state->gui.mode == UI_NUKLEAR
-			? UI_CLAY
-			: UI_NUKLEAR;
-	}
-
 	nk_state_event(state, event);
 	clay_state_event(state, event);
 
@@ -339,9 +273,8 @@ void SDL_AppQuit(void *appstate, [[maybe_unused]] SDL_AppResult result)
 	if (state != nullptr)
 	{
 		SDL_free(state->arena.memory);
-		SDL_free((void*)state->clay.fonts);
+		SDL_free((void *) state->clay.fonts);
 
-		nk_sdl_shutdown(state->ctx);
 		SDL_DestroyRenderer(state->renderer);
 		SDL_DestroyWindow(state->window);
 	}
