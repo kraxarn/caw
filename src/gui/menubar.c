@@ -86,14 +86,25 @@ void menu_content(const menu_item_config_t *items, const size_t count)
 	}
 }
 
+void on_menubar_item_hover([[maybe_unused]] Clay_ElementId element_id,
+	Clay_PointerData pointer_data, intptr_t user_data)
+{
+	if (pointer_data.state == CLAY_POINTER_DATA_PRESSED_THIS_FRAME)
+	{
+		const auto state = (app_state_t *) user_data;
+		state->gui.windows.menu = true;
+	}
+}
+
 void menubar_item(app_state_t *state, const Clay_String item_id, const Clay_String text,
 	const menu_item_config_t *items, const size_t count)
 {
 	CLAY(CLAY_SID(item_id))
 	{
 		CLAY_TEXT(text, CLAY_TEXT_CONFIG(text_config()));
+		Clay_OnHover(on_menubar_item_hover, (intptr_t) state);
 
-		if (Clay_Hovered())
+		if ((int) state->gui.windows.menu && (int) Clay_Hovered())
 		{
 			menu_content(items, count);
 		}

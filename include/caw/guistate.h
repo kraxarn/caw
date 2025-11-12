@@ -18,6 +18,7 @@ typedef struct gui_settings_state_t
 
 typedef struct gui_windows_state_t
 {
+	bool menu;
 	bool settings;
 } gui_windows_state_t;
 
