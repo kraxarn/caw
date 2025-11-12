@@ -15,6 +15,9 @@ jobs:
       - name: Create Build Environment
         run: cmake -E make_directory ${{runner.workspace}}/build
 
+      - name: Install Dependencies
+        run: /home/linuxbrew/.linuxbrew/bin/brew install sdl3 sdl3_ttf sdl3_image
+
       - name: Configure CMake
         working-directory: ${{runner.workspace}}/build
         run: |
