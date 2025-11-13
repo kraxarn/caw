@@ -8,7 +8,6 @@ on: [ push, pull_request ]
 env:
   BUILD_TYPE: Release
   CMAKE_GENERATOR: "MinGW Makefiles"
-  CMAKE_ARCH: "x64"
 
 jobs:
   build:
