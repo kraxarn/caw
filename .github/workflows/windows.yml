@@ -1,7 +1,9 @@
 name: Windows
 
-# VS 2022 doesn't support C23
-on: [ workflow_dispatch ]
+# VS 2022 (2026?) doesn't support C23
+# (but the included version of gcc does)
+
+on: [ push, pull_request ]
 
 env:
   BUILD_TYPE: Release
