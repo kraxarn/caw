@@ -18,10 +18,10 @@ jobs:
 
       - name: Checkout submodules
         shell: pwsh
-        run: ${{runner.workspace}}/SDL_ttf/external/Get-GitModules.ps1
+        run: ${{runner.workspace}}\SDL_ttf\external\Get-GitModules.ps1
 
       - name: Create Build Environment
-        run: cmake -E make_directory ${{runner.workspace}}/build
+        run: cmake -E make_directory ${{runner.workspace}}\build
 
       - name: Configure CMake
         run: cmake -B build -G "${{env.CMAKE_GENERATOR}}" -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
@@ -33,4 +33,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: caw
-          path: ${{runner.workspace}}/build/caw.exe
+          path: ${{runner.workspace}}\build\caw.exe
