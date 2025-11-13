@@ -16,9 +16,8 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - name: Checkout submodules
-        shell: pwsh
-        run: ${{runner.workspace}}\SDL_ttf\external\Get-GitModules.ps1
+      - name: Install Dependencies
+        run: vcpkg install freetype
 
       - name: Create Build Environment
         run: cmake -E make_directory ${{runner.workspace}}\build
