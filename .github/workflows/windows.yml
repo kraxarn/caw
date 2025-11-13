@@ -5,7 +5,7 @@ on: [ workflow_dispatch ]
 
 env:
   BUILD_TYPE: Release
-  CMAKE_GENERATOR: "Visual Studio 17 2022"
+  CMAKE_GENERATOR: "MinGW Makefiles"
   CMAKE_ARCH: "x64"
 
 jobs:
