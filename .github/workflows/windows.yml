@@ -21,12 +21,10 @@ jobs:
         run: cmake -E make_directory ${{runner.workspace}}/build
 
       - name: Configure CMake
-        working-directory: ${{runner.workspace}}/build
-        run: cmake .. -G "${{env.CMAKE_GENERATOR}}" -A ${{env.CMAKE_ARCH}} -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+        run: cmake -B build -G "${{env.CMAKE_GENERATOR}}" -A ${{env.CMAKE_ARCH}} -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
       - name: Build
-        working-directory: ${{runner.workspace}}/build
-        run: cmake --build . --config $BUILD_TYPE
+        run: cmake --build build --config $BUILD_TYPE
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
