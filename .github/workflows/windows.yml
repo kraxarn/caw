@@ -21,7 +21,7 @@ jobs:
         run: cmake -E make_directory ${{runner.workspace}}/build
 
       - name: Configure CMake
-        run: cmake -B build -G "${{env.CMAKE_GENERATOR}}" -A ${{env.CMAKE_ARCH}} -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+        run: cmake -B build -G "${{env.CMAKE_GENERATOR}}" -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
       - name: Build
         run: cmake --build build --config $BUILD_TYPE
