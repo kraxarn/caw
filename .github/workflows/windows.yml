@@ -16,8 +16,14 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - name: Install Dependencies
-        run: vcpkg install freetype
+        # This is probably not how you should do this, but I'm not a Windows developer
+      - name: Install FreeType
+        shell: bash
+        run: |
+          git clone -b VER-2-14-1 https://gitlab.freedesktop.org/freetype/freetype.git
+          cd freetype
+          ./configure
+          make install
 
       - name: Create Build Environment
         run: cmake -E make_directory ${{runner.workspace}}\build
