@@ -23,10 +23,25 @@ typedef struct gui_windows_state_t
 	bool settings;
 } gui_windows_state_t;
 
+typedef struct app_state_t app_state_t;
+
+typedef struct menu_item_config_t
+{
+	Clay_String text;
+	void (*clicked)(app_state_t *);
+} menu_item_config_t;
+
+typedef struct menu_item_hover_data_t
+{
+	menu_item_config_t config;
+	app_state_t *state;
+} menu_item_hover_data_t;
+
 typedef struct gui_menu_state_t
 {
 	bool visible;
 	Clay_ElementId current;
+	menu_item_hover_data_t current_item;
 } gui_menu_state_t;
 
 typedef struct gui_timer_state_t

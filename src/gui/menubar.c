@@ -8,18 +8,6 @@
 #include <SDL3/SDL_init.h>
 #include <SDL3/SDL_dialog.h>
 
-typedef struct menu_item_config_t
-{
-	Clay_String text;
-	void (*clicked)(app_state_t *);
-} menu_item_config_t;
-
-typedef struct menu_item_hover_data_t
-{
-	menu_item_config_t config;
-	app_state_t *state;
-} menu_item_hover_data_t;
-
 void SDLCALL on_file_opened(void *userdata, const char *const *filelist, int filter)
 {
 }
@@ -44,8 +32,6 @@ void on_menu_item_hover([[maybe_unused]] Clay_ElementId element_id,
 			data->state->gui.menu.visible = false;
 		}
 	}
-
-	SDL_free((void *) user_data);
 }
 
 void menu_item(app_state_t *state, const menu_item_config_t *item)
@@ -68,10 +54,9 @@ void menu_item(app_state_t *state, const menu_item_config_t *item)
 				: COLOR_CONTROL_ACTIVE
 		);
 
-		menu_item_hover_data_t *data = SDL_malloc(sizeof(menu_item_hover_data_t));
-		data->config = *item;
-		data->state = state;
-		Clay_OnHover(on_menu_item_hover, (intptr_t) data);
+		state->gui.menu.current_item.config = *item;
+		state->gui.menu.current_item.state = state;
+		Clay_OnHover(on_menu_item_hover, (intptr_t) &state->gui.menu.current_item);
 
 		CLAY_AUTO_ID(element)
 		{
