@@ -2,7 +2,7 @@
 #include "caw/logcategory.h"
 #include "caw/gui/apptheme.h"
 #include "caw/gui/tracker.h"
-#include "caw/res/maplemononlregular.h"
+#include "caw/res/fonts.h"
 
 #include "clay.h"
 
@@ -196,7 +196,7 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 
 	SDL_IOStream *font_data = SDL_IOFromConstMem(
 		maple_mono_nl_regular_ttf,
-		maple_mono_nl_regular_ttf_len
+		sizeof(maple_mono_nl_regular_ttf)
 	);
 	state->clay.fonts[0] = TTF_OpenFontIO(font_data, true, 24);
 	if (state->clay.fonts[0] == nullptr)

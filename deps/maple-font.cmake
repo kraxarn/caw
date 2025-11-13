@@ -16,10 +16,6 @@ endif ()
 message(STATUS "Downloading fonts")
 FetchContent_MakeAvailable(maple_font)
 
-execute_process(COMMAND
-	xxd --include
-	--name "maple_mono_nl_regular_ttf"
-	"${maple_font_SOURCE_DIR}/MapleMonoNL-Regular.ttf"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/caw/res/maplemononlregular.h"
-	RESULT_VARIABLE xxd_result
+target_compile_definitions(${PROJECT_NAME} PRIVATE
+	MAPLE_MONO_NL_REGULAR_TTF="${maple_font_SOURCE_DIR}/MapleMonoNL-Regular.ttf"
 )
