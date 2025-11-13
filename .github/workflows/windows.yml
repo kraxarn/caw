@@ -2,8 +2,9 @@ name: Windows
 
 # VS 2022 (2026?) doesn't support C23
 # (but the included version of gcc does)
+# (i dunno how to install freetype in that case >.<)
 
-on: [ push, pull_request ]
+on: [ workflow_dispatch ]
 
 env:
   BUILD_TYPE: Release
