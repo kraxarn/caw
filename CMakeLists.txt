@@ -14,6 +14,7 @@ add_subdirectory(src)
 
 include(deps/clay.cmake)
 include(deps/maple-font.cmake)
+include(deps/mdi.cmake)
 include(deps/sdl.cmake)
 
 target_include_directories(${PROJECT_NAME} PRIVATE
