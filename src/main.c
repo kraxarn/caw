@@ -240,6 +240,7 @@ SDL_AppResult SDL_AppIterate([[maybe_unused]] void *appstate)
 	}
 
 	const uint64_t ticks = SDL_GetTicks();
+	state->gui.timer.fps = 1000.F / (float) (ticks - state->gui.timer.previous);
 	state->gui.timer.dt = ticks - state->gui.timer.previous;
 	state->gui.timer.previous = ticks;
 

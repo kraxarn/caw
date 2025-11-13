@@ -33,6 +33,8 @@ typedef struct gui_timer_state_t
 {
 	uint64_t previous;
 	uint64_t dt;
+	float fps;
+	char text[32];
 } gui_timer_state_t;
 
 typedef struct gui_state_t

@@ -226,6 +226,37 @@ void help_menu(app_state_t *state)
 	);
 }
 
+void spacer()
+{
+	const Clay_ElementDeclaration element = {
+		.layout = (Clay_LayoutConfig){
+			.sizing = (Clay_Sizing){
+				.width = CLAY_SIZING_GROW(0),
+			},
+		},
+	};
+
+	CLAY_AUTO_ID(element)
+	{
+	}
+}
+
+void fps_counter(app_state_t *state)
+{
+	CLAY_AUTO_ID()
+	{
+		SDL_snprintf(state->gui.timer.text, 32, "%.0f FPS (%llu ms)",
+			state->gui.timer.fps, state->gui.timer.dt
+		);
+		const Clay_String str = {
+			.isStaticallyAllocated = false,
+			.length = SDL_strlen(state->gui.timer.text),
+			.chars = state->gui.timer.text
+		};
+		CLAY_TEXT(str, CLAY_TEXT_CONFIG(text_config()));
+	}
+}
+
 void menubar(app_state_t *state)
 {
 	const Clay_ElementDeclaration element = {
@@ -248,5 +279,7 @@ void menubar(app_state_t *state)
 		view_menu(state);
 		debug_menu(state);
 		help_menu(state);
+		spacer();
+		fps_counter(state);
 	}
 }
