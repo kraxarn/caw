@@ -245,9 +245,7 @@ void fps_counter(app_state_t *state)
 {
 	CLAY_AUTO_ID()
 	{
-		SDL_snprintf(state->gui.timer.text, 32, "%.0f FPS (%llu ms)",
-			state->gui.timer.fps, state->gui.timer.dt
-		);
+		SDL_snprintf(state->gui.timer.text, 8, "%.0f FPS", state->gui.timer.fps);
 		const Clay_String str = {
 			.isStaticallyAllocated = false,
 			.length = SDL_strlen(state->gui.timer.text),
