@@ -210,7 +210,13 @@ void view_menu(app_state_t *state)
 {
 	menubar_item(state, CLAY_STRING("ViewMenuItem"), CLAY_STRING("View"),
 		(menu_item_config_t[]){
-			{.text = CLAY_STRING("Settings"),},
+			{
+				.icon = (int)state->gui.windows.settings
+						? "checkbox-marked"
+						: "checkbox-blank-outline",
+				.text = CLAY_STRING("Settings"),
+				.clicked = on_view_settings_clicked,
+			},
 		}, 1
 	);
 }

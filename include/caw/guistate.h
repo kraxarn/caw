@@ -27,6 +27,7 @@ typedef struct app_state_t app_state_t;
 
 typedef struct menu_item_config_t
 {
+	const char *icon;
 	Clay_String text;
 	void (*clicked)(app_state_t *);
 } menu_item_config_t;
