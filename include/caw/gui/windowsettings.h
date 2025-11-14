@@ -2,4 +2,4 @@
 
 #include "caw/appstate.h"
 
-void draw_settings_window(app_state_t *state);
+void settings_window(app_state_t *state);

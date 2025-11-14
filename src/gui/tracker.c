@@ -10,10 +10,10 @@
 void tracker(app_state_t *state)
 {
 	const Clay_Padding padding = {
-		.left = SIZE_GAP + state->gui.out.safe_area.x,
-		.right = SIZE_GAP + (state->gui.out.width - state->gui.out.safe_area.w - state->gui.out.safe_area.x),
-		.top = SIZE_GAP + state->gui.out.safe_area.y,
-		.bottom = SIZE_GAP + (state->gui.out.height - state->gui.out.safe_area.h - state->gui.out.safe_area.y),
+		.left = GAP_DEFAULT + state->gui.out.safe_area.x,
+		.right = GAP_DEFAULT + (state->gui.out.width - state->gui.out.safe_area.w - state->gui.out.safe_area.x),
+		.top = GAP_DEFAULT + state->gui.out.safe_area.y,
+		.bottom = GAP_DEFAULT + (state->gui.out.height - state->gui.out.safe_area.h - state->gui.out.safe_area.y),
 	};
 
 	const Clay_LayoutConfig layout = {
@@ -33,5 +33,10 @@ void tracker(app_state_t *state)
 	CLAY(CLAY_ID("Container"), element)
 	{
 		menubar(state);
+	}
+
+	if (state->gui.windows.settings)
+	{
+		settings_window(state);
 	}
 }

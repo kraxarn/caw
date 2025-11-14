@@ -35,11 +35,20 @@ typedef enum app_color_t: Uint32
 
 typedef enum app_size_t: Uint8
 {
-	SIZE_GAP               = 5,
-	SIZE_MENUBAR_GAP       = 25,
-	SIZE_MENUBAR_PADDING   = 10,
-	SIZE_MENU_ITEM_PADDING = 10,
-	SIZE_CORNER_RADIUS     = 4,
+	FONT_SIZE_BODY  = 12,
+	FONT_SIZE_TITLE = 16,
+
+	GAP_DEFAULT = 5,
+	GAP_MENUBAR = 25,
+
+	CORNER_RADIUS_DEFAULT = 4,
+	CORNER_RADIUS_WINDOW  = 10,
+
+	PADDING_MENUBAR             = 10,
+	PADDING_MENU_ITEM      = 10,
+	PADDING_WINDOW_HEADER_Y     = 8,
+	PADDING_WINDOW_HEADER_X     = 12,
+	PADDING_WINDOW_CONTENT = 10,
 } app_size_t;
 
 SDL_Color app_color_sdl(app_color_t color);

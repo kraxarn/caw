@@ -47,15 +47,15 @@ void menu_item(app_state_t *state, const menu_item_config_t *item)
 
 	CLAY_AUTO_ID(element)
 	{
-		element.layout.padding = CLAY_PADDING_ALL(SIZE_MENU_ITEM_PADDING);
-		element.cornerRadius = CLAY_CORNER_RADIUS(SIZE_CORNER_RADIUS);
+		element.layout.padding = CLAY_PADDING_ALL(PADDING_MENU_ITEM);
+		element.cornerRadius = CLAY_CORNER_RADIUS(CORNER_RADIUS_DEFAULT);
 		element.backgroundColor = app_color_clay(
 			(int) Clay_Hovered()
 				? COLOR_CONTROL_HOVER
 				: COLOR_CONTROL_ACTIVE
 		);
 		element.layout.childAlignment.y = CLAY_ALIGN_Y_CENTER;
-		element.layout.childGap = SIZE_GAP;
+		element.layout.childGap = GAP_DEFAULT;
 
 		state->gui.menu.current_item.config = *item;
 		state->gui.menu.current_item.state = state;
@@ -95,7 +95,7 @@ void menu_items(app_state_t *state, const menu_item_config_t *items, const size_
 				.width = CLAY_SIZING_FIXED(200),
 			},
 		},
-		.cornerRadius = CLAY_CORNER_RADIUS(SIZE_CORNER_RADIUS),
+		.cornerRadius = CLAY_CORNER_RADIUS(CORNER_RADIUS_DEFAULT),
 		.backgroundColor = app_color_clay(COLOR_WINDOW_BACKGROUND),
 	};
 
@@ -122,7 +122,7 @@ void menu_content(app_state_t *state, const menu_item_config_t *items, const siz
 				.width = CLAY_SIZING_FIXED(200),
 			},
 			.padding = (Clay_Padding){
-				.top = SIZE_MENUBAR_PADDING + SIZE_GAP,
+				.top = PADDING_MENUBAR + GAP_DEFAULT,
 			},
 		},
 	};
@@ -269,10 +269,10 @@ void menubar(app_state_t *state)
 				.width = CLAY_SIZING_GROW(0),
 				.height = CLAY_SIZING_FIXED(0),
 			},
-			.padding = CLAY_PADDING_ALL(SIZE_MENUBAR_PADDING),
-			.childGap = SIZE_MENUBAR_GAP,
+			.padding = CLAY_PADDING_ALL(PADDING_MENUBAR),
+			.childGap = GAP_MENUBAR,
 		},
-		.cornerRadius = CLAY_CORNER_RADIUS(SIZE_CORNER_RADIUS),
+		.cornerRadius = CLAY_CORNER_RADIUS(CORNER_RADIUS_DEFAULT),
 		.backgroundColor = app_color_clay(COLOR_WINDOW_BACKGROUND),
 	};
 
