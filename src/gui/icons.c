@@ -4,6 +4,7 @@
 #include <SDL3/SDL_log.h>
 #include <SDL3/SDL_properties.h>
 #include <SDL3/SDL_render.h>
+#include <SDL3/SDL_surface.h>
 #include <SDL3_image/SDL_image.h>
 
 static SDL_PropertiesID props = 0;
@@ -42,13 +43,23 @@ SDL_Texture *icon(SDL_Renderer *renderer, const char *name)
 		return nullptr;
 	}
 
-	SDL_Texture *tex = IMG_LoadTextureTyped_IO(renderer, src, true, "SVG");
-	if (tex == nullptr)
+	SDL_Surface *surface = IMG_LoadSVG_IO(src);
+	if (surface == nullptr)
 	{
 		SDL_LogError(LOG_CATEGORY_ICONS, "Failed to parse icon: %s", SDL_GetError());
 		return nullptr;
 	}
 
-	SDL_SetPointerPropertyWithCleanup(props, name, tex, cleanup, nullptr);
-	return tex;
+	SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+	if (texture == nullptr)
+	{
+		SDL_LogError(LOG_CATEGORY_ICONS, "Failed to create icon: %s", SDL_GetError());
+		SDL_DestroySurface(surface);
+		return nullptr;
+	}
+
+	SDL_DestroySurface(surface);
+
+	SDL_SetPointerPropertyWithCleanup(props, name, texture, cleanup, nullptr);
+	return texture;
 }
