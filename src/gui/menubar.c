@@ -194,13 +194,6 @@ void file_menu(app_state_t *state)
 	);
 }
 
-// enum nk_symbol_type radio_symbol(const int checked)
-// {
-// 	return checked
-// 		? NK_SYMBOL_CIRCLE_SOLID
-// 		: NK_SYMBOL_CIRCLE_OUTLINE;
-// }
-
 void on_view_settings_clicked(app_state_t *state)
 {
 	state->gui.windows.settings = (bool) !state->gui.windows.settings;
