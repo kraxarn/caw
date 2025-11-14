@@ -2,7 +2,7 @@ include(FetchContent)
 
 FetchContent_Declare(clay
 	GIT_REPOSITORY https://github.com/kraxarn/clay.git
-	GIT_TAG 9abe80070b15c604dcdbf86c327ae66c3a357545
+	GIT_TAG 328cb9c899140e7ac7bf7a0d39f2121f2efba12c
 	SOURCE_SUBDIR ignore
 )
 
