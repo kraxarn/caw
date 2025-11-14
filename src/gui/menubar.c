@@ -2,11 +2,12 @@
 #include "caw/appstate.h"
 #include "caw/guistate.h"
 #include "caw/gui/apptheme.h"
+#include "caw/res/icons.h"
 
 #include "clay.h"
 
-#include <SDL3/SDL_init.h>
 #include <SDL3/SDL_dialog.h>
+#include <SDL3/SDL_init.h>
 
 void SDLCALL on_file_opened(void *userdata, const char *const *filelist, int filter)
 {
@@ -53,6 +54,8 @@ void menu_item(app_state_t *state, const menu_item_config_t *item)
 				? COLOR_CONTROL_HOVER
 				: COLOR_CONTROL_ACTIVE
 		);
+		element.layout.childAlignment.y = CLAY_ALIGN_Y_CENTER;
+		element.layout.childGap = SIZE_GAP;
 
 		state->gui.menu.current_item.config = *item;
 		state->gui.menu.current_item.state = state;
@@ -60,6 +63,24 @@ void menu_item(app_state_t *state, const menu_item_config_t *item)
 
 		CLAY_AUTO_ID(element)
 		{
+			if (item->icon != nullptr)
+			{
+				const Clay_ElementDeclaration icon_element = {
+					.layout = (Clay_LayoutConfig){
+						.sizing = (Clay_Sizing){
+							.width = CLAY_SIZING_FIXED(24),
+							.height = CLAY_SIZING_FIXED(24),
+						},
+					},
+					.image = (Clay_ImageElementConfig){
+						.imageData = icon(state->renderer, item->icon),
+					},
+				};
+				CLAY_AUTO_ID(icon_element)
+				{
+				}
+			}
+
 			CLAY_TEXT(item->text, CLAY_TEXT_CONFIG(text_config()));
 		}
 	}
