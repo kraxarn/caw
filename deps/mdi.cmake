@@ -44,5 +44,5 @@ string(APPEND OUTPUT
 	"}\n"
 )
 
-set(FILENAME "${CMAKE_CURRENT_SOURCE_DIR}/src/gui/bakedicons.c")
+set(FILENAME "${CMAKE_CURRENT_SOURCE_DIR}/src/res/bakedicons.c")
 file(WRITE "${FILENAME}" "${OUTPUT}")
