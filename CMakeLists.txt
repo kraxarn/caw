@@ -45,8 +45,6 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 	WIN32_EXECUTABLE TRUE
 )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE m)
-
 include(GNUInstallDirs)
 install(TARGETS ${PROJECT_NAME}
 	BUNDLE DESTINATION .
