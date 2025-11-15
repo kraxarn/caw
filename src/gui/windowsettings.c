@@ -7,6 +7,8 @@
 #include <SDL3/SDL_render.h>
 #include <SDL3/SDL_audio.h>
 
+typedef const char *(*cb_item_callback)(int index);
+
 Clay_TextElementConfig title_text_config()
 {
 	return (Clay_TextElementConfig){
@@ -23,73 +25,25 @@ Clay_TextElementConfig body_text_config()
 	};
 }
 
-// void draw_combo_renderer(app_state_t *state)
-// {
-// 	nk_label(state->ctx, "Renderer", NK_TEXT_LEFT);
-//
-// 	gui_settings_state_t *settings = &state->gui.settings;
-//
-// 	const auto renderer = settings->renderer != nullptr
-// 		? settings->renderer
-// 		: "auto";
-//
-// 	if (nk_combo_begin_label(state->ctx, renderer, nk_vec2(150, 300)))
-// 	{
-// 		nk_layout_row_dynamic(state->ctx, 30, 1);
-//
-// 		if (nk_combo_item_label(state->ctx, "auto",
-// 			NK_TEXT_ALIGN_LEFT))
-// 		{
-// 			settings->renderer = "auto";
-// 		}
-//
-// 		const auto num = SDL_GetNumRenderDrivers();
-// 		for (auto i = 0; i < num; i++)
-// 		{
-// 			const auto driver = SDL_GetRenderDriver(i);
-// 			if (nk_combo_item_label(state->ctx, driver,
-// 				NK_TEXT_ALIGN_LEFT))
-// 			{
-// 				settings->renderer = driver;
-// 			}
-// 		}
-//
-// 		nk_combo_end(state->ctx);
-// 	}
-// }
+const char *render_driver(const int index)
+{
+	if (index == 0)
+	{
+		return "auto";
+	}
 
-// void draw_combo_audio_driver(app_state_t *state)
-// {
-// 	nk_label(state->ctx, "Audio driver", NK_TEXT_LEFT);
-//
-// 	gui_settings_state_t *settings = &state->gui.settings;
-//
-// 	const auto audio_driver = settings->audio_driver != nullptr
-// 		? settings->audio_driver
-// 		: "auto";
-//
-// 	if (nk_combo_begin_label(state->ctx, audio_driver, nk_vec2(150, 300)))
-// 	{
-// 		nk_layout_row_dynamic(state->ctx, 30, 1);
-//
-// 		if (nk_combo_item_label(state->ctx, "auto", NK_TEXT_ALIGN_LEFT))
-// 		{
-// 			settings->audio_driver = "auto";
-// 		}
-//
-// 		const auto num = SDL_GetNumAudioDrivers();
-// 		for (auto i = 0; i < num; i++)
-// 		{
-// 			const auto driver = SDL_GetAudioDriver(i);
-// 			if (nk_combo_item_label(state->ctx, driver, NK_TEXT_ALIGN_LEFT))
-// 			{
-// 				settings->audio_driver = driver;
-// 			}
-// 		}
-//
-// 		nk_combo_end(state->ctx);
-// 	}
-// }
+	return SDL_GetRenderDriver(index - 1);
+}
+
+const char *audio_driver(const int index)
+{
+	if (index == 0)
+	{
+		return "auto";
+	}
+
+	return SDL_GetAudioDriver(index - 1);
+}
 
 void window_title(Clay_String text)
 {
@@ -171,7 +125,7 @@ void combobox_option(Clay_String text)
 	}
 }
 
-void combobox_options()
+void combobox_options(const cb_item_callback items, const int size)
 {
 	const Clay_ElementDeclaration element = {
 		.floating = (Clay_FloatingElementConfig){
@@ -184,7 +138,7 @@ void combobox_options()
 			.layoutDirection = CLAY_TOP_TO_BOTTOM,
 			.sizing = (Clay_Sizing){
 				.width = CLAY_SIZING_FIXED(WIDTH_COMBOBOX),
-				.height = CLAY_SIZING_GROW(HEIGHT_COMBOBOX * 5),
+				.height = CLAY_SIZING_GROW(HEIGHT_COMBOBOX * size),
 			},
 		},
 		.backgroundColor = app_color_clay(COLOR_CONTROL_BACKGROUND),
@@ -196,11 +150,15 @@ void combobox_options()
 
 	CLAY_AUTO_ID(element)
 	{
-		combobox_option(CLAY_STRING("Option 1"));
-		combobox_option(CLAY_STRING("Option 2"));
-		combobox_option(CLAY_STRING("Option 3"));
-		combobox_option(CLAY_STRING("Option 4"));
-		combobox_option(CLAY_STRING("Option 5"));
+		for (auto i = 0; i < size; i++)
+		{
+			const char *item = items(i);
+			combobox_option((Clay_String){
+				.isStaticallyAllocated = true,
+				.length = SDL_strlen(item),
+				.chars = item,
+			});
+		}
 	}
 }
 
@@ -225,7 +183,7 @@ void on_combobox_hover(Clay_ElementId element_id,
 	}
 }
 
-void combobox(app_state_t *state, Clay_String id)
+void combobox(app_state_t *state, Clay_String id, const cb_item_callback items, const int size)
 {
 	const int is_open = state->gui.windows.current_combobox.id == Clay_GetElementId(id).id;
 
@@ -257,7 +215,7 @@ void combobox(app_state_t *state, Clay_String id)
 
 		if (is_open)
 		{
-			combobox_options();
+			combobox_options(items, size);
 		}
 	}
 }
@@ -299,13 +257,13 @@ void window_content(app_state_t *state)
 		{
 			CLAY_TEXT(CLAY_STRING("Renderer"), CLAY_TEXT_CONFIG(body_text_config()));
 			spacer_x();
-			combobox(state, CLAY_STRING("Renderer"));
+			combobox(state, CLAY_STRING("Renderer"), render_driver, SDL_GetNumRenderDrivers() + 1);
 		}
 		CLAY_AUTO_ID(content)
 		{
 			CLAY_TEXT(CLAY_STRING("Audio driver"), CLAY_TEXT_CONFIG(body_text_config()));
 			spacer_x();
-			combobox(state, CLAY_STRING("AudioDriver"));
+			combobox(state, CLAY_STRING("AudioDriver"), audio_driver, SDL_GetNumAudioDrivers() + 1);
 		}
 	}
 }
