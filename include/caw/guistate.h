@@ -21,6 +21,7 @@ typedef struct gui_settings_state_t
 typedef struct gui_windows_state_t
 {
 	bool settings;
+	Clay_ElementId current_combobox;
 } gui_windows_state_t;
 
 typedef struct app_state_t app_state_t;
