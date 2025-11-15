@@ -145,18 +145,25 @@ void window_content()
 
 void settings_window(app_state_t *state)
 {
+	constexpr auto width = 350.F;
+	constexpr auto height = 300.F;
+
 	const Clay_ElementDeclaration element = {
 		.floating = (Clay_FloatingElementConfig){
 			.attachTo = CLAY_ATTACH_TO_ROOT,
 			.attachPoints = (Clay_FloatingAttachPoints){
 				.parent = CLAY_ATTACH_POINT_CENTER_CENTER,
 			},
+			.offset = (Clay_Vector2){
+				.x = -width / 2.F,
+				.y = -height / 2.F,
+			}
 		},
 		.layout = (Clay_LayoutConfig){
 			.layoutDirection = CLAY_TOP_TO_BOTTOM,
 			.sizing = (Clay_Sizing){
-				.width = CLAY_SIZING_FIXED(350),
-				.height = CLAY_SIZING_FIXED(300),
+				.width = CLAY_SIZING_FIXED(width),
+				.height = CLAY_SIZING_FIXED(height),
 			},
 		},
 	};
