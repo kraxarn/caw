@@ -4,10 +4,19 @@
 
 #include "clay.h"
 
-#include <SDL3/SDL_render.h>
 #include <SDL3/SDL_audio.h>
+#include <SDL3/SDL_render.h>
 
-typedef const char *(*cb_item_callback)(int index);
+typedef const char *(*cb_item_callback_t)(int index);
+
+typedef void (*cb_select_callback_t)(app_state_t *state, int index);
+
+typedef struct cb_settings_t
+{
+	cb_item_callback_t items;
+	int size;
+	cb_select_callback_t callback;
+} cb_settings_t;
 
 Clay_TextElementConfig title_text_config()
 {
@@ -125,7 +134,7 @@ void combobox_option(Clay_String text)
 	}
 }
 
-void combobox_options(const cb_item_callback items, const int size)
+void combobox_options(const cb_settings_t settings)
 {
 	const Clay_ElementDeclaration element = {
 		.floating = (Clay_FloatingElementConfig){
@@ -138,7 +147,7 @@ void combobox_options(const cb_item_callback items, const int size)
 			.layoutDirection = CLAY_TOP_TO_BOTTOM,
 			.sizing = (Clay_Sizing){
 				.width = CLAY_SIZING_FIXED(WIDTH_COMBOBOX),
-				.height = CLAY_SIZING_GROW(HEIGHT_COMBOBOX * size),
+				.height = CLAY_SIZING_GROW(HEIGHT_COMBOBOX * settings.size),
 			},
 		},
 		.backgroundColor = app_color_clay(COLOR_CONTROL_BACKGROUND),
@@ -150,9 +159,9 @@ void combobox_options(const cb_item_callback items, const int size)
 
 	CLAY_AUTO_ID(element)
 	{
-		for (auto i = 0; i < size; i++)
+		for (auto i = 0; i < settings.size; i++)
 		{
-			const char *item = items(i);
+			const char *item = settings.items(i);
 			combobox_option((Clay_String){
 				.isStaticallyAllocated = true,
 				.length = SDL_strlen(item),
@@ -183,7 +192,7 @@ void on_combobox_hover(Clay_ElementId element_id,
 	}
 }
 
-void combobox(app_state_t *state, Clay_String id, const cb_item_callback items, const int size)
+void combobox(app_state_t *state, Clay_String id, const cb_settings_t settings)
 {
 	const int is_open = state->gui.windows.current_combobox.id == Clay_GetElementId(id).id;
 
@@ -215,7 +224,7 @@ void combobox(app_state_t *state, Clay_String id, const cb_item_callback items, 
 
 		if (is_open)
 		{
-			combobox_options(items, size);
+			combobox_options(settings);
 		}
 	}
 }
@@ -257,13 +266,21 @@ void window_content(app_state_t *state)
 		{
 			CLAY_TEXT(CLAY_STRING("Renderer"), CLAY_TEXT_CONFIG(body_text_config()));
 			spacer_x();
-			combobox(state, CLAY_STRING("Renderer"), render_driver, SDL_GetNumRenderDrivers() + 1);
+			combobox(state, CLAY_STRING("Renderer"), (cb_settings_t){
+				.items = render_driver,
+				.size = SDL_GetNumRenderDrivers() + 1,
+				.callback = nullptr,
+			});
 		}
 		CLAY_AUTO_ID(content)
 		{
 			CLAY_TEXT(CLAY_STRING("Audio driver"), CLAY_TEXT_CONFIG(body_text_config()));
 			spacer_x();
-			combobox(state, CLAY_STRING("AudioDriver"), audio_driver, SDL_GetNumAudioDrivers() + 1);
+			combobox(state, CLAY_STRING("AudioDriver"), (cb_settings_t){
+				.items = audio_driver,
+				.size = SDL_GetNumAudioDrivers() + 1,
+				.callback = nullptr,
+			});
 		}
 	}
 }
