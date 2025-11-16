@@ -121,6 +121,7 @@ void on_combobox_option_hover([[maybe_unused]] Clay_ElementId element_id,
 	const auto state = (app_state_t *) user_data;
 	const auto *data = &state->gui.windows.current_combobox_item;
 	data->callback(state, data->index);
+	state->gui.windows.current_combobox = (Clay_ElementId){};
 }
 
 void combobox_option(app_state_t *state, const int index,
