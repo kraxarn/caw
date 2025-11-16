@@ -123,7 +123,8 @@ void on_combobox_option_hover([[maybe_unused]] Clay_ElementId element_id,
 	data->callback(state, data->index);
 }
 
-void combobox_option(app_state_t *state, const Clay_String text, const cb_select_callback_t callback)
+void combobox_option(app_state_t *state, const int index,
+	const Clay_String text, const cb_select_callback_t callback)
 {
 	const Clay_ElementDeclaration wrapper = {
 		.layout = (Clay_LayoutConfig){
@@ -154,6 +155,10 @@ void combobox_option(app_state_t *state, const Clay_String text, const cb_select
 			: COLOR_CONTROL_BACKGROUND
 		);
 
+		state->gui.windows.current_combobox_item = (cb_item_hover_data_t){
+			.index = index,
+			.callback = callback,
+		};
 		Clay_OnHover(on_combobox_option_hover, (intptr_t) state);
 
 		CLAY_AUTO_ID(content)
@@ -196,7 +201,7 @@ void combobox_options(app_state_t *state, const cb_settings_t settings)
 				.length = SDL_strlen(item),
 				.chars = item,
 			};
-			combobox_option(state, text, settings.callback);
+			combobox_option(state, i, text, settings.callback);
 		}
 	}
 }
