@@ -156,11 +156,12 @@ void combobox_option(app_state_t *state, const int index,
 			: COLOR_CONTROL_BACKGROUND
 		);
 
-		state->gui.windows.current_combobox_item = (cb_item_hover_data_t){
-			.index = index,
-			.callback = callback,
-		};
-		Clay_OnHover(on_combobox_option_hover, (intptr_t) state);
+		if (Clay_Hovered())
+		{
+			state->gui.windows.current_combobox_item.index = index;
+			state->gui.windows.current_combobox_item.callback = callback;
+			Clay_OnHover(on_combobox_option_hover, (intptr_t) state);
+		}
 
 		CLAY_AUTO_ID(content)
 		{

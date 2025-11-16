@@ -57,9 +57,12 @@ void menu_item(app_state_t *state, const menu_item_config_t *item)
 		element.layout.childAlignment.y = CLAY_ALIGN_Y_CENTER;
 		element.layout.childGap = GAP_DEFAULT;
 
-		state->gui.menu.current_item.config = *item;
-		state->gui.menu.current_item.state = state;
-		Clay_OnHover(on_menu_item_hover, (intptr_t) &state->gui.menu.current_item);
+		if (Clay_Hovered())
+		{
+			state->gui.menu.current_item.config = *item;
+			state->gui.menu.current_item.state = state;
+			Clay_OnHover(on_menu_item_hover, (intptr_t) &state->gui.menu.current_item);
+		}
 
 		CLAY_AUTO_ID(element)
 		{
