@@ -13,6 +13,7 @@ typedef void (*cb_select_callback_t)(app_state_t *state, int index);
 
 typedef struct cb_settings_t
 {
+	const char *value;
 	cb_item_callback_t items;
 	int size;
 	cb_select_callback_t callback;
@@ -216,7 +217,13 @@ void combobox(app_state_t *state, Clay_String id, const cb_settings_t settings)
 
 	CLAY(CLAY_SID(id), element)
 	{
-		CLAY_TEXT(CLAY_STRING("auto"), CLAY_TEXT_CONFIG(body_text_config()));
+		const Clay_String value = {
+			.isStaticallyAllocated = false,
+			.length = SDL_strlen(settings.value),
+			.chars = settings.value,
+		};
+
+		CLAY_TEXT(value, CLAY_TEXT_CONFIG(body_text_config()));
 		spacer_x();
 		CLAY_TEXT(is_open ? CLAY_STRING("^") : CLAY_STRING("V"), CLAY_TEXT_CONFIG(body_text_config()));
 
@@ -267,6 +274,9 @@ void window_content(app_state_t *state)
 			CLAY_TEXT(CLAY_STRING("Renderer"), CLAY_TEXT_CONFIG(body_text_config()));
 			spacer_x();
 			combobox(state, CLAY_STRING("Renderer"), (cb_settings_t){
+				.value = state->gui.settings.renderer == nullptr
+						? "auto"
+						: state->gui.settings.renderer,
 				.items = render_driver,
 				.size = SDL_GetNumRenderDrivers() + 1,
 				.callback = nullptr,
@@ -277,6 +287,9 @@ void window_content(app_state_t *state)
 			CLAY_TEXT(CLAY_STRING("Audio driver"), CLAY_TEXT_CONFIG(body_text_config()));
 			spacer_x();
 			combobox(state, CLAY_STRING("AudioDriver"), (cb_settings_t){
+				.value = state->gui.settings.audio_driver == nullptr
+						? "auto"
+						: state->gui.settings.audio_driver,
 				.items = audio_driver,
 				.size = SDL_GetNumAudioDrivers() + 1,
 				.callback = nullptr,
