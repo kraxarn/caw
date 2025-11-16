@@ -13,7 +13,6 @@ typedef struct app_state_t
 {
 	SDL_Window *window;
 	SDL_Renderer *renderer;
-	struct nk_context *ctx;
 	Clay_Arena arena;
 	Clay_SDL3RendererData clay;
 	SDL_Color bg;
