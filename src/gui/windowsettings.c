@@ -1,5 +1,6 @@
 #include "caw/gui/windowsettings.h"
 #include "caw/appstate.h"
+#include "caw/guistate.h"
 #include "caw/gui/apptheme.h"
 
 #include "clay.h"
@@ -8,8 +9,6 @@
 #include <SDL3/SDL_render.h>
 
 typedef const char *(*cb_item_callback_t)(int index);
-
-typedef void (*cb_select_callback_t)(app_state_t *state, int index);
 
 typedef struct cb_settings_t
 {
@@ -55,6 +54,20 @@ const char *audio_driver(const int index)
 	return SDL_GetAudioDriver(index - 1);
 }
 
+void set_render_driver(app_state_t *state, const int index)
+{
+	state->gui.settings.renderer = index == 0
+		? nullptr
+		: SDL_GetRenderDriver(index - 1);
+}
+
+void set_audio_driver(app_state_t *state, const int index)
+{
+	state->gui.settings.audio_driver = index == 0
+		? nullptr
+		: SDL_GetAudioDriver(index - 1);
+}
+
 void window_title(Clay_String text)
 {
 	const Clay_ElementDeclaration element = {
@@ -97,7 +110,20 @@ void spacer_x()
 	}
 }
 
-void combobox_option(Clay_String text)
+void on_combobox_option_hover([[maybe_unused]] Clay_ElementId element_id,
+	Clay_PointerData pointer_data, intptr_t user_data)
+{
+	if (pointer_data.state != CLAY_POINTER_DATA_PRESSED_THIS_FRAME)
+	{
+		return;
+	}
+
+	const auto state = (app_state_t *) user_data;
+	const auto *data = &state->gui.windows.current_combobox_item;
+	data->callback(state, data->index);
+}
+
+void combobox_option(app_state_t *state, const Clay_String text, const cb_select_callback_t callback)
 {
 	const Clay_ElementDeclaration wrapper = {
 		.layout = (Clay_LayoutConfig){
@@ -128,6 +154,8 @@ void combobox_option(Clay_String text)
 			: COLOR_CONTROL_BACKGROUND
 		);
 
+		Clay_OnHover(on_combobox_option_hover, (intptr_t) state);
+
 		CLAY_AUTO_ID(content)
 		{
 			CLAY_TEXT(text, CLAY_TEXT_CONFIG(body_text_config()));
@@ -135,7 +163,7 @@ void combobox_option(Clay_String text)
 	}
 }
 
-void combobox_options(const cb_settings_t settings)
+void combobox_options(app_state_t *state, const cb_settings_t settings)
 {
 	const Clay_ElementDeclaration element = {
 		.floating = (Clay_FloatingElementConfig){
@@ -163,11 +191,12 @@ void combobox_options(const cb_settings_t settings)
 		for (auto i = 0; i < settings.size; i++)
 		{
 			const char *item = settings.items(i);
-			combobox_option((Clay_String){
+			const Clay_String text = {
 				.isStaticallyAllocated = true,
 				.length = SDL_strlen(item),
 				.chars = item,
-			});
+			};
+			combobox_option(state, text, settings.callback);
 		}
 	}
 }
@@ -231,7 +260,7 @@ void combobox(app_state_t *state, Clay_String id, const cb_settings_t settings)
 
 		if (is_open)
 		{
-			combobox_options(settings);
+			combobox_options(state, settings);
 		}
 	}
 }
@@ -279,7 +308,7 @@ void window_content(app_state_t *state)
 						: state->gui.settings.renderer,
 				.items = render_driver,
 				.size = SDL_GetNumRenderDrivers() + 1,
-				.callback = nullptr,
+				.callback = set_render_driver,
 			});
 		}
 		CLAY_AUTO_ID(content)
@@ -292,7 +321,7 @@ void window_content(app_state_t *state)
 						: state->gui.settings.audio_driver,
 				.items = audio_driver,
 				.size = SDL_GetNumAudioDrivers() + 1,
-				.callback = nullptr,
+				.callback = set_audio_driver,
 			});
 		}
 	}

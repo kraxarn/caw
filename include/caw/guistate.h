@@ -18,13 +18,22 @@ typedef struct gui_settings_state_t
 	const char *audio_driver;
 } gui_settings_state_t;
 
+typedef struct app_state_t app_state_t;
+
+typedef void (*cb_select_callback_t)(app_state_t *state, int index);
+
+typedef struct cb_item_hover_data_t
+{
+	int index;
+	cb_select_callback_t callback;
+} cb_item_hover_data_t;
+
 typedef struct gui_windows_state_t
 {
 	bool settings;
 	Clay_ElementId current_combobox;
+	cb_item_hover_data_t current_combobox_item;
 } gui_windows_state_t;
-
-typedef struct app_state_t app_state_t;
 
 typedef struct menu_item_config_t
 {
