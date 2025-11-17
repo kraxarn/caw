@@ -68,7 +68,32 @@ void set_audio_driver(app_state_t *state, const int index)
 		: SDL_GetAudioDriver(index - 1);
 }
 
-void window_title(Clay_String text)
+void on_window_title_hover(const Clay_ElementId element_id,
+	const Clay_PointerData pointer_data, const intptr_t user_data)
+{
+	const auto state = (gui_windows_state_t *) user_data;
+
+	if (pointer_data.state == CLAY_POINTER_DATA_PRESSED_THIS_FRAME)
+	{
+		const auto data = Clay_GetElementData(element_id);
+		state->window_offset.x = pointer_data.position.x - data.boundingBox.x;
+		state->window_offset.y = pointer_data.position.y - data.boundingBox.y;
+	}
+
+	if (pointer_data.state == CLAY_POINTER_DATA_PRESSED)
+	{
+		state->cursor_offset = pointer_data.position;
+		return;
+	}
+
+	if (pointer_data.state == CLAY_POINTER_DATA_RELEASED_THIS_FRAME)
+	{
+		state->cursor_offset = (Clay_Vector2){};
+		state->window_offset = (Clay_Vector2){};
+	}
+}
+
+void window_title(const app_state_t *state, const Clay_String text)
 {
 	const Clay_ElementDeclaration element = {
 		.layout = (Clay_LayoutConfig){
@@ -91,6 +116,8 @@ void window_title(Clay_String text)
 
 	CLAY_AUTO_ID(element)
 	{
+		Clay_OnHover(on_window_title_hover, (intptr_t) &state->gui.windows);
+
 		CLAY_TEXT(text, CLAY_TEXT_CONFIG(title_text_config()));
 	}
 }
@@ -339,15 +366,24 @@ void settings_window(app_state_t *state)
 	constexpr auto width = 350.F;
 	constexpr auto height = 300.F;
 
+	const int is_absolute_offset = state->gui.windows.cursor_offset.x > 0
+		|| state->gui.windows.cursor_offset.y > 0;
+
 	const Clay_ElementDeclaration element = {
 		.floating = (Clay_FloatingElementConfig){
 			.attachTo = CLAY_ATTACH_TO_ROOT,
 			.attachPoints = (Clay_FloatingAttachPoints){
-				.parent = CLAY_ATTACH_POINT_CENTER_CENTER,
+				.parent = is_absolute_offset
+					? CLAY_ATTACH_POINT_LEFT_TOP
+					: CLAY_ATTACH_POINT_CENTER_CENTER,
 			},
 			.offset = (Clay_Vector2){
-				.x = -width / 2.F,
-				.y = -height / 2.F,
+				.x = is_absolute_offset
+					? state->gui.windows.cursor_offset.x - state->gui.windows.window_offset.x
+					: -width / 2.F,
+				.y = is_absolute_offset
+					? state->gui.windows.cursor_offset.y - state->gui.windows.window_offset.y
+					: -height / 2.F,
 			}
 		},
 		.layout = (Clay_LayoutConfig){
@@ -361,7 +397,7 @@ void settings_window(app_state_t *state)
 
 	CLAY(CLAY_ID("SettingsWindow"), element)
 	{
-		window_title(CLAY_STRING("Settings"));
+		window_title(state, CLAY_STRING("Settings"));
 		window_content(state);
 	}
 }

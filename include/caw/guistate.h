@@ -33,6 +33,8 @@ typedef struct gui_windows_state_t
 	bool settings;
 	Clay_ElementId current_combobox;
 	cb_item_hover_data_t current_combobox_item;
+	Clay_Vector2 cursor_offset;
+	Clay_Vector2 window_offset;
 } gui_windows_state_t;
 
 typedef struct menu_item_config_t
