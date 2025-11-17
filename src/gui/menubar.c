@@ -199,7 +199,7 @@ void file_menu(app_state_t *state)
 
 void on_view_settings_clicked(app_state_t *state)
 {
-	state->gui.windows.settings = (bool) !state->gui.windows.settings;
+	state->gui.windows.settings.visible = (bool) !state->gui.windows.settings.visible;
 }
 
 void view_menu(app_state_t *state)
@@ -207,7 +207,7 @@ void view_menu(app_state_t *state)
 	menubar_item(state, CLAY_STRING("ViewMenuItem"), CLAY_STRING("View"),
 		(menu_item_config_t[]){
 			{
-				.icon = (int)state->gui.windows.settings
+				.icon = (int)state->gui.windows.settings.visible
 						? "checkbox-marked"
 						: "checkbox-blank-outline",
 				.text = CLAY_STRING("Settings"),

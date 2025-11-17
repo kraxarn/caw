@@ -28,13 +28,19 @@ typedef struct cb_item_hover_data_t
 	cb_select_callback_t callback;
 } cb_item_hover_data_t;
 
+typedef struct gui_window_state_t
+{
+	bool visible;
+	Clay_Vector2 position;
+	Clay_Vector2 offset;
+	Clay_FloatingAttachPointType attach_point;
+} gui_window_state_t;
+
 typedef struct gui_windows_state_t
 {
-	bool settings;
+	gui_window_state_t settings;
 	Clay_ElementId current_combobox;
 	cb_item_hover_data_t current_combobox_item;
-	Clay_Vector2 cursor_offset;
-	Clay_Vector2 window_offset;
 } gui_windows_state_t;
 
 typedef struct menu_item_config_t

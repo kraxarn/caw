@@ -35,7 +35,7 @@ void tracker(app_state_t *state)
 		menubar(state);
 	}
 
-	if (state->gui.windows.settings)
+	if (state->gui.windows.settings.visible)
 	{
 		settings_window(state);
 	}
