@@ -1,7 +1,5 @@
 #pragma once
 
-#include "clay.h"
-
 #include <SDL3/SDL_pixels.h>
 #include <SDL3/SDL_stdinc.h>
 
@@ -61,5 +59,3 @@ typedef enum app_size_t: Uint8
 } app_size_t;
 
 SDL_Color app_color_sdl(app_color_t color);
-
-Clay_Color app_color_clay(app_color_t color);

@@ -4,6 +4,8 @@
 #include "caw/gui/apptheme.h"
 #include "caw/res/icons.h"
 
+#include "shiny/internal/color.h"
+
 #include "clay.h"
 
 #include <SDL3/SDL_dialog.h>
@@ -17,7 +19,7 @@ Clay_TextElementConfig text_config()
 {
 	return (Clay_TextElementConfig){
 		.fontSize = 12,
-		.textColor = app_color_clay(COLOR_FOREGROUND),
+		.textColor = shiny_color_rgb(COLOR_FOREGROUND),
 	};
 }
 
@@ -49,7 +51,7 @@ void menu_item(app_state_t *state, const menu_item_config_t *item)
 	{
 		element.layout.padding = CLAY_PADDING_ALL(PADDING_MENU_ITEM);
 		element.cornerRadius = CLAY_CORNER_RADIUS(CORNER_RADIUS_DEFAULT);
-		element.backgroundColor = app_color_clay(
+		element.backgroundColor = shiny_color_rgb(
 			(int) Clay_Hovered()
 				? COLOR_CONTROL_HOVER
 				: COLOR_CONTROL_ACTIVE
@@ -99,7 +101,7 @@ void menu_items(app_state_t *state, const menu_item_config_t *items, const size_
 			},
 		},
 		.cornerRadius = CLAY_CORNER_RADIUS(CORNER_RADIUS_DEFAULT),
-		.backgroundColor = app_color_clay(COLOR_WINDOW_BACKGROUND),
+		.backgroundColor = shiny_color_rgb(COLOR_WINDOW_BACKGROUND),
 	};
 
 	CLAY_AUTO_ID(element)
@@ -207,9 +209,9 @@ void view_menu(app_state_t *state)
 	menubar_item(state, CLAY_STRING("ViewMenuItem"), CLAY_STRING("View"),
 		(menu_item_config_t[]){
 			{
-				.icon = (int)state->gui.windows.settings.visible
-						? "checkbox-marked"
-						: "checkbox-blank-outline",
+				.icon = (int) state->gui.windows.settings.visible
+					? "checkbox-marked"
+					: "checkbox-blank-outline",
 				.text = CLAY_STRING("Settings"),
 				.clicked = on_view_settings_clicked,
 			},
@@ -276,7 +278,7 @@ void menubar(app_state_t *state)
 			.childGap = GAP_MENUBAR,
 		},
 		.cornerRadius = CLAY_CORNER_RADIUS(CORNER_RADIUS_DEFAULT),
-		.backgroundColor = app_color_clay(COLOR_WINDOW_BACKGROUND),
+		.backgroundColor = shiny_color_rgb(COLOR_WINDOW_BACKGROUND),
 	};
 
 	Clay__OpenElementWithId(CLAY_ID("Menubar"));

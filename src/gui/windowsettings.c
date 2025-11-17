@@ -3,6 +3,8 @@
 #include "caw/guistate.h"
 #include "caw/gui/apptheme.h"
 
+#include "shiny/internal/color.h"
+
 #include "clay.h"
 
 #include <SDL3/SDL_audio.h>
@@ -22,7 +24,7 @@ Clay_TextElementConfig title_text_config()
 {
 	return (Clay_TextElementConfig){
 		.fontSize = FONT_SIZE_TITLE,
-		.textColor = app_color_clay(COLOR_FOREGROUND),
+		.textColor = shiny_color_rgb(COLOR_FOREGROUND),
 	};
 }
 
@@ -30,7 +32,7 @@ Clay_TextElementConfig body_text_config()
 {
 	return (Clay_TextElementConfig){
 		.fontSize = FONT_SIZE_BODY,
-		.textColor = app_color_clay(COLOR_FOREGROUND),
+		.textColor = shiny_color_rgb(COLOR_FOREGROUND),
 	};
 }
 
@@ -107,7 +109,7 @@ void window_title(const app_state_t *state, const Clay_String text)
 				.bottom = PADDING_WINDOW_HEADER_Y,
 			},
 		},
-		.backgroundColor = app_color_clay(COLOR_WINDOW_HEADER),
+		.backgroundColor = shiny_color_rgb(COLOR_WINDOW_HEADER),
 		.cornerRadius = (Clay_CornerRadius){
 			.topLeft = CORNER_RADIUS_WINDOW,
 			.topRight = CORNER_RADIUS_WINDOW,
@@ -177,10 +179,10 @@ void combobox_option(app_state_t *state, const int index,
 
 	CLAY_AUTO_ID(wrapper)
 	{
-		content.backgroundColor = app_color_clay(
+		content.backgroundColor = shiny_color_rgb(
 			(int) Clay_Hovered()
-			? COLOR_CONTROL_ACTIVE
-			: COLOR_CONTROL_BACKGROUND
+				? COLOR_CONTROL_ACTIVE
+				: COLOR_CONTROL_BACKGROUND
 		);
 
 		if (Clay_Hovered())
@@ -213,7 +215,7 @@ void combobox_options(app_state_t *state, const cb_settings_t settings)
 				.height = CLAY_SIZING_GROW(HEIGHT_COMBOBOX * settings.size),
 			},
 		},
-		.backgroundColor = app_color_clay(COLOR_CONTROL_BACKGROUND),
+		.backgroundColor = shiny_color_rgb(COLOR_CONTROL_BACKGROUND),
 		.cornerRadius = (Clay_CornerRadius){
 			.bottomLeft = CORNER_RADIUS_CONTROL,
 			.bottomRight = CORNER_RADIUS_CONTROL,
@@ -269,7 +271,7 @@ void combobox(app_state_t *state, Clay_String id, const cb_settings_t settings)
 			},
 			.padding = CLAY_PADDING_ALL(PADDING_CONTROL),
 		},
-		.backgroundColor = app_color_clay(COLOR_CONTROL_BACKGROUND),
+		.backgroundColor = shiny_color_rgb(COLOR_CONTROL_BACKGROUND),
 		.cornerRadius = (Clay_CornerRadius){
 			.topLeft = CORNER_RADIUS_CONTROL,
 			.topRight = CORNER_RADIUS_CONTROL,
@@ -311,7 +313,7 @@ void window_content(app_state_t *state)
 			},
 			.padding = CLAY_PADDING_ALL(PADDING_WINDOW_CONTENT),
 		},
-		.backgroundColor = app_color_clay(COLOR_WINDOW_BACKGROUND),
+		.backgroundColor = shiny_color_rgb(COLOR_WINDOW_BACKGROUND),
 		.cornerRadius = (Clay_CornerRadius){
 			.bottomLeft = CORNER_RADIUS_WINDOW,
 			.bottomRight = CORNER_RADIUS_WINDOW,

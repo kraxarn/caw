@@ -3,7 +3,8 @@
 #include "caw/gui/apptheme.h"
 #include "caw/gui/menubar.h"
 #include "caw/gui/windowsettings.h"
-#include "caw/renderer/clayrenderersdl3.h"
+
+#include "shiny/internal/color.h"
 
 #include <SDL3/SDL_rect.h>
 
@@ -27,7 +28,7 @@ void tracker(app_state_t *state)
 
 	const Clay_ElementDeclaration element = {
 		.layout = layout,
-		.backgroundColor = app_color_clay(COLOR_CLEAR),
+		.backgroundColor = shiny_color_rgb(COLOR_CLEAR),
 	};
 
 	CLAY(CLAY_ID("Container"), element)
