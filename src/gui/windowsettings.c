@@ -366,7 +366,7 @@ void settings_window(app_state_t *state)
 	constexpr auto width = 350.F;
 	constexpr auto height = 300.F;
 
-	auto *window = &state->gui.windows.settings;
+	const auto window = &state->gui.windows.settings;
 	if (window->position.x == 0 || window->position.y == 0)
 	{
 		window->position.x = -width / 2;
