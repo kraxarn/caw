@@ -171,11 +171,19 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 	char app_info[app_info_len];
 	SDL_snprintf(app_info, app_info_len, "%s v%s", APP_NAME, APP_VERSION);
 
-	if (!SDL_CreateWindowAndRenderer(app_info, WINDOW_WIDTH, WINDOW_HEIGHT,
-		SDL_WINDOW_RESIZABLE, &state->window, &state->renderer))
+	state->window = SDL_CreateWindow(app_info, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_RESIZABLE);
+	if (state->window == nullptr)
 	{
 		SDL_free(state);
-		SDL_LogError(LOG_CATEGORY_CORE, "SDL_CreateWindowAndRenderer error: %s", SDL_GetError());
+		SDL_LogError(LOG_CATEGORY_CORE, "Window failed: %s", SDL_GetError());
+		return SDL_APP_FAILURE;
+	}
+
+	state->renderer = SDL_CreateRenderer(state->window, nullptr);
+	if (state->renderer == nullptr)
+	{
+		SDL_free(state);
+		SDL_LogError(LOG_CATEGORY_CORE, "Renderer failed: %s", SDL_GetError());
 		return SDL_APP_FAILURE;
 	}
 
