@@ -279,8 +279,10 @@ void menubar(app_state_t *state)
 		.backgroundColor = app_color_clay(COLOR_WINDOW_BACKGROUND),
 	};
 
-	CLAY(CLAY_ID("Menubar"), element)
+	Clay__OpenElementWithId(CLAY_ID("Menubar"));
 	{
+		Clay__ConfigureOpenElement(element);
+
 		file_menu(state);
 		view_menu(state);
 		debug_menu(state);
@@ -288,4 +290,5 @@ void menubar(app_state_t *state)
 		spacer();
 		fps_counter(state);
 	}
+	Clay__CloseElement();
 }
