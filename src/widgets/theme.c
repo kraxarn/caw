@@ -4,11 +4,11 @@
 
 #include <SDL3/SDL_stdinc.h>
 
-shiny_theme_color_t colors[SHINY_COLOR_SIZE];
-shiny_theme_gap_t gaps[SHINY_GAP_SIZE];
-shiny_theme_corner_radius_t corner_radiuses[SHINY_CORNER_RADIUS_SIZE];
-shiny_theme_padding_t paddings[SHINY_PADDING_SIZE];
-shiny_theme_size_t sizes[SHINY_SIZE_SIZE];
+shiny_color_t colors[SHINY_COLOR_SIZE];
+Uint16 gaps[SHINY_GAP_SIZE];
+float corner_radiuses[SHINY_CORNER_RADIUS_SIZE];
+Uint16 paddings[SHINY_PADDING_SIZE];
+float sizes[SHINY_SIZE_SIZE];
 
 shiny_color_t shiny_theme_color(const shiny_theme_color_t key)
 {
