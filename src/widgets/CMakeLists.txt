@@ -1,4 +1,5 @@
 target_sources(${PROJECT_NAME} PRIVATE
 	${CMAKE_CURRENT_SOURCE_DIR}/element.c
 	${CMAKE_CURRENT_SOURCE_DIR}/color.c
+	${CMAKE_CURRENT_SOURCE_DIR}/theme.c
 )

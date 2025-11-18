@@ -1,8 +1,11 @@
 #include "caw/appstate.h"
 #include "caw/logcategory.h"
-#include "caw/gui/apptheme.h"
 #include "caw/gui/tracker.h"
 #include "caw/res/fonts.h"
+
+#include "shiny/theme.h"
+#include "shiny/themekey.h"
+#include "shiny/internal/color.h"
 
 #include "clay.h"
 
@@ -230,10 +233,11 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 		return SDL_APP_FAILURE;
 	}
 
-	state->bg = app_color_sdl(COLOR_CLEAR);
+	state->bg = shiny_sdl_theme_color(SHINY_COLOR_CLEAR);
 	SDL_SetRenderDrawColor(state->renderer, state->bg.r, state->bg.g, state->bg.b, state->bg.a);
 
 	clay_state_init(state);
+	shiny_default_theme();
 
 	*appstate = state;
 	return SDL_APP_CONTINUE;

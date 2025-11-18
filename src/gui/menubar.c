@@ -1,9 +1,10 @@
 #include "caw/gui/menubar.h"
 #include "caw/appstate.h"
 #include "caw/guistate.h"
-#include "caw/gui/apptheme.h"
 #include "caw/res/icons.h"
 
+#include "shiny/theme.h"
+#include "shiny/themekey.h"
 #include "shiny/internal/color.h"
 
 #include "clay.h"
@@ -19,7 +20,7 @@ Clay_TextElementConfig text_config()
 {
 	return (Clay_TextElementConfig){
 		.fontSize = 12,
-		.textColor = shiny_color_rgb(COLOR_FOREGROUND),
+		.textColor = shiny_clay_theme_color(SHINY_COLOR_FOREGROUND),
 	};
 }
 
@@ -49,15 +50,15 @@ void menu_item(app_state_t *state, const menu_item_config_t *item)
 
 	CLAY_AUTO_ID(element)
 	{
-		element.layout.padding = CLAY_PADDING_ALL(PADDING_MENU_ITEM);
-		element.cornerRadius = CLAY_CORNER_RADIUS(CORNER_RADIUS_DEFAULT);
-		element.backgroundColor = shiny_color_rgb(
+		element.layout.padding = CLAY_PADDING_ALL(shiny_theme_padding(SHINY_PADDING_MENU_ITEM));
+		element.cornerRadius = CLAY_CORNER_RADIUS(shiny_theme_corner_radius(SHINY_CORNER_RADIUS_DEFAULT));
+		element.backgroundColor = shiny_clay_theme_color(
 			(int) Clay_Hovered()
-				? COLOR_CONTROL_HOVER
-				: COLOR_CONTROL_ACTIVE
+				? SHINY_COLOR_CONTROL_HOVER
+				: SHINY_COLOR_CONTROL_ACTIVE
 		);
 		element.layout.childAlignment.y = CLAY_ALIGN_Y_CENTER;
-		element.layout.childGap = GAP_DEFAULT;
+		element.layout.childGap = shiny_theme_gap(SHINY_GAP_DEFAULT);
 
 		if (Clay_Hovered())
 		{
@@ -100,8 +101,8 @@ void menu_items(app_state_t *state, const menu_item_config_t *items, const size_
 				.width = CLAY_SIZING_FIXED(200),
 			},
 		},
-		.cornerRadius = CLAY_CORNER_RADIUS(CORNER_RADIUS_DEFAULT),
-		.backgroundColor = shiny_color_rgb(COLOR_WINDOW_BACKGROUND),
+		.cornerRadius = CLAY_CORNER_RADIUS(shiny_theme_corner_radius(SHINY_CORNER_RADIUS_DEFAULT)),
+		.backgroundColor = shiny_clay_theme_color(SHINY_COLOR_WINDOW_BACKGROUND),
 	};
 
 	CLAY_AUTO_ID(element)
@@ -127,7 +128,7 @@ void menu_content(app_state_t *state, const menu_item_config_t *items, const siz
 				.width = CLAY_SIZING_FIXED(200),
 			},
 			.padding = (Clay_Padding){
-				.top = PADDING_MENUBAR + GAP_DEFAULT,
+				.top = shiny_theme_padding(SHINY_PADDING_MENUBAR) + shiny_theme_gap(SHINY_GAP_DEFAULT),
 			},
 		},
 	};
@@ -274,11 +275,11 @@ void menubar(app_state_t *state)
 				.width = CLAY_SIZING_GROW(0),
 				.height = CLAY_SIZING_FIXED(0),
 			},
-			.padding = CLAY_PADDING_ALL(PADDING_MENUBAR),
-			.childGap = GAP_MENUBAR,
+			.padding = CLAY_PADDING_ALL(shiny_theme_padding(SHINY_PADDING_MENUBAR)),
+			.childGap = shiny_theme_gap(SHINY_GAP_MENUBAR),
 		},
-		.cornerRadius = CLAY_CORNER_RADIUS(CORNER_RADIUS_DEFAULT),
-		.backgroundColor = shiny_color_rgb(COLOR_WINDOW_BACKGROUND),
+		.cornerRadius = CLAY_CORNER_RADIUS(shiny_theme_corner_radius(SHINY_CORNER_RADIUS_DEFAULT)),
+		.backgroundColor = shiny_clay_theme_color(SHINY_COLOR_WINDOW_BACKGROUND),
 	};
 
 	Clay__OpenElementWithId(CLAY_ID("Menubar"));

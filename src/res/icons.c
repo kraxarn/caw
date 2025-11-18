@@ -1,6 +1,9 @@
 #include "caw/res/icons.h"
 #include "caw/logcategory.h"
 
+#include "shiny/themekey.h"
+#include "shiny/internal/color.h"
+
 #include <SDL3/SDL_log.h>
 #include <SDL3/SDL_pixels.h>
 #include <SDL3/SDL_properties.h>
@@ -8,8 +11,6 @@
 #include <SDL3/SDL_stdinc.h>
 #include <SDL3/SDL_surface.h>
 #include <SDL3_image/SDL_image.h>
-
-#include "caw/gui/apptheme.h"
 
 static SDL_PropertiesID props = 0;
 
@@ -76,7 +77,7 @@ SDL_Texture *icon(SDL_Renderer *renderer, const char *name)
 		return nullptr;
 	}
 
-	set_color(surface, app_color_sdl(COLOR_FOREGROUND));
+	set_color(surface, shiny_sdl_theme_color(SHINY_COLOR_FOREGROUND));
 
 	SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
 	if (texture == nullptr)

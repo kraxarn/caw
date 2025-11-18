@@ -1,9 +1,10 @@
 #include "caw/gui/tracker.h"
 #include "caw/appstate.h"
-#include "caw/gui/apptheme.h"
 #include "caw/gui/menubar.h"
 #include "caw/gui/windowsettings.h"
 
+#include "shiny/theme.h"
+#include "shiny/themekey.h"
 #include "shiny/internal/color.h"
 
 #include <SDL3/SDL_rect.h>
@@ -11,10 +12,12 @@
 void tracker(app_state_t *state)
 {
 	const Clay_Padding padding = {
-		.left = GAP_DEFAULT + state->gui.out.safe_area.x,
-		.right = GAP_DEFAULT + (state->gui.out.width - state->gui.out.safe_area.w - state->gui.out.safe_area.x),
-		.top = GAP_DEFAULT + state->gui.out.safe_area.y,
-		.bottom = GAP_DEFAULT + (state->gui.out.height - state->gui.out.safe_area.h - state->gui.out.safe_area.y),
+		.left = shiny_theme_gap(SHINY_GAP_DEFAULT) + state->gui.out.safe_area.x,
+		.right = shiny_theme_gap(SHINY_GAP_DEFAULT)
+			+ (state->gui.out.width - state->gui.out.safe_area.w - state->gui.out.safe_area.x),
+		.top = shiny_theme_gap(SHINY_GAP_DEFAULT) + state->gui.out.safe_area.y,
+		.bottom = shiny_theme_gap(SHINY_GAP_DEFAULT)
+			+ (state->gui.out.height - state->gui.out.safe_area.h - state->gui.out.safe_area.y),
 	};
 
 	const Clay_LayoutConfig layout = {
@@ -28,7 +31,7 @@ void tracker(app_state_t *state)
 
 	const Clay_ElementDeclaration element = {
 		.layout = layout,
-		.backgroundColor = shiny_color_rgb(COLOR_CLEAR),
+		.backgroundColor = shiny_clay_theme_color(SHINY_COLOR_CLEAR),
 	};
 
 	CLAY(CLAY_ID("Container"), element)

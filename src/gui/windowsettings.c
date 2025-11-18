@@ -3,6 +3,8 @@
 #include "caw/guistate.h"
 #include "caw/gui/apptheme.h"
 
+#include "shiny/theme.h"
+#include "shiny/themekey.h"
 #include "shiny/internal/color.h"
 
 #include "clay.h"
@@ -24,7 +26,7 @@ Clay_TextElementConfig title_text_config()
 {
 	return (Clay_TextElementConfig){
 		.fontSize = FONT_SIZE_TITLE,
-		.textColor = shiny_color_rgb(COLOR_FOREGROUND),
+		.textColor = shiny_clay_theme_color(SHINY_COLOR_FOREGROUND),
 	};
 }
 
@@ -32,7 +34,7 @@ Clay_TextElementConfig body_text_config()
 {
 	return (Clay_TextElementConfig){
 		.fontSize = FONT_SIZE_BODY,
-		.textColor = shiny_color_rgb(COLOR_FOREGROUND),
+		.textColor = shiny_clay_theme_color(SHINY_COLOR_FOREGROUND),
 	};
 }
 
@@ -103,16 +105,16 @@ void window_title(const app_state_t *state, const Clay_String text)
 				.width = CLAY_SIZING_GROW(0),
 			},
 			.padding = (Clay_Padding){
-				.left = PADDING_WINDOW_HEADER_X,
-				.right = PADDING_WINDOW_HEADER_X,
-				.top = PADDING_WINDOW_HEADER_Y,
-				.bottom = PADDING_WINDOW_HEADER_Y,
+				.left = shiny_theme_padding(SHINY_PADDING_WINDOW_HEADER_X),
+				.right = shiny_theme_padding(SHINY_PADDING_WINDOW_HEADER_X),
+				.top = shiny_theme_padding(SHINY_PADDING_WINDOW_HEADER_Y),
+				.bottom = shiny_theme_padding(SHINY_PADDING_WINDOW_HEADER_Y),
 			},
 		},
-		.backgroundColor = shiny_color_rgb(COLOR_WINDOW_HEADER),
+		.backgroundColor = shiny_clay_theme_color(SHINY_COLOR_WINDOW_HEADER),
 		.cornerRadius = (Clay_CornerRadius){
-			.topLeft = CORNER_RADIUS_WINDOW,
-			.topRight = CORNER_RADIUS_WINDOW,
+			.topLeft = shiny_theme_corner_radius(SHINY_CORNER_RADIUS_WINDOW),
+			.topRight = shiny_theme_corner_radius(SHINY_CORNER_RADIUS_WINDOW),
 		},
 	};
 
@@ -159,7 +161,7 @@ void combobox_option(app_state_t *state, const int index,
 	const Clay_ElementDeclaration wrapper = {
 		.layout = (Clay_LayoutConfig){
 			.layoutDirection = CLAY_LEFT_TO_RIGHT,
-			.padding = CLAY_PADDING_ALL(PADDING_COMBOBOX/2),
+			.padding = CLAY_PADDING_ALL(shiny_theme_padding(SHINY_PADDING_COMBOBOX)/2),
 			.sizing = (Clay_Sizing){
 				.width = CLAY_SIZING_GROW(0),
 			},
@@ -169,20 +171,20 @@ void combobox_option(app_state_t *state, const int index,
 	Clay_ElementDeclaration content = {
 		.layout = (Clay_LayoutConfig){
 			.layoutDirection = CLAY_LEFT_TO_RIGHT,
-			.padding = CLAY_PADDING_ALL(PADDING_COMBOBOX/2),
+			.padding = CLAY_PADDING_ALL(shiny_theme_padding(SHINY_PADDING_COMBOBOX)/2),
 			.sizing = (Clay_Sizing){
 				.width = CLAY_SIZING_GROW(0),
 			},
 		},
-		.cornerRadius = CLAY_CORNER_RADIUS(CORNER_RADIUS_CONTROL),
+		.cornerRadius = CLAY_CORNER_RADIUS(shiny_theme_corner_radius(SHINY_CORNER_RADIUS_CONTROL)),
 	};
 
 	CLAY_AUTO_ID(wrapper)
 	{
-		content.backgroundColor = shiny_color_rgb(
+		content.backgroundColor = shiny_clay_theme_color(
 			(int) Clay_Hovered()
-				? COLOR_CONTROL_ACTIVE
-				: COLOR_CONTROL_BACKGROUND
+				? SHINY_COLOR_CONTROL_ACTIVE
+				: SHINY_COLOR_CONTROL_BACKGROUND
 		);
 
 		if (Clay_Hovered())
@@ -211,14 +213,14 @@ void combobox_options(app_state_t *state, const cb_settings_t settings)
 		.layout = (Clay_LayoutConfig){
 			.layoutDirection = CLAY_TOP_TO_BOTTOM,
 			.sizing = (Clay_Sizing){
-				.width = CLAY_SIZING_FIXED(WIDTH_COMBOBOX),
-				.height = CLAY_SIZING_GROW(HEIGHT_COMBOBOX * settings.size),
+				.width = CLAY_SIZING_FIXED(shiny_theme_size(SHINY_WIDTH_COMBOBOX)),
+				.height = CLAY_SIZING_GROW(shiny_theme_size(SHINY_HEIGHT_COMBOBOX) * settings.size),
 			},
 		},
-		.backgroundColor = shiny_color_rgb(COLOR_CONTROL_BACKGROUND),
+		.backgroundColor = shiny_clay_theme_color(SHINY_COLOR_CONTROL_BACKGROUND),
 		.cornerRadius = (Clay_CornerRadius){
-			.bottomLeft = CORNER_RADIUS_CONTROL,
-			.bottomRight = CORNER_RADIUS_CONTROL,
+			.bottomLeft = shiny_theme_corner_radius(SHINY_CORNER_RADIUS_CONTROL),
+			.bottomRight = shiny_theme_corner_radius(SHINY_CORNER_RADIUS_CONTROL),
 		},
 	};
 
@@ -266,17 +268,17 @@ void combobox(app_state_t *state, Clay_String id, const cb_settings_t settings)
 		.layout = (Clay_LayoutConfig){
 			.layoutDirection = CLAY_LEFT_TO_RIGHT,
 			.sizing = (Clay_Sizing){
-				.width = CLAY_SIZING_FIXED(WIDTH_COMBOBOX),
+				.width = CLAY_SIZING_FIXED(shiny_theme_size(SHINY_WIDTH_COMBOBOX)),
 				.height = CLAY_SIZING_GROW(0),
 			},
-			.padding = CLAY_PADDING_ALL(PADDING_CONTROL),
+			.padding = CLAY_PADDING_ALL(shiny_theme_padding(SHINY_PADDING_CONTROL)),
 		},
-		.backgroundColor = shiny_color_rgb(COLOR_CONTROL_BACKGROUND),
+		.backgroundColor = shiny_clay_theme_color(SHINY_COLOR_CONTROL_BACKGROUND),
 		.cornerRadius = (Clay_CornerRadius){
-			.topLeft = CORNER_RADIUS_CONTROL,
-			.topRight = CORNER_RADIUS_CONTROL,
-			.bottomLeft = is_open ? 0 : CORNER_RADIUS_CONTROL,
-			.bottomRight = is_open ? 0 : CORNER_RADIUS_CONTROL,
+			.topLeft = shiny_theme_corner_radius(SHINY_CORNER_RADIUS_CONTROL),
+			.topRight = shiny_theme_corner_radius(SHINY_CORNER_RADIUS_CONTROL),
+			.bottomLeft = is_open ? 0 : shiny_theme_corner_radius(SHINY_CORNER_RADIUS_CONTROL),
+			.bottomRight = is_open ? 0 : shiny_theme_corner_radius(SHINY_CORNER_RADIUS_CONTROL),
 		},
 	};
 
@@ -306,17 +308,17 @@ void window_content(app_state_t *state)
 	const Clay_ElementDeclaration wrapper = {
 		.layout = (Clay_LayoutConfig){
 			.layoutDirection = CLAY_TOP_TO_BOTTOM,
-			.childGap = GAP_WINDOW_ITEM,
+			.childGap = shiny_theme_gap(SHINY_GAP_WINDOW_ITEM),
 			.sizing = (Clay_Sizing){
 				.width = CLAY_SIZING_GROW(0),
 				.height = CLAY_SIZING_GROW(0),
 			},
-			.padding = CLAY_PADDING_ALL(PADDING_WINDOW_CONTENT),
+			.padding = CLAY_PADDING_ALL(shiny_theme_padding(SHINY_PADDING_WINDOW_CONTENT)),
 		},
-		.backgroundColor = shiny_color_rgb(COLOR_WINDOW_BACKGROUND),
+		.backgroundColor = shiny_clay_theme_color(SHINY_COLOR_WINDOW_BACKGROUND),
 		.cornerRadius = (Clay_CornerRadius){
-			.bottomLeft = CORNER_RADIUS_WINDOW,
-			.bottomRight = CORNER_RADIUS_WINDOW,
+			.bottomLeft = shiny_theme_corner_radius(SHINY_CORNER_RADIUS_WINDOW),
+			.bottomRight = shiny_theme_corner_radius(SHINY_CORNER_RADIUS_WINDOW),
 		},
 	};
 
