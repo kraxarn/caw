@@ -11,7 +11,9 @@ else ()
 endif ()
 
 add_subdirectory(src)
+
 add_subdirectory(deps/shiny)
+target_link_libraries(${PROJECT_NAME} PRIVATE shiny)
 
 include(deps/clay.cmake)
 include(deps/maple-font.cmake)
@@ -20,7 +22,6 @@ include(deps/sdl.cmake)
 
 target_include_directories(${PROJECT_NAME} PRIVATE
 	"${CMAKE_CURRENT_SOURCE_DIR}/include"
-	"${nuklear_SOURCE_DIR}"
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE

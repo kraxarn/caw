@@ -1,6 +1,5 @@
 add_subdirectory(gui)
 add_subdirectory(res)
-add_subdirectory(widgets)
 
 target_sources(${PROJECT_NAME} PRIVATE
 	${CMAKE_CURRENT_SOURCE_DIR}/ui.c
