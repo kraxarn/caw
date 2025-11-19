@@ -11,6 +11,7 @@ else ()
 endif ()
 
 add_subdirectory(src)
+add_subdirectory(deps/shiny)
 
 include(deps/clay.cmake)
 include(deps/maple-font.cmake)
