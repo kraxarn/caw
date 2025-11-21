@@ -143,8 +143,6 @@ bool settings_parse(settings_t *settings)
 		return true;
 	}
 
-	SDL_LogDebug(LOG_CATEGORY_CORE, "Lazily loading settings");
-
 	settings->props = SDL_CreateProperties();
 
 	char *content = settings_read_file(settings->storage);
