@@ -98,7 +98,14 @@ bool settings_write_file(const settings_t *settings)
 		return false;
 	}
 
-	return SDL_WriteStorageFile(settings->storage, FILENAME, out, SDL_strlen(out));
+	if (!SDL_WriteStorageFile(settings->storage, FILENAME, out, SDL_strlen(out)))
+	{
+		SDL_free(out);
+		return false;
+	}
+
+	SDL_free(out);
+	return true;
 }
 
 settings_t *settings_open()
