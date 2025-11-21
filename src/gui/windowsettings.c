@@ -3,6 +3,7 @@
 #include "caw/audiodriver.h"
 #include "caw/guistate.h"
 #include "caw/renderdriver.h"
+#include "caw/settings.h"
 #include "caw/gui/apptheme.h"
 
 #include "shiny/theme.h"
@@ -67,6 +68,11 @@ void set_render_driver(app_state_t *state, const int index)
 	state->gui.settings.renderer = index == 0
 		? nullptr
 		: SDL_GetRenderDriver(index - 1);
+
+	settings_set_string(state->settings, "render_driver",
+		state->gui.settings.renderer
+	);
+	settings_flush(state->settings);
 }
 
 void set_audio_driver(app_state_t *state, const int index)
@@ -74,6 +80,11 @@ void set_audio_driver(app_state_t *state, const int index)
 	state->gui.settings.audio_driver = index == 0
 		? nullptr
 		: SDL_GetAudioDriver(index - 1);
+
+	settings_set_string(state->settings, "audio_driver",
+		state->gui.settings.audio_driver
+	);
+	settings_flush(state->settings);
 }
 
 void on_window_title_hover(const Clay_ElementId element_id,
