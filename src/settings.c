@@ -1,19 +1,19 @@
 #include "caw/settings.h"
-
-#include "tomlc17.h"
+#include "caw/logcategory.h"
 
 #include <SDL3/SDL_error.h>
 #include <SDL3/SDL_init.h>
+#include <SDL3/SDL_log.h>
+#include <SDL3/SDL_properties.h>
 #include <SDL3/SDL_stdinc.h>
 #include <SDL3/SDL_storage.h>
 
-#define FILENAME "settings.toml"
+#define FILENAME "settings.cfg"
 
 typedef struct settings_t
 {
 	SDL_Storage *storage;
-	toml_result_t toml;
-	bool loaded;
+	SDL_PropertiesID props;
 } settings_t;
 
 SDL_Storage *settings_open_storage()
@@ -23,7 +23,7 @@ SDL_Storage *settings_open_storage()
 	return SDL_OpenUserStorage(creator, name, 0);
 }
 
-bool settings_read_file(settings_t *settings)
+bool settings_read_file(const settings_t *settings)
 {
 	Uint64 size;
 	if (!SDL_GetStorageFileSize(settings->storage, FILENAME, &size))
@@ -38,43 +38,80 @@ bool settings_read_file(settings_t *settings)
 		return false;
 	}
 
-	toml_option_t options = toml_default_option();
-	options.mem_realloc = SDL_realloc;
-	options.mem_free = SDL_free;
-	toml_set_option(options);
-
-	toml_result_t result = toml_parse(buffer, (int) size);
 	SDL_free(buffer);
-	if (!result.ok)
-	{
-		toml_free(result);
-		SDL_SetError("TOML error: %s", result.errmsg);
-		return false;
-	}
-
-	settings->toml = result;
-	settings->loaded = true;
-
 	return true;
 }
 
-void settings_write_file()
+void settings_write_callback(void *userdata, const SDL_PropertiesID props, const char *name)
 {
-	// TODO
+	char *line;
+
+	switch (SDL_GetPropertyType(props, name))
+	{
+		case SDL_PROPERTY_TYPE_STRING:
+			SDL_asprintf(&line, "%s=%s", name, SDL_GetStringProperty(props, name, ""));
+			break;
+
+		case SDL_PROPERTY_TYPE_NUMBER:
+			SDL_asprintf(&line, "%s=%lld", name, SDL_GetNumberProperty(props, name, 0));
+			break;
+
+		case SDL_PROPERTY_TYPE_FLOAT:
+			SDL_asprintf(&line, "%s=%f", name, SDL_GetFloatProperty(props, name, 0));
+			break;
+
+		case SDL_PROPERTY_TYPE_BOOLEAN:
+			SDL_asprintf(&line, "%s=%s", name, (int) SDL_GetBooleanProperty(props, name, false) ? "true" : "false");
+			break;
+
+		case SDL_PROPERTY_TYPE_INVALID:
+		case SDL_PROPERTY_TYPE_POINTER:
+			SDL_LogWarn(LOG_CATEGORY_GUI, "Invalid type for '%s', ignoring", name);
+			return;
+	}
+
+	char *current = *(char **) userdata;
+
+	SDL_asprintf((char **) userdata, "%s\n", line);
+
+	SDL_free(line);
+	SDL_free(current);
+}
+
+bool settings_write_file(const settings_t *settings)
+{
+	if (!SDL_StorageReady(settings->storage))
+	{
+		return SDL_SetError("Failed to write settings, storage not ready");
+	}
+
+	char *out = nullptr;
+
+	if (!SDL_EnumerateProperties(settings->props, settings_write_callback, (void *) &out))
+	{
+		return false;
+	}
+
+	return SDL_WriteStorageFile(settings->storage, FILENAME, out, SDL_strlen(out));
 }
 
 settings_t *settings_open()
 {
 	settings_t *settings = SDL_malloc(sizeof(settings_t));
 	settings->storage = settings_open_storage();
-	settings->loaded = false;
+	settings->props = SDL_CreateProperties();
 	return settings;
+}
+
+bool settings_flush(const settings_t *settings)
+{
+	return settings_write_file(settings);
 }
 
 void settings_close(settings_t *settings)
 {
-	toml_free(settings->toml);
 	SDL_CloseStorage(settings->storage);
+	SDL_DestroyProperties(settings->props);
 	SDL_free(settings);
 }
 
@@ -83,23 +120,29 @@ bool settings_ready(const settings_t *settings)
 	return SDL_StorageReady(settings->storage);
 }
 
-toml_datum_t settings_value(settings_t *settings, const char *key)
+// toml_datum_t settings_value(settings_t *settings, const char *key)
+// {
+// 	if (!SDL_StorageReady(settings->storage))
+// 	{
+// 		return (toml_datum_t)
+// 		{
+// 		};
+// 	}
+//
+// 	if (!settings->loaded && !settings_read_file(settings))
+// 	{
+// 		return (toml_datum_t)
+// 		{
+// 		};
+// 	}
+//
+// 	return toml_seek(settings->toml.toptab, key);
+// }
+
+bool settings_set_string(const settings_t *settings, const char *key, const char *value)
 {
-	if (!SDL_StorageReady(settings->storage))
-	{
-		return (toml_datum_t){};
-	}
+	// const toml_datum_t value = settings_value(settings, key);
+	// return value.type == TOML_STRING ? value.u.s : fallback;
 
-	if (!settings->loaded && !settings_read_file(settings))
-	{
-		return (toml_datum_t){};
-	}
-
-	return toml_seek(settings->toml.toptab, key);
-}
-
-const char *settings_string(settings_t *settings, const char *key, const char *fallback)
-{
-	const toml_datum_t value = settings_value(settings, key);
-	return value.type == TOML_STRING ? value.u.s : fallback;
+	return SDL_SetStringProperty(settings->props, key, value);
 }
