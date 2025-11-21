@@ -9,15 +9,16 @@
 #include "shiny/themekey.h"
 #include "shiny/internal/color.h"
 
-#include <SDL3/SDL_timer.h>
 #include "clay.h"
 
 #define SDL_MAIN_USE_CALLBACKS
 #include <SDL3/SDL_main.h>
 
 #include <SDL3/SDL_log.h>
+#include <SDL3/SDL_messagebox.h>
 #include <SDL3/SDL_render.h>
 #include <SDL3/SDL_stdinc.h>
+#include <SDL3/SDL_timer.h>
 #include <SDL3/SDL_video.h>
 #include <SDL3_ttf/SDL_ttf.h>
 
@@ -191,8 +192,9 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 	state->renderer = SDL_CreateRenderer(state->window, renderer_name);
 	if (state->renderer == nullptr)
 	{
-		SDL_free(state);
 		SDL_LogError(LOG_CATEGORY_CORE, "Renderer failed: %s", SDL_GetError());
+		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Fatal error", SDL_GetError(), state->window);
+		SDL_free(state);
 		return SDL_APP_FAILURE;
 	}
 
