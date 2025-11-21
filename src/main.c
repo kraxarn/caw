@@ -1,6 +1,7 @@
 #include "caw/appstate.h"
 #include "caw/logcategory.h"
 #include "caw/renderdriver.h"
+#include "caw/settings.h"
 #include "caw/gui/tracker.h"
 #include "caw/res/fonts.h"
 
@@ -8,6 +9,7 @@
 #include "shiny/themekey.h"
 #include "shiny/internal/color.h"
 
+#include <SDL3/SDL_timer.h>
 #include "clay.h"
 
 #define SDL_MAIN_USE_CALLBACKS
@@ -179,7 +181,14 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 		return SDL_APP_FAILURE;
 	}
 
-	state->renderer = SDL_CreateRenderer(state->window, nullptr);
+	state->settings = settings_open();
+	while (!settings_ready(state->settings))
+	{
+		SDL_Delay(1);
+	}
+
+	const char *renderer_name = settings_string(state->settings, "renderer", nullptr);
+	state->renderer = SDL_CreateRenderer(state->window, renderer_name);
 	if (state->renderer == nullptr)
 	{
 		SDL_free(state);
@@ -294,6 +303,8 @@ void SDL_AppQuit(void *appstate, [[maybe_unused]] SDL_AppResult result)
 	const auto state = (app_state_t *) appstate;
 	if (state != nullptr)
 	{
+		settings_close(state->settings);
+
 		SDL_free(state->arena.memory);
 		SDL_free((void *) state->clay.fonts);
 
