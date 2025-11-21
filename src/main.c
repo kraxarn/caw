@@ -1,5 +1,6 @@
 #include "caw/appstate.h"
 #include "caw/logcategory.h"
+#include "caw/renderdriver.h"
 #include "caw/gui/tracker.h"
 #include "caw/res/fonts.h"
 
@@ -170,11 +171,7 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 	state->result = SDL_APP_CONTINUE;
 	state->gui.timer.previous = 0;
 
-	constexpr size_t app_info_len = 16;
-	char app_info[app_info_len];
-	SDL_snprintf(app_info, app_info_len, "%s v%s", APP_NAME, APP_VERSION);
-
-	state->window = SDL_CreateWindow(app_info, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_RESIZABLE);
+	state->window = SDL_CreateWindow(APP_NAME, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_RESIZABLE);
 	if (state->window == nullptr)
 	{
 		SDL_free(state);
@@ -189,6 +186,14 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 		SDL_LogError(LOG_CATEGORY_CORE, "Renderer failed: %s", SDL_GetError());
 		return SDL_APP_FAILURE;
 	}
+
+	char *title;
+	SDL_asprintf(&title, "%s v%s (%s)",
+		APP_NAME, APP_VERSION,
+		render_driver_display_name(SDL_GetRendererName(state->renderer))
+	);
+	SDL_SetWindowTitle(state->window, title);
+	SDL_free(title);
 
 	state->clay.renderer = state->renderer;
 	state->clay.textEngine = TTF_CreateRendererTextEngine(state->renderer);
