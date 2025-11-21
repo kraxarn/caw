@@ -187,7 +187,7 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 		SDL_Delay(1);
 	}
 
-	const char *renderer_name = settings_string(state->settings, "renderer", nullptr);
+	const char *renderer_name = settings_string(state->settings, "render_driver", nullptr);
 	state->renderer = SDL_CreateRenderer(state->window, renderer_name);
 	if (state->renderer == nullptr)
 	{
