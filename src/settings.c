@@ -23,23 +23,22 @@ SDL_Storage *settings_open_storage()
 	return SDL_OpenUserStorage(creator, name, 0);
 }
 
-bool settings_read_file(const settings_t *settings)
+char *settings_read_file(SDL_Storage *storage)
 {
 	Uint64 size;
-	if (!SDL_GetStorageFileSize(settings->storage, FILENAME, &size))
+	if (!SDL_GetStorageFileSize(storage, FILENAME, &size))
 	{
-		return false;
+		return nullptr;
 	}
 
 	void *buffer = SDL_malloc(size);
-	if (!SDL_ReadStorageFile(settings->storage, FILENAME, buffer, size))
+	if (!SDL_ReadStorageFile(storage, FILENAME, buffer, size))
 	{
 		SDL_free(buffer);
-		return false;
+		return nullptr;
 	}
 
-	SDL_free(buffer);
-	return true;
+	return buffer;
 }
 
 void settings_write_callback(void *userdata, const SDL_PropertiesID props, const char *name)
@@ -112,7 +111,6 @@ settings_t *settings_open()
 {
 	settings_t *settings = SDL_malloc(sizeof(settings_t));
 	settings->storage = settings_open_storage();
-	settings->props = SDL_CreateProperties();
 	return settings;
 }
 
@@ -133,29 +131,63 @@ bool settings_ready(const settings_t *settings)
 	return SDL_StorageReady(settings->storage);
 }
 
-// toml_datum_t settings_value(settings_t *settings, const char *key)
-// {
-// 	if (!SDL_StorageReady(settings->storage))
-// 	{
-// 		return (toml_datum_t)
-// 		{
-// 		};
-// 	}
-//
-// 	if (!settings->loaded && !settings_read_file(settings))
-// 	{
-// 		return (toml_datum_t)
-// 		{
-// 		};
-// 	}
-//
-// 	return toml_seek(settings->toml.toptab, key);
-// }
-
-bool settings_set_string(const settings_t *settings, const char *key, const char *value)
+bool settings_parse(settings_t *settings)
 {
-	// const toml_datum_t value = settings_value(settings, key);
-	// return value.type == TOML_STRING ? value.u.s : fallback;
+	if (!SDL_StorageReady(settings->storage))
+	{
+		return SDL_SetError("Storage not ready");
+	}
 
+	if (settings->props > 0)
+	{
+		return true;
+	}
+
+	SDL_LogDebug(LOG_CATEGORY_CORE, "Lazily loading settings");
+
+	settings->props = SDL_CreateProperties();
+
+	char *content = settings_read_file(settings->storage);
+	if (content == nullptr)
+	{
+		return false;
+	}
+
+	const char *current = content;
+	while (current != nullptr)
+	{
+		char *end = SDL_strchr(current, '\n');
+		if (end != nullptr)
+		{
+			*end = '\0';
+		}
+
+		char *split = SDL_strchr(current, '=');
+		*split = '\0';
+
+		SDL_SetStringProperty(settings->props, current, split + 1);
+
+		current = end == nullptr ? end : end + 1;
+	}
+
+	SDL_free(content);
+	return true;
+}
+
+const char *settings_string(settings_t *settings, const char *key, const char *fallback)
+{
+	if (!settings_parse(settings))
+	{
+		return nullptr;
+	}
+	return SDL_GetStringProperty(settings->props, key, fallback);
+}
+
+bool settings_set_string(settings_t *settings, const char *key, const char *value)
+{
+	if (!settings_parse(settings))
+	{
+		return false;
+	}
 	return SDL_SetStringProperty(settings->props, key, value);
 }
