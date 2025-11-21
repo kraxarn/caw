@@ -71,11 +71,17 @@ void settings_write_callback(void *userdata, const SDL_PropertiesID props, const
 	}
 
 	char *current = *(char **) userdata;
-
-	SDL_asprintf((char **) userdata, "%s\n", line);
+	if (current == nullptr)
+	{
+		SDL_asprintf((char **) userdata, "%s", line);
+	}
+	else
+	{
+		SDL_asprintf((char **) userdata, "%s\n%s", current, line);
+		SDL_free(current);
+	}
 
 	SDL_free(line);
-	SDL_free(current);
 }
 
 bool settings_write_file(const settings_t *settings)
