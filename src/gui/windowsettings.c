@@ -1,6 +1,8 @@
 #include "caw/gui/windowsettings.h"
 #include "caw/appstate.h"
+#include "caw/audiodriver.h"
 #include "caw/guistate.h"
+#include "caw/renderdriver.h"
 #include "caw/gui/apptheme.h"
 
 #include "shiny/theme.h"
@@ -42,20 +44,22 @@ const char *render_driver(const int index)
 {
 	if (index == 0)
 	{
-		return "auto";
+		return "Auto";
 	}
 
-	return SDL_GetRenderDriver(index - 1);
+	const char *name = SDL_GetRenderDriver(index - 1);
+	return render_driver_display_name(name);
 }
 
 const char *audio_driver(const int index)
 {
 	if (index == 0)
 	{
-		return "auto";
+		return "Auto";
 	}
 
-	return SDL_GetAudioDriver(index - 1);
+	const char *name = SDL_GetAudioDriver(index - 1);
+	return audio_driver_display_name(name);
 }
 
 void set_render_driver(app_state_t *state, const int index)
@@ -342,7 +346,7 @@ void window_content(app_state_t *state)
 			spacer_x();
 			combobox(state, CLAY_STRING("Renderer"), (cb_settings_t){
 				.value = state->gui.settings.renderer == nullptr
-					? "auto"
+					? render_driver(0)
 					: state->gui.settings.renderer,
 				.items = render_driver,
 				.size = SDL_GetNumRenderDrivers() + 1,
@@ -355,7 +359,7 @@ void window_content(app_state_t *state)
 			spacer_x();
 			combobox(state, CLAY_STRING("AudioDriver"), (cb_settings_t){
 				.value = state->gui.settings.audio_driver == nullptr
-					? "auto"
+					? render_driver(0)
 					: state->gui.settings.audio_driver,
 				.items = audio_driver,
 				.size = SDL_GetNumAudioDrivers() + 1,
