@@ -19,7 +19,6 @@ include(deps/clay.cmake)
 include(deps/maple-font.cmake)
 include(deps/mdi.cmake)
 include(deps/sdl.cmake)
-include(deps/tomlc17.cmake)
 
 target_include_directories(${PROJECT_NAME} PRIVATE
 	"${CMAKE_CURRENT_SOURCE_DIR}/include"
