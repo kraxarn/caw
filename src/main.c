@@ -5,6 +5,7 @@
 #include "caw/gui/tracker.h"
 #include "caw/res/fonts.h"
 
+#include "shiny/font.h"
 #include "shiny/theme.h"
 #include "shiny/themekey.h"
 #include "shiny/internal/color.h"
@@ -96,7 +97,26 @@ void clay_state_iterate(app_state_t *state)
 	Clay_RenderCommandArray commands = Clay_EndLayout();
 
 	SDL_RenderClear(state->clay.renderer);
-	SDL_Clay_RenderClayCommands(&state->clay, &commands);
+
+	// TODO: This is probably not a good way to override font rendering
+	for (auto i = 0; i < commands.length; i++)
+	{
+		Clay_RenderCommand *cmd = Clay_RenderCommandArray_Get(&commands, i);
+		if (cmd->commandType == CLAY_RENDER_COMMAND_TYPE_TEXT)
+		{
+			Clay_TextRenderData *data = &cmd->renderData.text;
+			shiny_font_draw_text(state->fonts.body, data->stringContents.chars, data->stringContents.length);
+			continue;
+		}
+
+		Clay_RenderCommandArray temp = {
+			.capacity = commands.capacity,
+			.length = 1,
+			.internalArray = cmd,
+		};
+		SDL_Clay_RenderClayCommands(&state->clay, &temp);
+	}
+
 	SDL_RenderPresent(state->clay.renderer);
 }
 
@@ -232,6 +252,17 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 		return SDL_APP_FAILURE;
 	}
 
+	state->fonts.body = shiny_font_create(state->renderer, maple_mono_nl_regular_ttf);
+	if (state->fonts.body == nullptr)
+	{
+		SDL_LogError(LOG_CATEGORY_CORE, "Font error: %s", SDL_GetError());
+		return SDL_APP_FAILURE;
+	}
+
+	shiny_font_set_size(state->fonts.body, 24);
+	shiny_font_set_color(state->fonts.body, SHINY_COLOR_FOREGROUND);
+	shiny_font_bake(state->fonts.body);
+
 	if (!SDL_SetRenderVSync(state->renderer, 1))
 	{
 		SDL_LogWarn(LOG_CATEGORY_CORE, "SDL_SetRenderVSync error: %s", SDL_GetError());
@@ -306,6 +337,8 @@ void SDL_AppQuit(void *appstate, [[maybe_unused]] SDL_AppResult result)
 	if (state != nullptr)
 	{
 		settings_close(state->settings);
+
+		shiny_font_destroy(state->fonts.body);
 
 		SDL_free(state->arena.memory);
 		SDL_free((void *) state->clay.fonts);
