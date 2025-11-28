@@ -23,8 +23,8 @@
 #include <SDL3/SDL_video.h>
 #include <SDL3_ttf/SDL_ttf.h>
 
-#define WINDOW_WIDTH 1280
-#define WINDOW_HEIGHT 800
+static constexpr auto window_width = 1280;
+static constexpr auto window_height = 800;
 
 void nk_state_event(app_state_t *state, const SDL_Event *event)
 {
@@ -194,7 +194,7 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 	state->result = SDL_APP_CONTINUE;
 	state->gui.timer.previous = 0;
 
-	state->window = SDL_CreateWindow(APP_NAME, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_RESIZABLE);
+	state->window = SDL_CreateWindow(APP_NAME, window_width, window_height, SDL_WINDOW_RESIZABLE);
 	if (state->window == nullptr)
 	{
 		SDL_free(state);
