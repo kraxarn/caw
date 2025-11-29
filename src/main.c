@@ -104,8 +104,13 @@ void clay_state_iterate(app_state_t *state)
 		Clay_RenderCommand *cmd = Clay_RenderCommandArray_Get(&commands, i);
 		if (cmd->commandType == CLAY_RENDER_COMMAND_TYPE_TEXT)
 		{
-			Clay_TextRenderData *data = &cmd->renderData.text;
-			shiny_font_draw_text(state->fonts.body, data->stringContents.chars, data->stringContents.length);
+			const Clay_TextRenderData *data = &cmd->renderData.text;
+			if (!shiny_font_draw_text(state->fonts[data->fontId], cmd->boundingBox.x, cmd->boundingBox.y,
+				data->fontSize, data->stringContents.chars, data->stringContents.length))
+			{
+				SDL_LogError(LOG_CATEGORY_GUI, "Text draw failed: %s", SDL_GetError());
+			}
+
 			continue;
 		}
 
