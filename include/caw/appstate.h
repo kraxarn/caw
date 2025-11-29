@@ -13,11 +13,6 @@
 #include <SDL3/SDL_render.h>
 #include <SDL3/SDL_video.h>
 
-typedef struct app_fonts_t
-{
-	shiny_font_t *body;
-} app_fonts_t;
-
 typedef struct app_state_t
 {
 	SDL_Window *window;
@@ -28,5 +23,5 @@ typedef struct app_state_t
 	settings_t *settings;
 	gui_state_t gui;
 	SDL_AppResult result;
-	app_fonts_t fonts;
+	shiny_font_t **fonts;
 } app_state_t;
