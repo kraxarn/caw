@@ -5,16 +5,10 @@ FetchContent_Declare(sdl
 	GIT_TAG release-3.2.26
 )
 
-FetchContent_Declare(sdl_ttf
-	GIT_REPOSITORY https://github.com/libsdl-org/SDL_ttf.git
-	GIT_TAG release-3.2.2
-)
-
 find_package(SDL3 QUIET)
-find_package(SDL3_ttf QUIET)
 find_package(SDL3_image QUIET)
 
-if (SDL3_FOUND AND SDL3_ttf_FOUND AND SDL3_image_FOUND)
+if (SDL3_FOUND AND SDL3_image_FOUND)
 	message(STATUS "Using system SDL")
 else ()
 	message(STATUS "Downloading SDL")
@@ -31,12 +25,10 @@ else ()
 	set(SDL_VIDEO ON)
 	FetchContent_MakeAvailable(sdl)
 	include(deps/sdl_image.cmake)
-	FetchContent_MakeAvailable(sdl_ttf)
 endif ()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
 	SDL3::SDL3
-	SDL3_ttf::SDL3_ttf
 	SDL3_image::SDL3_image
 )
 
