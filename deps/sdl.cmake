@@ -6,9 +6,8 @@ FetchContent_Declare(sdl
 )
 
 find_package(SDL3 QUIET)
-find_package(SDL3_image QUIET)
 
-if (SDL3_FOUND AND SDL3_image_FOUND)
+if (SDL3_FOUND)
 	message(STATUS "Using system SDL")
 else ()
 	message(STATUS "Downloading SDL")
@@ -24,13 +23,9 @@ else ()
 	set(SDL_SENSOR OFF)
 	set(SDL_VIDEO ON)
 	FetchContent_MakeAvailable(sdl)
-	include(deps/sdl_image.cmake)
 endif ()
 
-target_link_libraries(${PROJECT_NAME} PRIVATE
-	SDL3::SDL3
-	SDL3_image::SDL3_image
-)
+target_link_libraries(${PROJECT_NAME} PRIVATE SDL3::SDL3)
 
 if (ANDROID)
 	set(JAVA_SRC "${sdl_SOURCE_DIR}/android-project/app/src/main/java/org/libsdl/app")
