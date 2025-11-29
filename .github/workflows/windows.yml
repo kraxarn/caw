@@ -2,7 +2,6 @@ name: Windows
 
 # VS 2022 (2026?) doesn't support C23
 # (but the included version of gcc does)
-# (i dunno how to install freetype in that case >.<)
 
 on: [ workflow_dispatch ]
 
@@ -18,15 +17,6 @@ jobs:
       - uses: actions/checkout@v5
         with:
           submodules: true
-
-        # This is probably not how you should do this, but I'm not a Windows developer
-      - name: Install FreeType
-        shell: bash
-        run: |
-          git clone -b VER-2-14-1 https://gitlab.freedesktop.org/freetype/freetype.git
-          cd freetype
-          ./configure
-          make install
 
       - name: Create Build Environment
         run: cmake -E make_directory ${{runner.workspace}}\build
