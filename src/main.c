@@ -3,6 +3,7 @@
 #include "caw/renderdriver.h"
 #include "caw/settings.h"
 #include "caw/gui/tracker.h"
+#include "caw/renderer/clayrenderersdl3.h"
 #include "caw/res/fonts.h"
 
 #include "shiny/font.h"
@@ -21,7 +22,6 @@
 #include <SDL3/SDL_stdinc.h>
 #include <SDL3/SDL_timer.h>
 #include <SDL3/SDL_video.h>
-#include <SDL3_ttf/SDL_ttf.h>
 
 static constexpr auto window_width = 1280;
 static constexpr auto window_height = 800;
@@ -49,20 +49,16 @@ void nk_state_event(app_state_t *state, const SDL_Event *event)
 	}
 }
 
-Clay_Dimensions measure_text(Clay_StringSlice text, Clay_TextElementConfig *config, void *user_data)
+Clay_Dimensions measure_text(const Clay_StringSlice text, Clay_TextElementConfig *config, void *user_data)
 {
-	TTF_Font **fonts = user_data;
-	TTF_Font *font = fonts[config->fontId];
-	TTF_SetFontSize(font, config->fontSize);
+	const auto fonts = (shiny_font_t **) user_data;
+	const shiny_font_t *font = fonts[config->fontId];
 
-	int width;
-	int height;
-	if (!TTF_GetStringSize(font, text.chars, text.length, &width, &height))
-	{
-		SDL_LogError(LOG_CATEGORY_GUI, "Font error: %s", SDL_GetError());
-	}
+	Clay_Dimensions dimensions;
+	shiny_font_measure_text(font, text.chars, text.length, config->fontSize,
+		&dimensions.width, &dimensions.height);
 
-	return (Clay_Dimensions){(float) width, (float) height};
+	return dimensions;
 }
 
 void handle_clay_error(const Clay_ErrorData data)
@@ -85,7 +81,7 @@ void clay_state_init(app_state_t *state)
 		}
 	);
 
-	Clay_SetMeasureTextFunction(measure_text, state->clay.fonts);
+	Clay_SetMeasureTextFunction(measure_text, (void *) state->fonts);
 }
 
 void clay_state_iterate(app_state_t *state)
@@ -183,12 +179,6 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 		return SDL_APP_FAILURE;
 	}
 
-	if (!TTF_Init())
-	{
-		SDL_LogError(LOG_CATEGORY_CORE, "Font initialisation error: %s", SDL_GetError());
-		return SDL_APP_FAILURE;
-	}
-
 	app_state_t *state = SDL_calloc(1, sizeof(app_state_t));
 	if (state == nullptr)
 	{
@@ -232,30 +222,6 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 	SDL_free(title);
 
 	state->clay.renderer = state->renderer;
-	state->clay.textEngine = TTF_CreateRendererTextEngine(state->renderer);
-	if (state->clay.textEngine == nullptr)
-	{
-		SDL_LogError(LOG_CATEGORY_CORE, "%s", SDL_GetError());
-		return SDL_APP_FAILURE;
-	}
-
-	state->clay.fonts = SDL_malloc(sizeof(TTF_Font *));
-	if (state->clay.fonts == nullptr)
-	{
-		SDL_LogError(LOG_CATEGORY_CORE, "Font allocation error: %s", SDL_GetError());
-		return SDL_APP_FAILURE;
-	}
-
-	SDL_IOStream *font_data = SDL_IOFromConstMem(
-		maple_mono_nl_regular_ttf,
-		sizeof(maple_mono_nl_regular_ttf)
-	);
-	state->clay.fonts[0] = TTF_OpenFontIO(font_data, true, 24);
-	if (state->clay.fonts[0] == nullptr)
-	{
-		SDL_LogError(LOG_CATEGORY_CORE, "Font error: %s", SDL_GetError());
-		return SDL_APP_FAILURE;
-	}
 
 	shiny_default_theme();
 
@@ -351,12 +317,10 @@ void SDL_AppQuit(void *appstate, [[maybe_unused]] SDL_AppResult result)
 		SDL_free((void *) state->fonts);
 
 		SDL_free(state->arena.memory);
-		SDL_free((void *) state->clay.fonts);
 
 		SDL_DestroyRenderer(state->renderer);
 		SDL_DestroyWindow(state->window);
 	}
 
 	SDL_free(appstate);
-	TTF_Quit();
 }
