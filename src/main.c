@@ -257,8 +257,17 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 		return SDL_APP_FAILURE;
 	}
 
-	state->fonts.body = shiny_font_create(state->renderer, maple_mono_nl_regular_ttf);
-	if (state->fonts.body == nullptr)
+	shiny_default_theme();
+
+	state->fonts = SDL_malloc(sizeof(shiny_font_t *));
+	if (state->fonts == nullptr)
+	{
+		SDL_LogError(LOG_CATEGORY_CORE, "Allocation failed: %s", SDL_GetError());
+		return SDL_APP_FAILURE;
+	}
+
+	state->fonts[0] = shiny_font_create(state->renderer, maple_mono_nl_regular_ttf);
+	if (state->fonts[0] == nullptr)
 	{
 		SDL_LogError(LOG_CATEGORY_CORE, "Font error: %s", SDL_GetError());
 		return SDL_APP_FAILURE;
@@ -285,7 +294,6 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 	SDL_SetRenderDrawColor(state->renderer, state->bg.r, state->bg.g, state->bg.b, state->bg.a);
 
 	clay_state_init(state);
-	shiny_default_theme();
 
 	*appstate = state;
 	return SDL_APP_CONTINUE;
@@ -339,7 +347,8 @@ void SDL_AppQuit(void *appstate, [[maybe_unused]] SDL_AppResult result)
 	{
 		settings_close(state->settings);
 
-		shiny_font_destroy(state->fonts.body);
+		shiny_font_destroy(state->fonts[0]);
+		SDL_free((void *) state->fonts);
 
 		SDL_free(state->arena.memory);
 		SDL_free((void *) state->clay.fonts);
