@@ -358,7 +358,7 @@ void window_content(app_state_t *state)
 			combobox(state, CLAY_STRING("Renderer"), (cb_settings_t){
 				.value = state->gui.settings.renderer == nullptr
 					? render_driver(0)
-					: state->gui.settings.renderer,
+					: render_driver_display_name(state->gui.settings.renderer),
 				.items = render_driver,
 				.size = SDL_GetNumRenderDrivers() + 1,
 				.callback = set_render_driver,
@@ -371,7 +371,7 @@ void window_content(app_state_t *state)
 			combobox(state, CLAY_STRING("AudioDriver"), (cb_settings_t){
 				.value = state->gui.settings.audio_driver == nullptr
 					? render_driver(0)
-					: state->gui.settings.audio_driver,
+					: audio_driver_display_name(state->gui.settings.audio_driver),
 				.items = audio_driver,
 				.size = SDL_GetNumAudioDrivers() + 1,
 				.callback = set_audio_driver,
