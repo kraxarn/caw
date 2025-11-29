@@ -1,6 +1,7 @@
 #include "caw/gui/menubar.h"
 #include "caw/appstate.h"
 #include "caw/guistate.h"
+#include "caw/gui/apptheme.h"
 #include "caw/res/icons.h"
 
 #include "shiny/theme.h"
@@ -19,7 +20,7 @@ void SDLCALL on_file_opened(void *userdata, const char *const *filelist, int fil
 Clay_TextElementConfig text_config()
 {
 	return (Clay_TextElementConfig){
-		.fontSize = 12,
+		.fontSize = FONT_SIZE_MENU,
 		.textColor = shiny_clay_theme_color(SHINY_COLOR_FOREGROUND),
 	};
 }
