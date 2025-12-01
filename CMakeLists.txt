@@ -12,13 +12,13 @@ endif ()
 
 add_subdirectory(src)
 
-add_subdirectory(deps/shiny)
-target_link_libraries(${PROJECT_NAME} PRIVATE shiny)
-
 include(deps/clay.cmake)
 include(deps/maple-font.cmake)
 include(deps/qoi.cmake)
 include(deps/sdl.cmake)
+
+add_subdirectory(deps/shiny)
+target_link_libraries(${PROJECT_NAME} PRIVATE shiny)
 
 include(cmake/icons.cmake)
 
