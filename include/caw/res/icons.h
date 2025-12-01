@@ -4,4 +4,4 @@
 
 SDL_Texture *icon(SDL_Renderer *renderer, const char *name);
 
-const char *icon_data(const char *name, size_t *len);
+void *icon_data(const char *name, int *size);

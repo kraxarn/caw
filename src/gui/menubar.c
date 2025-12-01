@@ -2,6 +2,7 @@
 #include "caw/appstate.h"
 #include "caw/guistate.h"
 #include "caw/gui/apptheme.h"
+#include "caw/res/icons.h"
 
 #include "shiny/theme.h"
 #include "shiny/themekey.h"
@@ -77,6 +78,9 @@ void menu_item(app_state_t *state, const menu_item_config_t *item)
 							.width = CLAY_SIZING_FIXED(24),
 							.height = CLAY_SIZING_FIXED(24),
 						},
+					},
+					.image = (Clay_ImageElementConfig){
+						.imageData = icon(state->renderer, item->icon),
 					},
 				};
 				CLAY_AUTO_ID(icon_element)
