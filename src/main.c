@@ -175,14 +175,15 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 
 	if (!SDL_Init(SDL_INIT_EVENTS | SDL_INIT_VIDEO | SDL_INIT_AUDIO))
 	{
-		SDL_LogError(LOG_CATEGORY_CORE, "SDL_Init error: %s", SDL_GetError());
+		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Fatal error", SDL_GetError(), nullptr);
+		SDL_LogError(LOG_CATEGORY_CORE, "Initialisation failed: %s", SDL_GetError());
 		return SDL_APP_FAILURE;
 	}
 
 	app_state_t *state = SDL_calloc(1, sizeof(app_state_t));
 	if (state == nullptr)
 	{
-		SDL_LogError(LOG_CATEGORY_CORE, "SDL_malloc error: %s", SDL_GetError());
+		SDL_LogError(LOG_CATEGORY_CORE, "Allocation failed: %s", SDL_GetError());
 		return SDL_APP_FAILURE;
 	}
 
@@ -192,8 +193,9 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 	state->window = SDL_CreateWindow(APP_NAME, window_width, window_height, SDL_WINDOW_RESIZABLE);
 	if (state->window == nullptr)
 	{
+		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Fatal error", SDL_GetError(), state->window);
+		SDL_LogError(LOG_CATEGORY_CORE, "Window creation failed: %s", SDL_GetError());
 		SDL_free(state);
-		SDL_LogError(LOG_CATEGORY_CORE, "Window failed: %s", SDL_GetError());
 		return SDL_APP_FAILURE;
 	}
 
@@ -207,7 +209,7 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 	state->renderer = SDL_CreateRenderer(state->window, renderer_name);
 	if (state->renderer == nullptr)
 	{
-		SDL_LogError(LOG_CATEGORY_CORE, "Renderer failed: %s", SDL_GetError());
+		SDL_LogError(LOG_CATEGORY_CORE, "Render creation failed: %s", SDL_GetError());
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Fatal error", SDL_GetError(), state->window);
 		SDL_free(state);
 		return SDL_APP_FAILURE;
