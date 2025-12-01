@@ -5,6 +5,7 @@
 #include "caw/res/icons.h"
 
 #include "shiny/menubar.h"
+#include "shiny/label.h"
 #include "shiny/spacer.h"
 #include "shiny/theme.h"
 #include "shiny/themekey.h"
@@ -14,6 +15,7 @@
 
 #include <SDL3/SDL_dialog.h>
 #include <SDL3/SDL_init.h>
+#include <SDL3/SDL_stdinc.h>
 
 void SDLCALL on_file_opened(void *userdata, const char *const *filelist, int filter)
 {
@@ -242,16 +244,8 @@ void help_menu(app_state_t *state)
 
 void fps_counter(app_state_t *state)
 {
-	CLAY_AUTO_ID()
-	{
-		SDL_snprintf(state->gui.timer.text, 8, "%.0f FPS", state->gui.timer.fps);
-		const Clay_String str = {
-			.isStaticallyAllocated = false,
-			.length = SDL_strlen(state->gui.timer.text),
-			.chars = state->gui.timer.text
-		};
-		CLAY_TEXT(str, CLAY_TEXT_CONFIG(text_config()));
-	}
+	SDL_snprintf(state->gui.timer.text, 8, "%.0f FPS", state->gui.timer.fps);
+	shiny_label(state->clay_context, state->gui.timer.text, FONT_SIZE_MENU);
 }
 
 void menubar(app_state_t *state)
