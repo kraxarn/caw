@@ -36,5 +36,5 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: caw
-          path: ${{runner.workspace}}/build/caw
+          name: caw-linux-x64
+          path: ${{runner.workspace}}/caw/build/caw
