@@ -7,6 +7,7 @@
 #include "caw/res/fonts.h"
 
 #include "shiny/font.h"
+#include "shiny/init.h"
 #include "shiny/theme.h"
 #include "shiny/themekey.h"
 #include "shiny/internal/color.h"
@@ -267,6 +268,7 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 	SDL_SetRenderDrawColor(state->renderer, state->bg.r, state->bg.g, state->bg.b, state->bg.a);
 
 	clay_state_init(state);
+	shiny_set_fonts(state->clay_context, state->fonts);
 
 	*appstate = state;
 	return SDL_APP_CONTINUE;
