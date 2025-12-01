@@ -382,7 +382,7 @@ void window_content(app_state_t *state)
 
 void settings_window(app_state_t *state)
 {
-	constexpr auto width = 380.F;
+	constexpr auto width = 340.F;
 	constexpr auto height = 300.F;
 
 	const auto window = &state->gui.windows.settings;
