@@ -37,4 +37,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: caw-linux-x64
-          path: ${{runner.workspace}}/caw/build/caw
+          path: |
+            ${{runner.workspace}}/caw/build/caw
+            ${{runner.workspace}}/caw/build/libSDL3.so
+            ${{runner.workspace}}/caw/build/libshiny.so
