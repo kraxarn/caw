@@ -16,8 +16,13 @@
 #define SDL_MAIN_USE_CALLBACKS
 #include <SDL3/SDL_main.h>
 
+#include <SDL3/SDL_error.h>
+#include <SDL3/SDL_events.h>
+#include <SDL3/SDL_init.h>
+#include <SDL3/SDL_keycode.h>
 #include <SDL3/SDL_log.h>
 #include <SDL3/SDL_messagebox.h>
+#include <SDL3/SDL_mouse.h>
 #include <SDL3/SDL_render.h>
 #include <SDL3/SDL_stdinc.h>
 #include <SDL3/SDL_timer.h>
@@ -275,7 +280,7 @@ SDL_AppResult SDL_AppIterate([[maybe_unused]] void *appstate)
 		return SDL_APP_FAILURE;
 	}
 
-	const uint64_t ticks = SDL_GetTicks();
+	const Uint64 ticks = SDL_GetTicks();
 	if (ticks > 1000 && state->gui.timer.fps_update < ticks - 1000)
 	{
 		state->gui.timer.fps_update = ticks;
