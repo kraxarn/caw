@@ -13,7 +13,7 @@ else ()
 	)
 endif ()
 
-message(STATUS "Downloading fonts")
+message(STATUS "Downloading maple fonts")
 FetchContent_MakeAvailable(maple_font)
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE

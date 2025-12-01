@@ -6,7 +6,7 @@ FetchContent_Declare(clay
 	SOURCE_SUBDIR ignore
 )
 
-message(STATUS "Downloading Clay UI")
+message(STATUS "Downloading clay")
 FetchContent_MakeAvailable(clay)
 
 target_include_directories(${PROJECT_NAME} PUBLIC

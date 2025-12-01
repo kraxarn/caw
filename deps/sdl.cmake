@@ -8,9 +8,9 @@ FetchContent_Declare(sdl
 find_package(SDL3 QUIET)
 
 if (SDL3_FOUND)
-	message(STATUS "Using system SDL")
+	message(STATUS "Using system sdl3")
 else ()
-	message(STATUS "Downloading SDL")
+	message(STATUS "Downloading sdl3")
 	set(SDL_AUDIO ON)
 	set(SDL_CAMERA OFF)
 	set(SDL_DIALOG ON)
