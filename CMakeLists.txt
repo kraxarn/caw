@@ -17,9 +17,10 @@ target_link_libraries(${PROJECT_NAME} PRIVATE shiny)
 
 include(deps/clay.cmake)
 include(deps/maple-font.cmake)
-include(deps/mdi.cmake)
 include(deps/qoi.cmake)
 include(deps/sdl.cmake)
+
+include(cmake/icons.cmake)
 
 target_include_directories(${PROJECT_NAME} PRIVATE
 	"${CMAKE_CURRENT_SOURCE_DIR}/include"
