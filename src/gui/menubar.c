@@ -5,6 +5,7 @@
 #include "caw/res/icons.h"
 
 #include "shiny/menubar.h"
+#include "shiny/spacer.h"
 #include "shiny/theme.h"
 #include "shiny/themekey.h"
 #include "shiny/internal/color.h"
@@ -56,8 +57,8 @@ void menu_item(app_state_t *state, const menu_item_config_t *item)
 		element.cornerRadius = CLAY_CORNER_RADIUS(shiny_theme_corner_radius(SHINY_CORNER_RADIUS_DEFAULT));
 		element.backgroundColor = shiny_clay_theme_color(
 			(int) Clay_Hovered()
-				? SHINY_COLOR_CONTROL_HOVER
-				: SHINY_COLOR_CONTROL_ACTIVE
+			? SHINY_COLOR_CONTROL_HOVER
+			: SHINY_COLOR_CONTROL_ACTIVE
 		);
 		element.layout.childAlignment.y = CLAY_ALIGN_Y_CENTER;
 		element.layout.childGap = shiny_theme_gap(SHINY_GAP_DEFAULT);
@@ -213,8 +214,8 @@ void view_menu(app_state_t *state)
 		(menu_item_config_t[]){
 			{
 				.icon = (int) state->gui.windows.settings.visible
-					? "checkbox-marked"
-					: "checkbox-blank-outline",
+				? "checkbox-marked"
+				: "checkbox-blank-outline",
 				.text = CLAY_STRING("Settings"),
 				.clicked = on_view_settings_clicked,
 			},
@@ -239,21 +240,6 @@ void help_menu(app_state_t *state)
 	);
 }
 
-void spacer()
-{
-	const Clay_ElementDeclaration element = {
-		.layout = (Clay_LayoutConfig){
-			.sizing = (Clay_Sizing){
-				.width = CLAY_SIZING_GROW(0),
-			},
-		},
-	};
-
-	CLAY_AUTO_ID(element)
-	{
-	}
-}
-
 void fps_counter(app_state_t *state)
 {
 	CLAY_AUTO_ID()
@@ -276,7 +262,9 @@ void menubar(app_state_t *state)
 		view_menu(state);
 		debug_menu(state);
 		help_menu(state);
-		spacer();
+
+		shiny_h_spacer(state->clay_context);
+
 		fps_counter(state);
 	}
 	shiny_menubar_end();
