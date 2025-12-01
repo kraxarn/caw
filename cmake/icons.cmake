@@ -19,7 +19,7 @@ foreach (ICON_PATH ${ICON_PATHS})
 	)
 
 	string(APPEND OUTPUT_VAR
-		"\n" "constexpr Uint8 ${ICON_VAR}[] = {\n"
+		"\n" "const Uint8 ${ICON_VAR}[] = {\n"
 		"#embed ${ICON_DEFINE}\n"
 		"};" "\n"
 	)
