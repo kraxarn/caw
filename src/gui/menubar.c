@@ -4,6 +4,7 @@
 #include "caw/gui/apptheme.h"
 #include "caw/res/icons.h"
 
+#include "shiny/menubar.h"
 #include "shiny/theme.h"
 #include "shiny/themekey.h"
 #include "shiny/internal/color.h"
@@ -269,24 +270,8 @@ void fps_counter(app_state_t *state)
 
 void menubar(app_state_t *state)
 {
-	const Clay_ElementDeclaration element = {
-		.layout = (Clay_LayoutConfig){
-			.layoutDirection = CLAY_LEFT_TO_RIGHT,
-			.sizing = (Clay_Sizing){
-				.width = CLAY_SIZING_GROW(0),
-				.height = CLAY_SIZING_FIXED(0),
-			},
-			.padding = CLAY_PADDING_ALL(shiny_theme_padding(SHINY_PADDING_MENUBAR)),
-			.childGap = shiny_theme_gap(SHINY_GAP_MENUBAR),
-		},
-		.cornerRadius = CLAY_CORNER_RADIUS(shiny_theme_corner_radius(SHINY_CORNER_RADIUS_DEFAULT)),
-		.backgroundColor = shiny_clay_theme_color(SHINY_COLOR_WINDOW_BACKGROUND),
-	};
-
-	Clay__OpenElementWithId(CLAY_ID("Menubar"));
+	shiny_menubar_begin(state->clay_context, "Menubar");
 	{
-		Clay__ConfigureOpenElement(element);
-
 		file_menu(state);
 		view_menu(state);
 		debug_menu(state);
@@ -294,5 +279,5 @@ void menubar(app_state_t *state)
 		spacer();
 		fps_counter(state);
 	}
-	Clay__CloseElement();
+	shiny_menubar_end();
 }

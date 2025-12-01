@@ -71,7 +71,7 @@ void clay_state_init(app_state_t *state)
 	const size_t mem_size = Clay_MinMemorySize();
 	state->arena = Clay_CreateArenaWithCapacityAndMemory(mem_size, SDL_malloc(mem_size));
 
-	Clay_Initialize(state->arena,
+	state->clay_context = Clay_Initialize(state->arena,
 		(Clay_Dimensions){
 			.width = (float) state->gui.out.width,
 			.height = (float) state->gui.out.height,
