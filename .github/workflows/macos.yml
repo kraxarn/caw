@@ -28,5 +28,5 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: caw
+          name: caw-macos-arm64
           path: ${{runner.workspace}}/build/caw.app
