@@ -5,7 +5,9 @@
 #include "caw/res/icons.h"
 
 #include "shiny/menubar.h"
+#include "shiny/image.h"
 #include "shiny/label.h"
+#include "shiny/size.h"
 #include "shiny/spacer.h"
 #include "shiny/theme.h"
 #include "shiny/themekey.h"
@@ -15,6 +17,7 @@
 
 #include <SDL3/SDL_dialog.h>
 #include <SDL3/SDL_init.h>
+#include <SDL3/SDL_render.h>
 #include <SDL3/SDL_stdinc.h>
 
 void SDLCALL on_file_opened(void *userdata, const char *const *filelist, int filter)
@@ -76,20 +79,12 @@ void menu_item(app_state_t *state, const menu_item_config_t *item)
 		{
 			if (item->icon != nullptr)
 			{
-				const Clay_ElementDeclaration icon_element = {
-					.layout = (Clay_LayoutConfig){
-						.sizing = (Clay_Sizing){
-							.width = CLAY_SIZING_FIXED(24),
-							.height = CLAY_SIZING_FIXED(24),
-						},
-					},
-					.image = (Clay_ImageElementConfig){
-						.imageData = icon(state->renderer, item->icon),
-					},
+				SDL_Texture *texture = icon(state->renderer, item->icon);
+				const shiny_size_t size = {
+					.width = 24,
+					.height = 24,
 				};
-				CLAY_AUTO_ID(icon_element)
-				{
-				}
+				shiny_image(state->clay_context, texture, &size);
 			}
 
 			CLAY_TEXT(item->text, CLAY_TEXT_CONFIG(text_config()));
