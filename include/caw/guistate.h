@@ -46,7 +46,7 @@ typedef struct gui_windows_state_t
 typedef struct menu_item_config_t
 {
 	const char *icon;
-	Clay_String text;
+	const char *text;
 	void (*clicked)(app_state_t *);
 } menu_item_config_t;
 

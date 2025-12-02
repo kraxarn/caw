@@ -87,7 +87,7 @@ void menu_item(app_state_t *state, const menu_item_config_t *item)
 				shiny_image(state->clay_context, texture, &size);
 			}
 
-			CLAY_TEXT(item->text, CLAY_TEXT_CONFIG(text_config()));
+			shiny_label(state->clay_context, item->text, FONT_SIZE_MENU);
 		}
 	}
 }
@@ -184,16 +184,16 @@ void file_menu(app_state_t *state)
 {
 	menubar_item(state, CLAY_STRING("FileMenuItem"), CLAY_STRING("File"),
 		(menu_item_config_t[]){
-			{.text = CLAY_STRING("New..."),},
+			{.text = "New...",},
 			{
-				.text = CLAY_STRING("Open..."),
+				.text = "Open...",
 				.clicked = on_file_open_clicked,
 			},
-			{.text = CLAY_STRING("Save"),},
-			{.text = CLAY_STRING("Save As..."),},
-			{.text = CLAY_STRING("Export..."),},
+			{.text = "Save",},
+			{.text = "Save As...",},
+			{.text = "Export...",},
 			{
-				.text = CLAY_STRING("Quit"),
+				.text = "Quit",
 				.clicked = on_file_quit_clicked,
 			},
 		}, 6
@@ -213,7 +213,7 @@ void view_menu(app_state_t *state)
 				.icon = (int) state->gui.windows.settings.visible
 				? "checkbox-marked"
 				: "checkbox-blank-outline",
-				.text = CLAY_STRING("Settings"),
+				.text = "Settings",
 				.clicked = on_view_settings_clicked,
 			},
 		}, 1
@@ -232,7 +232,7 @@ void help_menu(app_state_t *state)
 {
 	menubar_item(state, CLAY_STRING("HelpMenuItem"), CLAY_STRING("Help"),
 		(menu_item_config_t[]){
-			{.text = CLAY_STRING("About..."),},
+			{.text = "About...",},
 		}, 1
 	);
 }
