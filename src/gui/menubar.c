@@ -24,14 +24,6 @@ void SDLCALL on_file_opened(void *userdata, const char *const *filelist, int fil
 {
 }
 
-Clay_TextElementConfig text_config()
-{
-	return (Clay_TextElementConfig){
-		.fontSize = FONT_SIZE_MENU,
-		.textColor = shiny_clay_theme_color(SHINY_COLOR_FOREGROUND),
-	};
-}
-
 void on_menu_item_hover([[maybe_unused]] Clay_ElementId element_id,
 	Clay_PointerData pointer_data, intptr_t user_data)
 {
@@ -150,12 +142,12 @@ void on_menubar_item_hover(Clay_ElementId element_id, Clay_PointerData pointer_d
 	}
 }
 
-void menubar_item(app_state_t *state, const Clay_String item_id, const Clay_String text,
-	const menu_item_config_t *items, const size_t count)
+static void menubar_item(app_state_t *state, const Clay_String item_id,
+	const char *text, const menu_item_config_t *items, const size_t count)
 {
 	CLAY(CLAY_SID(item_id))
 	{
-		CLAY_TEXT(text, CLAY_TEXT_CONFIG(text_config()));
+		shiny_label(state->clay_context, text, FONT_SIZE_MENU);
 		Clay_OnHover(on_menubar_item_hover, (intptr_t) state);
 
 		if ((int) state->gui.menu.visible && state->gui.menu.current.id == Clay__HashString(item_id, 0).id)
@@ -182,7 +174,7 @@ void on_file_quit_clicked(app_state_t *state)
 
 void file_menu(app_state_t *state)
 {
-	menubar_item(state, CLAY_STRING("FileMenuItem"), CLAY_STRING("File"),
+	menubar_item(state, CLAY_STRING("FileMenuItem"), "File",
 		(menu_item_config_t[]){
 			{.text = "New...",},
 			{
@@ -207,7 +199,7 @@ void on_view_settings_clicked(app_state_t *state)
 
 void view_menu(app_state_t *state)
 {
-	menubar_item(state, CLAY_STRING("ViewMenuItem"), CLAY_STRING("View"),
+	menubar_item(state, CLAY_STRING("ViewMenuItem"), "View",
 		(menu_item_config_t[]){
 			{
 				.icon = (int) state->gui.windows.settings.visible
@@ -222,7 +214,7 @@ void view_menu(app_state_t *state)
 
 void debug_menu(app_state_t *state)
 {
-	menubar_item(state, CLAY_STRING("DebugMenuItem"), CLAY_STRING("Debug"),
+	menubar_item(state, CLAY_STRING("DebugMenuItem"), "Debug",
 		(menu_item_config_t[]){
 		}, 0
 	);
@@ -230,7 +222,7 @@ void debug_menu(app_state_t *state)
 
 void help_menu(app_state_t *state)
 {
-	menubar_item(state, CLAY_STRING("HelpMenuItem"), CLAY_STRING("Help"),
+	menubar_item(state, CLAY_STRING("HelpMenuItem"), "Help",
 		(menu_item_config_t[]){
 			{.text = "About...",},
 		}, 1
