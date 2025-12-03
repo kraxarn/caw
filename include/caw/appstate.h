@@ -2,11 +2,8 @@
 
 #include "caw/guistate.h"
 #include "caw/settings.h"
-#include "caw/renderer/clayrenderersdl3.h"
 
-#include "shiny/font.h"
-
-#include "clay.h"
+#include "shiny/init.h"
 
 #include <SDL3/SDL_init.h>
 #include <SDL3/SDL_pixels.h>
@@ -17,12 +14,9 @@ typedef struct app_state_t
 {
 	SDL_Window *window;
 	SDL_Renderer *renderer;
-	Clay_Context *clay_context;
-	Clay_Arena arena;
-	Clay_SDL3RendererData clay;
 	SDL_Color bg;
 	settings_t *settings;
 	gui_state_t gui;
 	SDL_AppResult result;
-	shiny_font_t **fonts;
+	shiny_state_t *shiny;
 } app_state_t;

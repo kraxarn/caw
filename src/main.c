@@ -3,7 +3,6 @@
 #include "caw/renderdriver.h"
 #include "caw/settings.h"
 #include "caw/gui/tracker.h"
-#include "caw/renderer/clayrenderersdl3.h"
 #include "caw/res/fonts.h"
 
 #include "shiny/font.h"
@@ -20,10 +19,8 @@
 #include <SDL3/SDL_error.h>
 #include <SDL3/SDL_events.h>
 #include <SDL3/SDL_init.h>
-#include <SDL3/SDL_keycode.h>
 #include <SDL3/SDL_log.h>
 #include <SDL3/SDL_messagebox.h>
-#include <SDL3/SDL_mouse.h>
 #include <SDL3/SDL_render.h>
 #include <SDL3/SDL_stdinc.h>
 #include <SDL3/SDL_timer.h>
@@ -55,115 +52,20 @@ void nk_state_event(app_state_t *state, const SDL_Event *event)
 	}
 }
 
-Clay_Dimensions measure_text(const Clay_StringSlice text, Clay_TextElementConfig *config, void *user_data)
-{
-	const auto fonts = (shiny_font_t **) user_data;
-	const shiny_font_t *font = fonts[config->fontId];
-
-	Clay_Dimensions dimensions;
-	shiny_font_measure_text(font, text.chars, text.length, config->fontSize,
-		&dimensions.width, &dimensions.height);
-
-	return dimensions;
-}
-
-void handle_clay_error(const Clay_ErrorData data)
-{
-	SDL_LogError(LOG_CATEGORY_GUI, "UI error %d: %s", data.errorType, data.errorText.chars);
-}
-
-void clay_state_init(app_state_t *state)
-{
-	const size_t mem_size = Clay_MinMemorySize();
-	state->arena = Clay_CreateArenaWithCapacityAndMemory(mem_size, SDL_malloc(mem_size));
-
-	state->clay_context = Clay_Initialize(state->arena,
-		(Clay_Dimensions){
-			.width = (float) state->gui.out.width,
-			.height = (float) state->gui.out.height,
-		},
-		(Clay_ErrorHandler){
-			.errorHandlerFunction = handle_clay_error,
-		}
-	);
-
-	Clay_SetMeasureTextFunction(measure_text, (void *) state->fonts);
-}
-
 void clay_state_iterate(app_state_t *state)
 {
-	Clay_BeginLayout();
+	Clay_Context *context = shiny_state_clay_context(state->shiny);
+	Clay_SetCurrentContext(context);
+
+	SDL_RenderClear(state->renderer);
+
+	shiny_state_render_begin(state->shiny);
 	{
 		tracker(state);
 	}
-	Clay_RenderCommandArray commands = Clay_EndLayout();
+	shiny_state_render_end(state->shiny);
 
-	SDL_RenderClear(state->clay.renderer);
-
-	// TODO: This is probably not a good way to override font rendering
-	for (auto i = 0; i < commands.length; i++)
-	{
-		Clay_RenderCommand *cmd = Clay_RenderCommandArray_Get(&commands, i);
-		if (cmd->commandType == CLAY_RENDER_COMMAND_TYPE_TEXT)
-		{
-			const Clay_TextRenderData *data = &cmd->renderData.text;
-			if (!shiny_font_draw_text(state->fonts[data->fontId], cmd->boundingBox.x, cmd->boundingBox.y,
-				data->fontSize, data->stringContents.chars, data->stringContents.length))
-			{
-				SDL_LogError(LOG_CATEGORY_GUI, "Text draw failed: %s", SDL_GetError());
-			}
-
-			continue;
-		}
-
-		Clay_RenderCommandArray temp = {
-			.capacity = commands.capacity,
-			.length = 1,
-			.internalArray = cmd,
-		};
-		SDL_Clay_RenderClayCommands(&state->clay, &temp);
-	}
-
-	SDL_RenderPresent(state->clay.renderer);
-}
-
-void clay_state_event(const app_state_t *state, const SDL_Event *event)
-{
-	if (event->type == SDL_EVENT_WINDOW_RESIZED)
-	{
-		Clay_SetLayoutDimensions((Clay_Dimensions){
-			.width = (float) event->window.data1,
-			.height = (float) event->window.data2,
-		});
-		return;
-	}
-
-	if (event->type == SDL_EVENT_MOUSE_MOTION
-		|| event->type == SDL_EVENT_MOUSE_BUTTON_DOWN
-		|| event->type == SDL_EVENT_MOUSE_BUTTON_UP)
-	{
-		Clay_SetPointerState((Clay_Vector2){
-			.x = event->motion.x,
-			.y = event->motion.y,
-		}, (event->motion.state & SDL_BUTTON_LEFT) > 0);
-		return;
-	}
-
-	if (event->type == SDL_EVENT_MOUSE_WHEEL)
-	{
-		Clay_UpdateScrollContainers(true, (Clay_Vector2){
-			.x = event->wheel.x,
-			.y = event->wheel.y,
-		}, (float) state->gui.timer.dt / 1000.F);
-		return;
-	}
-
-	if (event->type == SDL_EVENT_KEY_DOWN
-		&& event->key.key == SDLK_I)
-	{
-		Clay_SetDebugModeEnabled((bool) !Clay_IsDebugModeEnabled());
-		return;
-	}
+	SDL_RenderPresent(state->renderer);
 }
 
 SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
@@ -229,19 +131,12 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 	SDL_SetWindowTitle(state->window, title);
 	SDL_free(title);
 
-	state->clay.renderer = state->renderer;
-
 	shiny_default_theme();
 
-	state->fonts = SDL_malloc(sizeof(shiny_font_t *));
-	if (state->fonts == nullptr)
-	{
-		SDL_LogError(LOG_CATEGORY_CORE, "Allocation failed: %s", SDL_GetError());
-		return SDL_APP_FAILURE;
-	}
+	state->shiny = shiny_state_create(state->renderer);
 
-	state->fonts[0] = shiny_font_create(state->renderer, maple_mono_nl_regular_ttf);
-	if (state->fonts[0] == nullptr)
+	shiny_font_t *font = shiny_font_create(state->renderer, maple_mono_nl_regular_ttf);
+	if (font == nullptr || !shiny_state_add_font(state->shiny, font))
 	{
 		SDL_LogError(LOG_CATEGORY_CORE, "Font error: %s", SDL_GetError());
 		return SDL_APP_FAILURE;
@@ -266,9 +161,6 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 
 	state->bg = shiny_sdl_theme_color(SHINY_COLOR_CLEAR);
 	SDL_SetRenderDrawColor(state->renderer, state->bg.r, state->bg.g, state->bg.b, state->bg.a);
-
-	clay_state_init(state);
-	shiny_set_fonts(state->clay_context, state->fonts);
 
 	*appstate = state;
 	return SDL_APP_CONTINUE;
@@ -309,8 +201,10 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event)
 		return SDL_APP_FAILURE;
 	}
 
+	const float delta_time = (float) state->gui.timer.dt / 1000.F;
+
 	nk_state_event(state, event);
-	clay_state_event(state, event);
+	shiny_state_event(state->shiny, delta_time, event);
 
 	return SDL_APP_CONTINUE;
 }
@@ -321,11 +215,7 @@ void SDL_AppQuit(void *appstate, [[maybe_unused]] SDL_AppResult result)
 	if (state != nullptr)
 	{
 		settings_close(state->settings);
-
-		shiny_font_destroy(state->fonts[0]);
-		SDL_free((void *) state->fonts);
-
-		SDL_free(state->arena.memory);
+		shiny_state_destroy(state->shiny);
 
 		SDL_DestroyRenderer(state->renderer);
 		SDL_DestroyWindow(state->window);

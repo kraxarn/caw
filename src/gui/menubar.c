@@ -6,6 +6,7 @@
 
 #include "shiny/menubar.h"
 #include "shiny/image.h"
+#include "shiny/init.h"
 #include "shiny/label.h"
 #include "shiny/size.h"
 #include "shiny/spacer.h"
@@ -69,6 +70,8 @@ void menu_item(app_state_t *state, const menu_item_config_t *item)
 
 		CLAY_AUTO_ID(element)
 		{
+			Clay_Context *context = shiny_state_clay_context(state->shiny);
+
 			if (item->icon != nullptr)
 			{
 				SDL_Texture *texture = icon(state->renderer, item->icon);
@@ -76,10 +79,10 @@ void menu_item(app_state_t *state, const menu_item_config_t *item)
 					.width = 24,
 					.height = 24,
 				};
-				shiny_image(state->clay_context, texture, &size);
+				shiny_image(context, texture, &size);
 			}
 
-			shiny_label(state->clay_context, item->text, FONT_SIZE_MENU);
+			shiny_label(context, item->text, FONT_SIZE_MENU);
 		}
 	}
 }
@@ -147,7 +150,8 @@ static void menubar_item(app_state_t *state, const Clay_String item_id,
 {
 	CLAY(CLAY_SID(item_id))
 	{
-		shiny_label(state->clay_context, text, FONT_SIZE_MENU);
+		Clay_Context *context = shiny_state_clay_context(state->shiny);
+		shiny_label(context, text, FONT_SIZE_MENU);
 		Clay_OnHover(on_menubar_item_hover, (intptr_t) state);
 
 		if ((int) state->gui.menu.visible && state->gui.menu.current.id == Clay__HashString(item_id, 0).id)
@@ -232,19 +236,21 @@ void help_menu(app_state_t *state)
 void fps_counter(app_state_t *state)
 {
 	SDL_snprintf(state->gui.timer.text, 8, "%.0f FPS", state->gui.timer.fps);
-	shiny_label(state->clay_context, state->gui.timer.text, FONT_SIZE_MENU);
+	Clay_Context *context = shiny_state_clay_context(state->shiny);
+	shiny_label(context, state->gui.timer.text, FONT_SIZE_MENU);
 }
 
 void menubar(app_state_t *state)
 {
-	shiny_menubar_begin(state->clay_context, "Menubar");
+	Clay_Context *context = shiny_state_clay_context(state->shiny);
+	shiny_menubar_begin(context, "Menubar");
 	{
 		file_menu(state);
 		view_menu(state);
 		debug_menu(state);
 		help_menu(state);
 
-		shiny_h_spacer(state->clay_context);
+		shiny_h_spacer(context);
 
 		fps_counter(state);
 	}
