@@ -8,6 +8,7 @@
 #include "shiny/image.h"
 #include "shiny/init.h"
 #include "shiny/label.h"
+#include "shiny/menuitem.h"
 #include "shiny/size.h"
 #include "shiny/spacer.h"
 #include "shiny/theme.h"
@@ -21,75 +22,34 @@
 #include <SDL3/SDL_render.h>
 #include <SDL3/SDL_stdinc.h>
 
-void SDLCALL on_file_opened(void *userdata, const char *const *filelist, int filter)
+static void SDLCALL on_file_opened(void *userdata, const char *const *filelist, int filter)
 {
-}
-
-void on_menu_item_hover([[maybe_unused]] Clay_ElementId element_id,
-	Clay_PointerData pointer_data, intptr_t user_data)
-{
-	if (pointer_data.state == CLAY_POINTER_DATA_PRESSED_THIS_FRAME)
-	{
-		const auto data = (menu_item_hover_data_t *) user_data;
-		if (data->config.clicked != nullptr)
-		{
-			data->config.clicked(data->state);
-			data->state->gui.menu.visible = false;
-		}
-	}
 }
 
 void menu_item(app_state_t *state, const menu_item_config_t *item)
 {
-	const Clay_ElementDeclaration element = {
-		.layout = (Clay_LayoutConfig){
-			.sizing = (Clay_Sizing){
-				.width = CLAY_SIZING_GROW(0),
-			},
-		},
-	};
+	Clay_Context *context = shiny_state_clay_context(state->shiny);
 
-	CLAY_AUTO_ID(element)
+	shiny_menu_item_begin(context, item->element_id);
 	{
-		const Clay_ElementDeclaration content = {
-			.layout = (Clay_LayoutConfig){
-				.sizing = (Clay_Sizing){
-					.width = CLAY_SIZING_GROW(0),
-				},
-				.padding = CLAY_PADDING_ALL(shiny_theme_padding(SHINY_PADDING_MENU_ITEM)),
-				.childAlignment = (Clay_ChildAlignment){
-					.y = CLAY_ALIGN_Y_CENTER,
-				},
-				.childGap = shiny_theme_gap(SHINY_GAP_DEFAULT),
-			},
-			.cornerRadius = CLAY_CORNER_RADIUS(shiny_theme_corner_radius(SHINY_CORNER_RADIUS_DEFAULT)),
-			.backgroundColor = shiny_clay_theme_color((int) Clay_Hovered()
-				? SHINY_COLOR_CONTROL_HOVER
-				: SHINY_COLOR_CONTROL_ACTIVE),
-		};
-
-		if (Clay_Hovered())
+		if (item->icon != nullptr)
 		{
-			state->gui.menu.current_item.config = *item;
-			state->gui.menu.current_item.state = state;
-			Clay_OnHover(on_menu_item_hover, (intptr_t) &state->gui.menu.current_item);
+			SDL_Texture *texture = icon(state->renderer, item->icon);
+			const shiny_size_t size = {
+				.width = 24,
+				.height = 24,
+			};
+			shiny_image(context, texture, &size);
 		}
 
-		CLAY_AUTO_ID(content)
+		shiny_label(context, item->text, FONT_SIZE_MENU);
+	}
+	if (shiny_menu_item_end())
+	{
+		if (item->clicked != nullptr)
 		{
-			Clay_Context *context = shiny_state_clay_context(state->shiny);
-
-			if (item->icon != nullptr)
-			{
-				SDL_Texture *texture = icon(state->renderer, item->icon);
-				const shiny_size_t size = {
-					.width = 24,
-					.height = 24,
-				};
-				shiny_image(context, texture, &size);
-			}
-
-			shiny_label(context, item->text, FONT_SIZE_MENU);
+			item->clicked(state);
+			state->gui.menu.visible = false;
 		}
 	}
 }
