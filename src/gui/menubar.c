@@ -8,6 +8,7 @@
 #include "shiny/image.h"
 #include "shiny/init.h"
 #include "shiny/label.h"
+#include "shiny/menubaritem.h"
 #include "shiny/menuitem.h"
 #include "shiny/size.h"
 #include "shiny/spacer.h"
@@ -49,7 +50,6 @@ void menu_item(app_state_t *state, const menu_item_config_t *item)
 		if (item->clicked != nullptr)
 		{
 			item->clicked(state);
-			state->gui.menu.visible = false;
 		}
 	}
 }
@@ -101,31 +101,21 @@ void menu_content(app_state_t *state, const menu_item_config_t *items, const siz
 	}
 }
 
-void on_menubar_item_hover(Clay_ElementId element_id, Clay_PointerData pointer_data, intptr_t user_data)
-{
-	const auto state = (app_state_t *) user_data;
-	state->gui.menu.current = element_id;
-
-	if (pointer_data.state == CLAY_POINTER_DATA_PRESSED_THIS_FRAME)
-	{
-		state->gui.menu.visible = (bool) !state->gui.menu.visible;
-	}
-}
-
-static void menubar_item(app_state_t *state, const Clay_String item_id,
+static void menubar_item(app_state_t *state, const char *element_id,
 	const char *text, const menu_item_config_t *items, const size_t count)
 {
-	CLAY(CLAY_SID(item_id))
-	{
-		Clay_Context *context = shiny_state_clay_context(state->shiny);
-		shiny_label(context, text, FONT_SIZE_MENU);
-		Clay_OnHover(on_menubar_item_hover, (intptr_t) state);
+	Clay_Context *context = shiny_state_clay_context(state->shiny);
 
-		if ((int) state->gui.menu.visible && state->gui.menu.current.id == Clay__HashString(item_id, 0).id)
+	const bool open = shiny_menubar_item_begin(context, element_id);
+	{
+		shiny_label(context, text, FONT_SIZE_MENU);
+
+		if (open)
 		{
 			menu_content(state, items, count);
 		}
 	}
+	shiny_menubar_item_end();
 }
 
 void on_file_open_clicked(app_state_t *state)
@@ -145,7 +135,7 @@ void on_file_quit_clicked(app_state_t *state)
 
 void file_menu(app_state_t *state)
 {
-	menubar_item(state, CLAY_STRING("FileMenuItem"), "File",
+	menubar_item(state, "FileMenuItem", "File",
 		(menu_item_config_t[]){
 			{
 				.element_id = "New",
@@ -184,7 +174,7 @@ void on_view_settings_clicked(app_state_t *state)
 
 void view_menu(app_state_t *state)
 {
-	menubar_item(state, CLAY_STRING("ViewMenuItem"), "View",
+	menubar_item(state, "ViewMenuItem", "View",
 		(menu_item_config_t[]){
 			{
 				.element_id = "Settings",
@@ -200,7 +190,7 @@ void view_menu(app_state_t *state)
 
 void debug_menu(app_state_t *state)
 {
-	menubar_item(state, CLAY_STRING("DebugMenuItem"), "Debug",
+	menubar_item(state, "DebugMenuItem", "Debug",
 		(menu_item_config_t[]){
 		}, 0
 	);
@@ -208,7 +198,7 @@ void debug_menu(app_state_t *state)
 
 void help_menu(app_state_t *state)
 {
-	menubar_item(state, CLAY_STRING("HelpMenuItem"), "Help",
+	menubar_item(state, "HelpMenuItem", "Help",
 		(menu_item_config_t[]){
 			{
 				.element_id = "About",

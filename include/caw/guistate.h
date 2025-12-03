@@ -57,13 +57,6 @@ typedef struct menu_item_hover_data_t
 	app_state_t *state;
 } menu_item_hover_data_t;
 
-typedef struct gui_menu_state_t
-{
-	bool visible;
-	Clay_ElementId current;
-	menu_item_hover_data_t current_item;
-} gui_menu_state_t;
-
 typedef struct gui_timer_state_t
 {
 	uint64_t previous;
@@ -78,6 +71,5 @@ typedef struct gui_state_t
 	gui_output_state_t out;
 	gui_settings_state_t settings;
 	gui_windows_state_t windows;
-	gui_menu_state_t menu;
 	gui_timer_state_t timer;
 } gui_state_t;
