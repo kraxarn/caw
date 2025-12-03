@@ -187,15 +187,29 @@ void file_menu(app_state_t *state)
 {
 	menubar_item(state, CLAY_STRING("FileMenuItem"), "File",
 		(menu_item_config_t[]){
-			{.text = "New...",},
 			{
+				.element_id = "New",
+				.text = "New...",
+			},
+			{
+				.element_id = "Open",
 				.text = "Open...",
 				.clicked = on_file_open_clicked,
 			},
-			{.text = "Save",},
-			{.text = "Save As...",},
-			{.text = "Export...",},
 			{
+				.element_id = "Save",
+				.text = "Save",
+			},
+			{
+				.element_id = "SaveAs",
+				.text = "Save As...",
+			},
+			{
+				.element_id = "Export",
+				.text = "Export...",
+			},
+			{
+				.element_id = "Quit",
 				.text = "Quit",
 				.clicked = on_file_quit_clicked,
 			},
@@ -213,6 +227,7 @@ void view_menu(app_state_t *state)
 	menubar_item(state, CLAY_STRING("ViewMenuItem"), "View",
 		(menu_item_config_t[]){
 			{
+				.element_id = "Settings",
 				.icon = (int) state->gui.windows.settings.visible
 				? "checkbox-marked"
 				: "checkbox-blank-outline",
@@ -235,7 +250,10 @@ void help_menu(app_state_t *state)
 {
 	menubar_item(state, CLAY_STRING("HelpMenuItem"), "Help",
 		(menu_item_config_t[]){
-			{.text = "About...",},
+			{
+				.element_id = "About",
+				.text = "About...",
+			},
 		}, 1
 	);
 }
