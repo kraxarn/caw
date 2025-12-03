@@ -41,7 +41,7 @@ void on_menu_item_hover([[maybe_unused]] Clay_ElementId element_id,
 
 void menu_item(app_state_t *state, const menu_item_config_t *item)
 {
-	Clay_ElementDeclaration element = {
+	const Clay_ElementDeclaration element = {
 		.layout = (Clay_LayoutConfig){
 			.sizing = (Clay_Sizing){
 				.width = CLAY_SIZING_GROW(0),
@@ -51,15 +51,22 @@ void menu_item(app_state_t *state, const menu_item_config_t *item)
 
 	CLAY_AUTO_ID(element)
 	{
-		element.layout.padding = CLAY_PADDING_ALL(shiny_theme_padding(SHINY_PADDING_MENU_ITEM));
-		element.cornerRadius = CLAY_CORNER_RADIUS(shiny_theme_corner_radius(SHINY_CORNER_RADIUS_DEFAULT));
-		element.backgroundColor = shiny_clay_theme_color(
-			(int) Clay_Hovered()
-			? SHINY_COLOR_CONTROL_HOVER
-			: SHINY_COLOR_CONTROL_ACTIVE
-		);
-		element.layout.childAlignment.y = CLAY_ALIGN_Y_CENTER;
-		element.layout.childGap = shiny_theme_gap(SHINY_GAP_DEFAULT);
+		const Clay_ElementDeclaration content = {
+			.layout = (Clay_LayoutConfig){
+				.sizing = (Clay_Sizing){
+					.width = CLAY_SIZING_GROW(0),
+				},
+				.padding = CLAY_PADDING_ALL(shiny_theme_padding(SHINY_PADDING_MENU_ITEM)),
+				.childAlignment = (Clay_ChildAlignment){
+					.y = CLAY_ALIGN_Y_CENTER,
+				},
+				.childGap = shiny_theme_gap(SHINY_GAP_DEFAULT),
+			},
+			.cornerRadius = CLAY_CORNER_RADIUS(shiny_theme_corner_radius(SHINY_CORNER_RADIUS_DEFAULT)),
+			.backgroundColor = shiny_clay_theme_color((int) Clay_Hovered()
+				? SHINY_COLOR_CONTROL_HOVER
+				: SHINY_COLOR_CONTROL_ACTIVE),
+		};
 
 		if (Clay_Hovered())
 		{
@@ -68,7 +75,7 @@ void menu_item(app_state_t *state, const menu_item_config_t *item)
 			Clay_OnHover(on_menu_item_hover, (intptr_t) &state->gui.menu.current_item);
 		}
 
-		CLAY_AUTO_ID(element)
+		CLAY_AUTO_ID(content)
 		{
 			Clay_Context *context = shiny_state_clay_context(state->shiny);
 
