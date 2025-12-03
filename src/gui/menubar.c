@@ -9,6 +9,7 @@
 #include "shiny/init.h"
 #include "shiny/label.h"
 #include "shiny/menubaritem.h"
+#include "shiny/menucontent.h"
 #include "shiny/menuitem.h"
 #include "shiny/size.h"
 #include "shiny/spacer.h"
@@ -76,31 +77,6 @@ void menu_items(app_state_t *state, const menu_item_config_t *items, const size_
 	}
 }
 
-void menu_content(app_state_t *state, const menu_item_config_t *items, const size_t count)
-{
-	const Clay_ElementDeclaration element = {
-		.floating = (Clay_FloatingElementConfig){
-			.attachTo = CLAY_ATTACH_TO_PARENT,
-			.attachPoints = (Clay_FloatingAttachPoints){
-				.parent = CLAY_ATTACH_POINT_LEFT_BOTTOM,
-			},
-		},
-		.layout = (Clay_LayoutConfig){
-			.sizing = (Clay_Sizing){
-				.width = CLAY_SIZING_FIXED(200),
-			},
-			.padding = (Clay_Padding){
-				.top = shiny_theme_padding(SHINY_PADDING_MENUBAR) + shiny_theme_gap(SHINY_GAP_DEFAULT),
-			},
-		},
-	};
-
-	CLAY_AUTO_ID(element)
-	{
-		menu_items(state, items, count);
-	}
-}
-
 static void menubar_item(app_state_t *state, const char *element_id,
 	const char *text, const menu_item_config_t *items, const size_t count)
 {
@@ -112,7 +88,11 @@ static void menubar_item(app_state_t *state, const char *element_id,
 
 		if (open)
 		{
-			menu_content(state, items, count);
+			shiny_menu_content_begin(context);
+			{
+				menu_items(state, items, count);
+			}
+			shiny_menu_content_end();
 		}
 	}
 	shiny_menubar_item_end();
