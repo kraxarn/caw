@@ -75,11 +75,13 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 	SDL_SetLogPriorities(SDL_LOG_PRIORITY_DEBUG);
 #endif
 
+	// NOLINTBEGIN(*-include-cleaner) The values come from CMake, not a header
 	SDL_SetAppMetadataProperty(SDL_PROP_APP_METADATA_NAME_STRING, APP_NAME);
 	SDL_SetAppMetadataProperty(SDL_PROP_APP_METADATA_VERSION_STRING, APP_VERSION);
 	SDL_SetAppMetadataProperty(SDL_PROP_APP_METADATA_IDENTIFIER_STRING, APP_IDENTIFIER);
 	SDL_SetAppMetadataProperty(SDL_PROP_APP_METADATA_CREATOR_STRING, APP_CREATOR);
 	SDL_SetAppMetadataProperty(SDL_PROP_APP_METADATA_TYPE_STRING, APP_TYPE);
+	// NOLINTEND(*-include-cleaner)
 
 	if (!SDL_Init(SDL_INIT_EVENTS | SDL_INIT_VIDEO | SDL_INIT_AUDIO))
 	{
