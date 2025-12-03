@@ -11,11 +11,9 @@
 #include "shiny/menubaritem.h"
 #include "shiny/menucontent.h"
 #include "shiny/menuitem.h"
+#include "shiny/menuitems.h"
 #include "shiny/size.h"
 #include "shiny/spacer.h"
-#include "shiny/theme.h"
-#include "shiny/themekey.h"
-#include "shiny/internal/color.h"
 
 #include "clay.h"
 
@@ -55,28 +53,6 @@ void menu_item(app_state_t *state, const menu_item_config_t *item)
 	}
 }
 
-void menu_items(app_state_t *state, const menu_item_config_t *items, const size_t count)
-{
-	const Clay_ElementDeclaration element = {
-		.layout = (Clay_LayoutConfig){
-			.layoutDirection = CLAY_TOP_TO_BOTTOM,
-			.sizing = (Clay_Sizing){
-				.width = CLAY_SIZING_FIXED(200),
-			},
-		},
-		.cornerRadius = CLAY_CORNER_RADIUS(shiny_theme_corner_radius(SHINY_CORNER_RADIUS_DEFAULT)),
-		.backgroundColor = shiny_clay_theme_color(SHINY_COLOR_WINDOW_BACKGROUND),
-	};
-
-	CLAY_AUTO_ID(element)
-	{
-		for (size_t i = 0; i < count; i++)
-		{
-			menu_item(state, items + i);
-		}
-	}
-}
-
 static void menubar_item(app_state_t *state, const char *element_id,
 	const char *text, const menu_item_config_t *items, const size_t count)
 {
@@ -90,7 +66,14 @@ static void menubar_item(app_state_t *state, const char *element_id,
 		{
 			shiny_menu_content_begin(context);
 			{
-				menu_items(state, items, count);
+				shiny_menu_items_begin(context);
+				{
+					for (size_t i = 0; i < count; i++)
+					{
+						menu_item(state, items + i);
+					}
+				}
+				shiny_menu_items_end();
 			}
 			shiny_menu_content_end();
 		}
