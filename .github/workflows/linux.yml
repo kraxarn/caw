@@ -39,5 +39,5 @@ jobs:
           name: caw-linux-x64
           path: |
             ${{runner.workspace}}/caw/build/caw
-            ${{runner.workspace}}/caw/build/libSDL3.so
-            ${{runner.workspace}}/caw/build/libshiny.so
+            ${{runner.workspace}}/caw/build/deps/libSDL3.so
+            ${{runner.workspace}}/caw/build/deps/libshiny.so
