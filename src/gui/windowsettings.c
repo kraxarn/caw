@@ -6,6 +6,8 @@
 #include "caw/settings.h"
 #include "caw/gui/apptheme.h"
 
+#include "shiny/init.h"
+#include "shiny/spacer.h"
 #include "shiny/theme.h"
 #include "shiny/themekey.h"
 #include "shiny/internal/color.h"
@@ -141,21 +143,6 @@ void window_title(const app_state_t *state, const Clay_String text)
 	}
 }
 
-void spacer_x()
-{
-	const Clay_ElementDeclaration element = {
-		.layout = (Clay_LayoutConfig){
-			.sizing = (Clay_Sizing){
-				.width = CLAY_SIZING_GROW(0),
-			},
-		},
-	};
-
-	CLAY_AUTO_ID(element)
-	{
-	}
-}
-
 void on_combobox_option_hover([[maybe_unused]] Clay_ElementId element_id,
 	Clay_PointerData pointer_data, intptr_t user_data)
 {
@@ -277,6 +264,7 @@ void on_combobox_hover(Clay_ElementId element_id,
 
 void combobox(app_state_t *state, Clay_String id, const cb_settings_t settings)
 {
+	Clay_Context *context = shiny_state_clay_context(state->shiny);
 	const int is_open = state->gui.windows.current_combobox.id == Clay_GetElementId(id).id;
 
 	const Clay_ElementDeclaration element = {
@@ -306,7 +294,7 @@ void combobox(app_state_t *state, Clay_String id, const cb_settings_t settings)
 		};
 
 		CLAY_TEXT(value, CLAY_TEXT_CONFIG(body_text_config()));
-		spacer_x();
+		shiny_h_spacer(context);
 		CLAY_TEXT(is_open ? CLAY_STRING("^") : CLAY_STRING("V"), CLAY_TEXT_CONFIG(body_text_config()));
 
 		Clay_OnHover(on_combobox_hover, (intptr_t) state);
@@ -320,6 +308,8 @@ void combobox(app_state_t *state, Clay_String id, const cb_settings_t settings)
 
 void window_content(app_state_t *state)
 {
+	Clay_Context *context = shiny_state_clay_context(state->shiny);
+
 	const Clay_ElementDeclaration wrapper = {
 		.layout = (Clay_LayoutConfig){
 			.layoutDirection = CLAY_TOP_TO_BOTTOM,
@@ -354,7 +344,7 @@ void window_content(app_state_t *state)
 		CLAY_AUTO_ID(content)
 		{
 			CLAY_TEXT(CLAY_STRING("Renderer"), CLAY_TEXT_CONFIG(body_text_config()));
-			spacer_x();
+			shiny_h_spacer(context);
 			combobox(state, CLAY_STRING("Renderer"), (cb_settings_t){
 				.value = state->gui.settings.renderer == nullptr
 					? render_driver(0)
@@ -367,7 +357,7 @@ void window_content(app_state_t *state)
 		CLAY_AUTO_ID(content)
 		{
 			CLAY_TEXT(CLAY_STRING("Audio driver"), CLAY_TEXT_CONFIG(body_text_config()));
-			spacer_x();
+			shiny_h_spacer(context);
 			combobox(state, CLAY_STRING("AudioDriver"), (cb_settings_t){
 				.value = state->gui.settings.audio_driver == nullptr
 					? render_driver(0)
