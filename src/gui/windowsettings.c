@@ -204,30 +204,11 @@ void combobox_option(app_state_t *state, const int index,
 	}
 }
 
-void combobox_options(app_state_t *state, const cb_settings_t settings)
+void combobox(app_state_t *state, const char *element_id, const cb_settings_t settings)
 {
-	const Clay_ElementDeclaration element = {
-		.floating = (Clay_FloatingElementConfig){
-			.attachTo = CLAY_ATTACH_TO_PARENT,
-			.attachPoints = (Clay_FloatingAttachPoints){
-				.parent = CLAY_ATTACH_POINT_LEFT_BOTTOM,
-			},
-		},
-		.layout = (Clay_LayoutConfig){
-			.layoutDirection = CLAY_TOP_TO_BOTTOM,
-			.sizing = (Clay_Sizing){
-				.width = CLAY_SIZING_FIXED(shiny_theme_size(SHINY_WIDTH_COMBOBOX)),
-				.height = CLAY_SIZING_GROW(shiny_theme_size(SHINY_HEIGHT_COMBOBOX) * settings.size),
-			},
-		},
-		.backgroundColor = shiny_clay_theme_color(SHINY_COLOR_CONTROL_BACKGROUND),
-		.cornerRadius = (Clay_CornerRadius){
-			.bottomLeft = shiny_theme_corner_radius(SHINY_CORNER_RADIUS_CONTROL),
-			.bottomRight = shiny_theme_corner_radius(SHINY_CORNER_RADIUS_CONTROL),
-		},
-	};
+	Clay_Context *context = shiny_state_clay_context(state->shiny);
 
-	CLAY_AUTO_ID(element)
+	if (shiny_combobox_begin(context, element_id, settings.value, FONT_SIZE_BODY, settings.size))
 	{
 		for (auto i = 0; i < settings.size; i++)
 		{
@@ -239,37 +220,6 @@ void combobox_options(app_state_t *state, const cb_settings_t settings)
 			};
 			combobox_option(state, i, text, settings.callback);
 		}
-	}
-}
-
-void on_combobox_hover(Clay_ElementId element_id,
-	Clay_PointerData pointer_data, intptr_t user_data)
-{
-	if (pointer_data.state != CLAY_POINTER_DATA_PRESSED_THIS_FRAME)
-	{
-		return;
-	}
-
-	const auto state = (app_state_t *) user_data;
-
-	if (state->gui.windows.current_combobox.id == 0
-		|| state->gui.windows.current_combobox.id != element_id.id)
-	{
-		state->gui.windows.current_combobox = element_id;
-	}
-	else
-	{
-		state->gui.windows.current_combobox = (Clay_ElementId){};
-	}
-}
-
-void combobox(app_state_t *state, const char *element_id, const cb_settings_t settings)
-{
-	Clay_Context *context = shiny_state_clay_context(state->shiny);
-
-	if (shiny_combobox_begin(context, element_id, settings.value, FONT_SIZE_BODY))
-	{
-		combobox_options(state, settings);
 	}
 	shiny_combobox_end();
 }
