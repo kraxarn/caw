@@ -30,22 +30,6 @@
 static constexpr auto window_width = 1280;
 static constexpr auto window_height = 800;
 
-void clay_state_iterate(app_state_t *state)
-{
-	Clay_Context *context = shiny_state_clay_context(state->shiny);
-	Clay_SetCurrentContext(context);
-
-	SDL_RenderClear(state->renderer);
-
-	shiny_state_render_begin(state->shiny);
-	{
-		tracker(state);
-	}
-	shiny_state_render_end(state->shiny);
-
-	SDL_RenderPresent(state->renderer);
-}
-
 SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 	[[maybe_unused]] int argc, [[maybe_unused]] char **argv)
 {
@@ -157,7 +141,18 @@ SDL_AppResult SDL_AppIterate([[maybe_unused]] void *appstate)
 	state->gui.timer.dt = ticks - state->gui.timer.previous;
 	state->gui.timer.previous = ticks;
 
-	clay_state_iterate(state);
+	Clay_Context *context = shiny_state_clay_context(state->shiny);
+	Clay_SetCurrentContext(context);
+
+	SDL_RenderClear(state->renderer);
+
+	shiny_state_render_begin(state->shiny);
+	{
+		tracker(state);
+	}
+	shiny_state_render_end(state->shiny);
+
+	SDL_RenderPresent(state->renderer);
 
 	return state->result;
 }
