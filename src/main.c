@@ -125,6 +125,11 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 		return SDL_APP_FAILURE;
 	}
 
+	if (!SDL_EnableScreenSaver())
+	{
+		SDL_LogWarn(LOG_CATEGORY_CORE, "Failed to enable screen saver: %s", SDL_GetError());
+	}
+
 	char *title;
 	SDL_asprintf(&title, "%s v%s (%s)",
 		APP_NAME, APP_VERSION,
