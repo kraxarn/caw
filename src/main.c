@@ -2,6 +2,7 @@
 #include "caw/logcategory.h"
 #include "caw/renderdriver.h"
 #include "caw/settings.h"
+#include "caw/videodriver.h"
 #include "caw/gui/tracker.h"
 #include "caw/res/fonts.h"
 
@@ -131,9 +132,10 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 	}
 
 	char *title;
-	SDL_asprintf(&title, "%s v%s (%s)",
+	SDL_asprintf(&title, "%s v%s (%s, %s)",
 		APP_NAME, APP_VERSION,
-		render_driver_display_name(SDL_GetRendererName(state->renderer))
+		render_driver_display_name(SDL_GetRendererName(state->renderer)),
+		video_driver_display_name(SDL_GetCurrentVideoDriver())
 	);
 	SDL_SetWindowTitle(state->window, title);
 	SDL_free(title);
