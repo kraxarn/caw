@@ -7,17 +7,13 @@
 #include "shiny/themekey.h"
 #include "shiny/internal/color.h"
 
-#include <SDL3/SDL_rect.h>
-
 void tracker(app_state_t *state)
 {
 	const Clay_Padding padding = {
-		.left = shiny_theme_gap(SHINY_GAP_DEFAULT) + state->gui.out.safe_area.x,
-		.right = shiny_theme_gap(SHINY_GAP_DEFAULT)
-			+ (state->gui.out.width - state->gui.out.safe_area.w - state->gui.out.safe_area.x),
-		.top = shiny_theme_gap(SHINY_GAP_DEFAULT) + state->gui.out.safe_area.y,
-		.bottom = shiny_theme_gap(SHINY_GAP_DEFAULT)
-			+ (state->gui.out.height - state->gui.out.safe_area.h - state->gui.out.safe_area.y),
+		.left = shiny_theme_gap(SHINY_GAP_DEFAULT),
+		.right = shiny_theme_gap(SHINY_GAP_DEFAULT),
+		.top = shiny_theme_gap(SHINY_GAP_DEFAULT),
+		.bottom = shiny_theme_gap(SHINY_GAP_DEFAULT),
 	};
 
 	const Clay_LayoutConfig layout = {

@@ -30,29 +30,6 @@
 static constexpr auto window_width = 1280;
 static constexpr auto window_height = 800;
 
-void nk_state_event(app_state_t *state, const SDL_Event *event)
-{
-	switch (event->type)
-	{
-		case SDL_EVENT_WINDOW_RESIZED:
-			SDL_LogDebug(LOG_CATEGORY_GUI, "Window resized: %d %d",
-				event->window.data1, event->window.data2);
-			state->gui.out.width = event->window.data1;
-			state->gui.out.height = event->window.data2;
-			break;
-
-		case SDL_EVENT_WINDOW_SAFE_AREA_CHANGED:
-			if (SDL_GetWindowSafeArea(state->window, &state->gui.out.safe_area))
-			{
-				SDL_LogDebug(LOG_CATEGORY_GUI, "Safe area changed: %d %d %d %d",
-					state->gui.out.safe_area.x, state->gui.out.safe_area.y,
-					state->gui.out.safe_area.w, state->gui.out.safe_area.h
-				);
-			}
-			break;
-	}
-}
-
 void clay_state_iterate(app_state_t *state)
 {
 	Clay_Context *context = shiny_state_clay_context(state->shiny);
@@ -156,18 +133,6 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 		SDL_LogWarn(LOG_CATEGORY_CORE, "SDL_SetRenderVSync error: %s", SDL_GetError());
 	}
 
-	if (!SDL_GetRenderOutputSize(state->renderer, &state->gui.out.width, &state->gui.out.height))
-	{
-		SDL_LogError(LOG_CATEGORY_GUI, "SDL_GetRenderOutputSize error: %s", SDL_GetError());
-		return SDL_APP_FAILURE;
-	}
-
-	if (!SDL_GetWindowSafeArea(state->window, &state->gui.out.safe_area))
-	{
-		SDL_LogError(LOG_CATEGORY_GUI, "SDL_GetWindowSafeArea error: %s", SDL_GetError());
-		return SDL_APP_FAILURE;
-	}
-
 	state->bg = shiny_sdl_theme_color(SHINY_COLOR_CLEAR);
 	SDL_SetRenderDrawColor(state->renderer, state->bg.r, state->bg.g, state->bg.b, state->bg.a);
 
@@ -212,7 +177,6 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event)
 
 	const float delta_time = (float) state->gui.timer.dt / 1000.F;
 
-	nk_state_event(state, event);
 	shiny_state_event(state->shiny, delta_time, event);
 
 	return SDL_APP_CONTINUE;
