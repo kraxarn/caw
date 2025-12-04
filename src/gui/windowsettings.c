@@ -7,6 +7,7 @@
 #include "caw/gui/apptheme.h"
 
 #include "shiny/combobox.h"
+#include "shiny/comboboxoption.h"
 #include "shiny/init.h"
 #include "shiny/spacer.h"
 #include "shiny/theme.h"
@@ -144,66 +145,6 @@ void window_title(const app_state_t *state, const Clay_String text)
 	}
 }
 
-void on_combobox_option_hover([[maybe_unused]] Clay_ElementId element_id,
-	Clay_PointerData pointer_data, intptr_t user_data)
-{
-	if (pointer_data.state != CLAY_POINTER_DATA_PRESSED_THIS_FRAME)
-	{
-		return;
-	}
-
-	const auto state = (app_state_t *) user_data;
-	const auto data = &state->gui.windows.current_combobox_item;
-	data->callback(state, data->index);
-	state->gui.windows.current_combobox = (Clay_ElementId){};
-}
-
-void combobox_option(app_state_t *state, const int index,
-	const Clay_String text, const cb_select_callback_t callback)
-{
-	const Clay_ElementDeclaration wrapper = {
-		.layout = (Clay_LayoutConfig){
-			.layoutDirection = CLAY_LEFT_TO_RIGHT,
-			.padding = CLAY_PADDING_ALL(shiny_theme_padding(SHINY_PADDING_COMBOBOX)/2),
-			.sizing = (Clay_Sizing){
-				.width = CLAY_SIZING_GROW(0),
-			},
-		},
-	};
-
-	Clay_ElementDeclaration content = {
-		.layout = (Clay_LayoutConfig){
-			.layoutDirection = CLAY_LEFT_TO_RIGHT,
-			.padding = CLAY_PADDING_ALL(shiny_theme_padding(SHINY_PADDING_COMBOBOX)/2),
-			.sizing = (Clay_Sizing){
-				.width = CLAY_SIZING_GROW(0),
-			},
-		},
-		.cornerRadius = CLAY_CORNER_RADIUS(shiny_theme_corner_radius(SHINY_CORNER_RADIUS_CONTROL)),
-	};
-
-	CLAY_AUTO_ID(wrapper)
-	{
-		content.backgroundColor = shiny_clay_theme_color(
-			(int) Clay_Hovered()
-				? SHINY_COLOR_CONTROL_ACTIVE
-				: SHINY_COLOR_CONTROL_BACKGROUND
-		);
-
-		if (Clay_Hovered())
-		{
-			state->gui.windows.current_combobox_item.index = index;
-			state->gui.windows.current_combobox_item.callback = callback;
-			Clay_OnHover(on_combobox_option_hover, (intptr_t) state);
-		}
-
-		CLAY_AUTO_ID(content)
-		{
-			CLAY_TEXT(text, CLAY_TEXT_CONFIG(body_text_config()));
-		}
-	}
-}
-
 void combobox(app_state_t *state, const char *element_id, const cb_settings_t settings)
 {
 	Clay_Context *context = shiny_state_clay_context(state->shiny);
@@ -213,12 +154,10 @@ void combobox(app_state_t *state, const char *element_id, const cb_settings_t se
 		for (auto i = 0; i < settings.size; i++)
 		{
 			const char *item = settings.items(i);
-			const Clay_String text = {
-				.isStaticallyAllocated = true,
-				.length = SDL_strlen(item),
-				.chars = item,
-			};
-			combobox_option(state, i, text, settings.callback);
+			if (shiny_combobox_option(context, item, item, FONT_SIZE_BODY))
+			{
+				settings.callback(state, i);
+			}
 		}
 	}
 	shiny_combobox_end();
