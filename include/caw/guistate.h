@@ -2,7 +2,7 @@
 
 #include "clay.h"
 
-#include <stdint.h>
+#include <SDL3/SDL_stdinc.h>
 
 typedef struct gui_settings_state_t
 {
@@ -51,9 +51,9 @@ typedef struct menu_item_hover_data_t
 
 typedef struct gui_timer_state_t
 {
-	uint64_t previous;
-	uint64_t dt;
-	uint64_t fps_update;
+	Uint64 previous;
+	Uint64 dt;
+	Uint64 fps_update;
 	float fps;
 	char text[8];
 } gui_timer_state_t;
