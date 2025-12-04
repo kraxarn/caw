@@ -6,6 +6,7 @@
 #include "caw/settings.h"
 #include "caw/gui/apptheme.h"
 
+#include "shiny/combobox.h"
 #include "shiny/init.h"
 #include "shiny/spacer.h"
 #include "shiny/theme.h"
@@ -262,48 +263,15 @@ void on_combobox_hover(Clay_ElementId element_id,
 	}
 }
 
-void combobox(app_state_t *state, Clay_String id, const cb_settings_t settings)
+void combobox(app_state_t *state, const char *element_id, const cb_settings_t settings)
 {
 	Clay_Context *context = shiny_state_clay_context(state->shiny);
-	const int is_open = state->gui.windows.current_combobox.id == Clay_GetElementId(id).id;
 
-	const Clay_ElementDeclaration element = {
-		.layout = (Clay_LayoutConfig){
-			.layoutDirection = CLAY_LEFT_TO_RIGHT,
-			.sizing = (Clay_Sizing){
-				.width = CLAY_SIZING_FIXED(shiny_theme_size(SHINY_WIDTH_COMBOBOX)),
-				.height = CLAY_SIZING_GROW(0),
-			},
-			.padding = CLAY_PADDING_ALL(shiny_theme_padding(SHINY_PADDING_CONTROL)),
-		},
-		.backgroundColor = shiny_clay_theme_color(SHINY_COLOR_CONTROL_BACKGROUND),
-		.cornerRadius = (Clay_CornerRadius){
-			.topLeft = shiny_theme_corner_radius(SHINY_CORNER_RADIUS_CONTROL),
-			.topRight = shiny_theme_corner_radius(SHINY_CORNER_RADIUS_CONTROL),
-			.bottomLeft = is_open ? 0 : shiny_theme_corner_radius(SHINY_CORNER_RADIUS_CONTROL),
-			.bottomRight = is_open ? 0 : shiny_theme_corner_radius(SHINY_CORNER_RADIUS_CONTROL),
-		},
-	};
-
-	CLAY(CLAY_SID(id), element)
+	if (shiny_combobox_begin(context, element_id, settings.value, FONT_SIZE_BODY))
 	{
-		const Clay_String value = {
-			.isStaticallyAllocated = false,
-			.length = SDL_strlen(settings.value),
-			.chars = settings.value,
-		};
-
-		CLAY_TEXT(value, CLAY_TEXT_CONFIG(body_text_config()));
-		shiny_h_spacer(context);
-		CLAY_TEXT(is_open ? CLAY_STRING("^") : CLAY_STRING("V"), CLAY_TEXT_CONFIG(body_text_config()));
-
-		Clay_OnHover(on_combobox_hover, (intptr_t) state);
-
-		if (is_open)
-		{
-			combobox_options(state, settings);
-		}
+		combobox_options(state, settings);
 	}
+	shiny_combobox_end();
 }
 
 void window_content(app_state_t *state)
@@ -345,7 +313,7 @@ void window_content(app_state_t *state)
 		{
 			CLAY_TEXT(CLAY_STRING("Renderer"), CLAY_TEXT_CONFIG(body_text_config()));
 			shiny_h_spacer(context);
-			combobox(state, CLAY_STRING("Renderer"), (cb_settings_t){
+			combobox(state, "Renderer", (cb_settings_t){
 				.value = state->gui.settings.renderer == nullptr
 					? render_driver(0)
 					: render_driver_display_name(state->gui.settings.renderer),
@@ -358,7 +326,7 @@ void window_content(app_state_t *state)
 		{
 			CLAY_TEXT(CLAY_STRING("Audio driver"), CLAY_TEXT_CONFIG(body_text_config()));
 			shiny_h_spacer(context);
-			combobox(state, CLAY_STRING("AudioDriver"), (cb_settings_t){
+			combobox(state, "AudioDriver", (cb_settings_t){
 				.value = state->gui.settings.audio_driver == nullptr
 					? render_driver(0)
 					: audio_driver_display_name(state->gui.settings.audio_driver),
