@@ -114,14 +114,7 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 		SDL_LogWarn(LOG_CATEGORY_CORE, "SDL_SetRenderVSync error: %s", SDL_GetError());
 	}
 
-	const shiny_color_t clear_color = shiny_theme_color(SHINY_COLOR_CLEAR);
-	state->bg = (SDL_Color)
-	{
-		.r = (Uint8) (clear_color >> 16),
-		.g = (Uint8) (clear_color >> 8),
-		.b = (Uint8) clear_color,
-		.a = SDL_ALPHA_OPAQUE,
-	};
+	state->bg = shiny_theme_color(SHINY_COLOR_CLEAR);
 	SDL_SetRenderDrawColor(state->renderer, state->bg.r, state->bg.g, state->bg.b, state->bg.a);
 
 	*appstate = state;
