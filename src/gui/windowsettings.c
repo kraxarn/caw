@@ -8,7 +8,6 @@
 
 #include "shiny/combobox.h"
 #include "shiny/comboboxoption.h"
-#include "shiny/init.h"
 #include "shiny/label.h"
 #include "shiny/layout.h"
 #include "shiny/spacer.h"
@@ -76,14 +75,12 @@ void set_audio_driver(app_state_t *state, const int index)
 
 void combobox(app_state_t *state, const char *element_id, const cb_settings_t settings)
 {
-	Clay_Context *context = shiny_state_clay_context(state->shiny);
-
-	if (shiny_combobox_begin(context, element_id, settings.value, FONT_SIZE_BODY, settings.size))
+	if (shiny_combobox_begin(element_id, settings.value, FONT_SIZE_BODY, settings.size))
 	{
 		for (auto i = 0; i < settings.size; i++)
 		{
 			const char *item = settings.items(i);
-			if (shiny_combobox_option(context, item, item, FONT_SIZE_BODY))
+			if (shiny_combobox_option(item, item, FONT_SIZE_BODY))
 			{
 				settings.callback(state, i);
 			}
@@ -94,17 +91,15 @@ void combobox(app_state_t *state, const char *element_id, const cb_settings_t se
 
 void window_content(app_state_t *state)
 {
-	Clay_Context *context = shiny_state_clay_context(state->shiny);
-
 	constexpr shiny_layout_flag_t flags =
 		SHINY_LAYOUT_LEFT_TO_RIGHT
 		| SHINY_ALIGN_Y_CENTER
 		| SHINY_SIZE_GROW_X;
 
-	shiny_layout_begin(context, nullptr, flags);
+	shiny_layout_begin(nullptr, flags);
 	{
-		shiny_label(context, "Renderer", FONT_SIZE_BODY);
-		shiny_h_spacer(context);
+		shiny_label("Renderer", FONT_SIZE_BODY);
+		shiny_h_spacer();
 		combobox(state, "Renderer", (cb_settings_t){
 			.value = state->gui.settings.renderer == nullptr
 				? render_driver(0)
@@ -116,10 +111,10 @@ void window_content(app_state_t *state)
 	}
 	shiny_layout_end();
 
-	shiny_layout_begin(context, nullptr, flags);
+	shiny_layout_begin(nullptr, flags);
 	{
-		shiny_label(context, "Auto driver", FONT_SIZE_BODY);
-		shiny_h_spacer(context);
+		shiny_label("Auto driver", FONT_SIZE_BODY);
+		shiny_h_spacer();
 		combobox(state, "AudioDriver", (cb_settings_t){
 			.value = state->gui.settings.audio_driver == nullptr
 				? render_driver(0)
@@ -134,8 +129,6 @@ void window_content(app_state_t *state)
 
 void settings_window(app_state_t *state)
 {
-	Clay_Context *context = shiny_state_clay_context(state->shiny);
-
 	constexpr auto width = 340.F;
 	constexpr auto height = 300.F;
 	const SDL_FRect size = {
@@ -143,7 +136,7 @@ void settings_window(app_state_t *state)
 		.h = height,
 	};
 
-	shiny_window_begin(context, "SettingsWindow", size, "Settings", FONT_SIZE_TITLE);
+	shiny_window_begin("SettingsWindow", size, "Settings", FONT_SIZE_TITLE);
 	{
 		window_content(state);
 	}

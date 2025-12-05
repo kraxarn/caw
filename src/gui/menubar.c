@@ -6,7 +6,6 @@
 
 #include "shiny/menubar.h"
 #include "shiny/image.h"
-#include "shiny/init.h"
 #include "shiny/label.h"
 #include "shiny/menubaritem.h"
 #include "shiny/menucontent.h"
@@ -26,9 +25,7 @@ static void SDLCALL on_file_opened(void *userdata, const char *const *filelist, 
 
 void menu_item(app_state_t *state, const menu_item_config_t *item)
 {
-	Clay_Context *context = shiny_state_clay_context(state->shiny);
-
-	shiny_menu_item_begin(context, item->element_id);
+	shiny_menu_item_begin(item->element_id);
 	{
 		if (item->icon != nullptr)
 		{
@@ -37,10 +34,10 @@ void menu_item(app_state_t *state, const menu_item_config_t *item)
 				.width = 24,
 				.height = 24,
 			};
-			shiny_image(context, texture, &size);
+			shiny_image(texture, &size);
 		}
 
-		shiny_label(context, item->text, FONT_SIZE_MENU);
+		shiny_label(item->text, FONT_SIZE_MENU);
 	}
 	if (shiny_menu_item_end())
 	{
@@ -54,17 +51,15 @@ void menu_item(app_state_t *state, const menu_item_config_t *item)
 static void menubar_item(app_state_t *state, const char *element_id,
 	const char *text, const menu_item_config_t *items, const size_t count)
 {
-	Clay_Context *context = shiny_state_clay_context(state->shiny);
-
-	const bool open = shiny_menubar_item_begin(context, element_id);
+	const bool open = shiny_menubar_item_begin(element_id);
 	{
-		shiny_label(context, text, FONT_SIZE_MENU);
+		shiny_label(text, FONT_SIZE_MENU);
 
 		if (open)
 		{
-			shiny_menu_content_begin(context);
+			shiny_menu_content_begin();
 			{
-				shiny_menu_items_begin(context);
+				shiny_menu_items_begin();
 				{
 					for (size_t i = 0; i < count; i++)
 					{
@@ -172,21 +167,19 @@ void help_menu(app_state_t *state)
 void fps_counter(app_state_t *state)
 {
 	SDL_snprintf(state->gui.timer.text, 8, "%.0f FPS", state->gui.timer.fps);
-	Clay_Context *context = shiny_state_clay_context(state->shiny);
-	shiny_label(context, state->gui.timer.text, FONT_SIZE_MENU);
+	shiny_label(state->gui.timer.text, FONT_SIZE_MENU);
 }
 
 void menubar(app_state_t *state)
 {
-	Clay_Context *context = shiny_state_clay_context(state->shiny);
-	shiny_menubar_begin(context, "Menubar");
+	shiny_menubar_begin("Menubar");
 	{
 		file_menu(state);
 		view_menu(state);
 		debug_menu(state);
 		help_menu(state);
 
-		shiny_h_spacer(context);
+		shiny_h_spacer();
 
 		fps_counter(state);
 	}
