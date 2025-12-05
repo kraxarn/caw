@@ -4,7 +4,7 @@
 
 typedef struct gui_settings_state_t
 {
-	const char *renderer;
+	const char *render_driver;
 	const char *audio_driver;
 } gui_settings_state_t;
 

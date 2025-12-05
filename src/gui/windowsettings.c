@@ -19,10 +19,10 @@
 
 void set_render_driver(app_state_t *state, const char *value)
 {
-	state->gui.settings.renderer = value;
+	state->gui.settings.render_driver = value;
 
 	settings_set_string(state->settings, "render_driver",
-		state->gui.settings.renderer
+		state->gui.settings.render_driver
 	);
 	settings_flush(state->settings);
 }
@@ -44,9 +44,9 @@ static void render_driver(app_state_t *state, const shiny_layout_flag_t flags)
 		shiny_label("Render driver", FONT_SIZE_BODY);
 		shiny_h_spacer();
 
-		const char *current = state->gui.settings.renderer == nullptr
+		const char *current = state->gui.settings.render_driver == nullptr
 			? "Auto"
-			: render_driver_display_name(state->gui.settings.renderer);
+			: render_driver_display_name(state->gui.settings.render_driver);
 
 		if (shiny_combobox_begin("RenderDriver", current, FONT_SIZE_BODY, SDL_GetNumRenderDrivers() + 1))
 		{
