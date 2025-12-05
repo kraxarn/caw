@@ -23,7 +23,7 @@ static void SDLCALL on_file_opened(void *userdata, const char *const *filelist, 
 {
 }
 
-void menu_item(app_state_t *state, const menu_item_config_t *item)
+static void menu_item(app_state_t *state, const menu_item_config_t *item)
 {
 	shiny_menu_item_begin(item->element_id);
 	{
@@ -74,7 +74,7 @@ static void menubar_item(app_state_t *state, const char *element_id,
 	shiny_menubar_item_end();
 }
 
-void on_file_open_clicked(app_state_t *state)
+static void on_file_open_clicked(app_state_t *state)
 {
 	const SDL_DialogFileFilter filters[] = {
 		{"caw project", "caw"},
@@ -84,12 +84,12 @@ void on_file_open_clicked(app_state_t *state)
 		1, nullptr, false);
 }
 
-void on_file_quit_clicked(app_state_t *state)
+static void on_file_quit_clicked(app_state_t *state)
 {
 	state->result = SDL_APP_SUCCESS;
 }
 
-void file_menu(app_state_t *state)
+static void file_menu(app_state_t *state)
 {
 	menubar_item(state, "FileMenuItem", "File",
 		(menu_item_config_t[]){
@@ -123,12 +123,12 @@ void file_menu(app_state_t *state)
 	);
 }
 
-void on_view_settings_clicked(app_state_t *state)
+static void on_view_settings_clicked(app_state_t *state)
 {
 	state->gui.windows.settings = (bool) !state->gui.windows.settings;
 }
 
-void view_menu(app_state_t *state)
+static void view_menu(app_state_t *state)
 {
 	menubar_item(state, "ViewMenuItem", "View",
 		(menu_item_config_t[]){
@@ -144,7 +144,7 @@ void view_menu(app_state_t *state)
 	);
 }
 
-void debug_menu(app_state_t *state)
+static void debug_menu(app_state_t *state)
 {
 	menubar_item(state, "DebugMenuItem", "Debug",
 		(menu_item_config_t[]){
@@ -152,7 +152,7 @@ void debug_menu(app_state_t *state)
 	);
 }
 
-void help_menu(app_state_t *state)
+static void help_menu(app_state_t *state)
 {
 	menubar_item(state, "HelpMenuItem", "Help",
 		(menu_item_config_t[]){
@@ -164,7 +164,7 @@ void help_menu(app_state_t *state)
 	);
 }
 
-void fps_counter(app_state_t *state)
+static void fps_counter(app_state_t *state)
 {
 	SDL_snprintf(state->gui.timer.text, 8, "%.0f FPS", state->gui.timer.fps);
 	shiny_label(state->gui.timer.text, FONT_SIZE_MENU);
