@@ -34,4 +34,3 @@ jobs:
           path: |
             ${{runner.workspace}}\caw\build\caw.exe
             ${{runner.workspace}}\caw\build\deps\SDL3.dll
-            ${{runner.workspace}}\caw\build\deps\libshiny.dll
