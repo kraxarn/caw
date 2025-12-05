@@ -17,43 +17,9 @@
 #include <SDL3/SDL_rect.h>
 #include <SDL3/SDL_render.h>
 
-typedef const char *(*cb_item_callback_t)(int index);
-
-typedef struct cb_settings_t
+void set_render_driver(app_state_t *state, const char *value)
 {
-	const char *value;
-	cb_item_callback_t items;
-	int size;
-	cb_select_callback_t callback;
-} cb_settings_t;
-
-const char *render_driver(const int index)
-{
-	if (index == 0)
-	{
-		return "Auto";
-	}
-
-	const char *name = SDL_GetRenderDriver(index - 1);
-	return render_driver_display_name(name);
-}
-
-const char *audio_driver(const int index)
-{
-	if (index == 0)
-	{
-		return "Auto";
-	}
-
-	const char *name = SDL_GetAudioDriver(index - 1);
-	return audio_driver_display_name(name);
-}
-
-void set_render_driver(app_state_t *state, const int index)
-{
-	state->gui.settings.renderer = index == 0
-		? nullptr
-		: SDL_GetRenderDriver(index - 1);
+	state->gui.settings.renderer = value;
 
 	settings_set_string(state->settings, "render_driver",
 		state->gui.settings.renderer
@@ -61,11 +27,9 @@ void set_render_driver(app_state_t *state, const int index)
 	settings_flush(state->settings);
 }
 
-void set_audio_driver(app_state_t *state, const int index)
+void set_audio_driver(app_state_t *state, const char *value)
 {
-	state->gui.settings.audio_driver = index == 0
-		? nullptr
-		: SDL_GetAudioDriver(index - 1);
+	state->gui.settings.audio_driver = value;
 
 	settings_set_string(state->settings, "audio_driver",
 		state->gui.settings.audio_driver
@@ -73,56 +37,70 @@ void set_audio_driver(app_state_t *state, const int index)
 	settings_flush(state->settings);
 }
 
-void combobox(app_state_t *state, const char *element_id, const cb_settings_t settings)
+static void render_driver(app_state_t *state, const shiny_layout_flag_t flags)
 {
-	if (shiny_combobox_begin(element_id, settings.value, FONT_SIZE_BODY, settings.size))
+	shiny_layout_begin(nullptr, flags);
 	{
-		for (auto i = 0; i < settings.size; i++)
+		shiny_label("Render driver", FONT_SIZE_BODY);
+		shiny_h_spacer();
+
+		const char *current = state->gui.settings.renderer == nullptr
+			? "Auto"
+			: render_driver_display_name(state->gui.settings.renderer);
+
+		if (shiny_combobox_begin("RenderDriver", current, FONT_SIZE_BODY, SDL_GetNumRenderDrivers() + 1))
 		{
-			const char *item = settings.items(i);
-			if (shiny_combobox_option(item, item, FONT_SIZE_BODY))
+			if (shiny_combobox_option("auto", "Auto", FONT_SIZE_BODY))
 			{
-				settings.callback(state, i);
+				set_render_driver(state, nullptr);
+			}
+
+			for (auto i = 0; i < SDL_GetNumRenderDrivers(); i++)
+			{
+				const char *name = SDL_GetRenderDriver(i);
+				const char *display_name = render_driver_display_name(name);
+
+				if (shiny_combobox_option(name, display_name, FONT_SIZE_BODY))
+				{
+					set_render_driver(state, name);
+				}
 			}
 		}
-	}
-	shiny_combobox_end();
-}
-
-void window_content(app_state_t *state)
-{
-	constexpr shiny_layout_flag_t flags =
-		SHINY_LAYOUT_LEFT_TO_RIGHT
-		| SHINY_ALIGN_Y_CENTER
-		| SHINY_SIZE_GROW_X;
-
-	shiny_layout_begin(nullptr, flags);
-	{
-		shiny_label("Renderer", FONT_SIZE_BODY);
-		shiny_h_spacer();
-		combobox(state, "Renderer", (cb_settings_t){
-			.value = state->gui.settings.renderer == nullptr
-				? render_driver(0)
-				: render_driver_display_name(state->gui.settings.renderer),
-			.items = render_driver,
-			.size = SDL_GetNumRenderDrivers() + 1,
-			.callback = set_render_driver,
-		});
+		shiny_combobox_end();
 	}
 	shiny_layout_end();
+}
 
+static void audio_driver(app_state_t *state, const shiny_layout_flag_t flags)
+{
 	shiny_layout_begin(nullptr, flags);
 	{
-		shiny_label("Auto driver", FONT_SIZE_BODY);
+		shiny_label("Audio driver", FONT_SIZE_BODY);
 		shiny_h_spacer();
-		combobox(state, "AudioDriver", (cb_settings_t){
-			.value = state->gui.settings.audio_driver == nullptr
-				? render_driver(0)
-				: audio_driver_display_name(state->gui.settings.audio_driver),
-			.items = audio_driver,
-			.size = SDL_GetNumAudioDrivers() + 1,
-			.callback = set_audio_driver,
-		});
+
+		const char *current_audio_driver = state->gui.settings.audio_driver == nullptr
+			? "Auto"
+			: audio_driver_display_name(state->gui.settings.audio_driver);
+
+		if (shiny_combobox_begin("AudioDriver", current_audio_driver, FONT_SIZE_BODY, SDL_GetNumAudioDrivers() + 1))
+		{
+			if (shiny_combobox_option("auto", "Auto", FONT_SIZE_BODY))
+			{
+				set_audio_driver(state, nullptr);
+			}
+
+			for (auto i = 0; i < SDL_GetNumAudioDrivers(); i++)
+			{
+				const char *name = SDL_GetAudioDriver(i);
+				const char *display_name = audio_driver_display_name(name);
+
+				if (shiny_combobox_option(name, display_name, FONT_SIZE_BODY))
+				{
+					set_audio_driver(state, name);
+				}
+			}
+		}
+		shiny_combobox_end();
 	}
 	shiny_layout_end();
 }
@@ -138,7 +116,13 @@ void settings_window(app_state_t *state)
 
 	shiny_window_begin("SettingsWindow", size, "Settings", FONT_SIZE_TITLE);
 	{
-		window_content(state);
+		constexpr shiny_layout_flag_t flags =
+			SHINY_LAYOUT_LEFT_TO_RIGHT
+			| SHINY_ALIGN_Y_CENTER
+			| SHINY_SIZE_GROW_X;
+
+		render_driver(state, flags);
+		audio_driver(state, flags);
 	}
 	shiny_window_end();
 }
