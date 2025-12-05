@@ -19,7 +19,7 @@ void tracker(app_state_t *state)
 	}
 	shiny_layout_end();
 
-	if (state->gui.windows.settings.visible)
+	if (state->gui.windows.settings)
 	{
 		settings_window(state);
 	}

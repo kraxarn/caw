@@ -4,23 +4,9 @@
 
 typedef struct app_state_t app_state_t;
 
-typedef void (*cb_select_callback_t)(app_state_t *state, int index);
-
-typedef struct cb_item_hover_data_t
-{
-	int index;
-	cb_select_callback_t callback;
-} cb_item_hover_data_t;
-
-typedef struct gui_window_state_t
-{
-	bool visible;
-} gui_window_state_t;
-
 typedef struct gui_windows_state_t
 {
-	gui_window_state_t settings;
-	cb_item_hover_data_t current_combobox_item;
+	bool settings;
 } gui_windows_state_t;
 
 typedef struct menu_item_config_t
