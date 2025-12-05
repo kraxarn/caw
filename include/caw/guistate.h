@@ -2,12 +2,6 @@
 
 #include <SDL3/SDL_stdinc.h>
 
-typedef struct gui_settings_state_t
-{
-	const char *render_driver;
-	const char *audio_driver;
-} gui_settings_state_t;
-
 typedef struct app_state_t app_state_t;
 
 typedef void (*cb_select_callback_t)(app_state_t *state, int index);
@@ -54,7 +48,6 @@ typedef struct gui_timer_state_t
 
 typedef struct gui_state_t
 {
-	gui_settings_state_t settings;
 	gui_windows_state_t windows;
 	gui_timer_state_t timer;
 } gui_state_t;

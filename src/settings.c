@@ -133,14 +133,14 @@ bool settings_ready(const settings_t *settings)
 
 bool settings_parse(settings_t *settings)
 {
-	if (!SDL_StorageReady(settings->storage))
-	{
-		return SDL_SetError("Storage not ready");
-	}
-
 	if (settings->props > 0)
 	{
 		return true;
+	}
+
+	if (!SDL_StorageReady(settings->storage))
+	{
+		return SDL_SetError("Storage not ready");
 	}
 
 	settings->props = SDL_CreateProperties();

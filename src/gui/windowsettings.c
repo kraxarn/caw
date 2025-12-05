@@ -17,36 +17,28 @@
 #include <SDL3/SDL_rect.h>
 #include <SDL3/SDL_render.h>
 
-void set_render_driver(app_state_t *state, const char *value)
+void set_render_driver(const app_state_t *state, const char *value)
 {
-	state->gui.settings.render_driver = value;
-
-	settings_set_string(state->settings, "render_driver",
-		state->gui.settings.render_driver
-	);
+	settings_set_string(state->settings, "render_driver", value);
 	settings_flush(state->settings);
 }
 
-void set_audio_driver(app_state_t *state, const char *value)
+void set_audio_driver(const app_state_t *state, const char *value)
 {
-	state->gui.settings.audio_driver = value;
-
-	settings_set_string(state->settings, "audio_driver",
-		state->gui.settings.audio_driver
-	);
+	settings_set_string(state->settings, "audio_driver", value);
 	settings_flush(state->settings);
 }
 
-static void render_driver(app_state_t *state, const shiny_layout_flag_t flags)
+static void render_driver(const app_state_t *state, const shiny_layout_flag_t flags)
 {
 	shiny_layout_begin(nullptr, flags);
 	{
 		shiny_label("Render driver", FONT_SIZE_BODY);
 		shiny_h_spacer();
 
-		const char *current = state->gui.settings.render_driver == nullptr
-			? "Auto"
-			: render_driver_display_name(state->gui.settings.render_driver);
+		const char *current = render_driver_display_name(
+			settings_string(state->settings, "render_driver", "Auto")
+		);
 
 		if (shiny_combobox_begin("RenderDriver", current, FONT_SIZE_BODY, SDL_GetNumRenderDrivers() + 1))
 		{
@@ -71,16 +63,16 @@ static void render_driver(app_state_t *state, const shiny_layout_flag_t flags)
 	shiny_layout_end();
 }
 
-static void audio_driver(app_state_t *state, const shiny_layout_flag_t flags)
+static void audio_driver(const app_state_t *state, const shiny_layout_flag_t flags)
 {
 	shiny_layout_begin(nullptr, flags);
 	{
 		shiny_label("Audio driver", FONT_SIZE_BODY);
 		shiny_h_spacer();
 
-		const char *current = state->gui.settings.audio_driver == nullptr
-			? "Auto"
-			: audio_driver_display_name(state->gui.settings.audio_driver);
+		const char *current = audio_driver_display_name(
+			settings_string(state->settings, "audio_driver", "Auto")
+		);
 
 		if (shiny_combobox_begin("AudioDriver", current, FONT_SIZE_BODY, SDL_GetNumAudioDrivers() + 1))
 		{
@@ -105,7 +97,7 @@ static void audio_driver(app_state_t *state, const shiny_layout_flag_t flags)
 	shiny_layout_end();
 }
 
-void settings_window(app_state_t *state)
+void settings_window(const app_state_t *state)
 {
 	constexpr auto width = 340.F;
 	constexpr auto height = 300.F;
