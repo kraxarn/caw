@@ -10,6 +10,7 @@
 #include "shiny/comboboxoption.h"
 #include "shiny/init.h"
 #include "shiny/label.h"
+#include "shiny/layout.h"
 #include "shiny/spacer.h"
 #include "shiny/window.h"
 
@@ -97,19 +98,12 @@ void window_content(app_state_t *state)
 {
 	Clay_Context *context = shiny_state_clay_context(state->shiny);
 
-	const Clay_ElementDeclaration content = {
-		.layout = (Clay_LayoutConfig){
-			.layoutDirection = CLAY_LEFT_TO_RIGHT,
-			.childAlignment = (Clay_ChildAlignment){
-				.y = CLAY_ALIGN_Y_CENTER,
-			},
-			.sizing = (Clay_Sizing){
-				.width = CLAY_SIZING_GROW(0),
-			},
-		},
-	};
+	constexpr shiny_layout_flag_t flags =
+		SHINY_LAYOUT_LEFT_TO_RIGHT
+		| SHINY_ALIGN_Y_CENTER
+		| SHINY_SIZE_GROW_X;
 
-	CLAY_AUTO_ID(content)
+	shiny_layout_begin(context, nullptr, flags);
 	{
 		shiny_label(context, "Renderer", FONT_SIZE_BODY);
 		shiny_h_spacer(context);
@@ -122,7 +116,9 @@ void window_content(app_state_t *state)
 			.callback = set_render_driver,
 		});
 	}
-	CLAY_AUTO_ID(content)
+	shiny_layout_end();
+
+	shiny_layout_begin(context, nullptr, flags);
 	{
 		shiny_label(context, "Auto driver", FONT_SIZE_BODY);
 		shiny_h_spacer(context);
@@ -135,6 +131,7 @@ void window_content(app_state_t *state)
 			.callback = set_audio_driver,
 		});
 	}
+	shiny_layout_end();
 }
 
 void settings_window(app_state_t *state)
