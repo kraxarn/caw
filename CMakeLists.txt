@@ -48,6 +48,16 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 	WIN32_EXECUTABLE TRUE
 )
 
+if (CMAKE_BUILD_TYPE STREQUAL "Release")
+	include(CheckIPOSupported)
+	check_ipo_supported(RESULT ipo_supported OUTPUT ipo_error)
+	if (ipo_supported)
+		set_property(TARGET ${PROJECT_NAME} PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
+	else ()
+		message(STATUS "LTO error: ${ipo_error}")
+	endif ()
+endif ()
+
 include(GNUInstallDirs)
 install(TARGETS ${PROJECT_NAME}
 	BUNDLE DESTINATION .
