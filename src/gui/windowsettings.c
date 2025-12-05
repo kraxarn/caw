@@ -78,11 +78,11 @@ static void audio_driver(app_state_t *state, const shiny_layout_flag_t flags)
 		shiny_label("Audio driver", FONT_SIZE_BODY);
 		shiny_h_spacer();
 
-		const char *current_audio_driver = state->gui.settings.audio_driver == nullptr
+		const char *current = state->gui.settings.audio_driver == nullptr
 			? "Auto"
 			: audio_driver_display_name(state->gui.settings.audio_driver);
 
-		if (shiny_combobox_begin("AudioDriver", current_audio_driver, FONT_SIZE_BODY, SDL_GetNumAudioDrivers() + 1))
+		if (shiny_combobox_begin("AudioDriver", current, FONT_SIZE_BODY, SDL_GetNumAudioDrivers() + 1))
 		{
 			if (shiny_combobox_option("auto", "Auto", FONT_SIZE_BODY))
 			{
