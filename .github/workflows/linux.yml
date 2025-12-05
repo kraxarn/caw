@@ -39,4 +39,4 @@ jobs:
           name: caw-linux-x64
           path: |
             ${{runner.workspace}}/caw/build/caw
-            ${{runner.workspace}}/caw/build/deps/sdl3/libSDL3.so
+            ${{runner.workspace}}/caw/build/_deps/sdl-build/libSDL3.so

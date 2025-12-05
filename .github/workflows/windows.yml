@@ -33,4 +33,4 @@ jobs:
           name: caw-windows-x64
           path: |
             ${{runner.workspace}}\caw\build\caw.exe
-            ${{runner.workspace}}\caw\build\deps\sdl3\SDL3.dll
+            ${{runner.workspace}}\caw\build\_deps\sdl-build\SDL3.dll
