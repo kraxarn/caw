@@ -15,8 +15,6 @@
 #include "shiny/size.h"
 #include "shiny/spacer.h"
 
-#include "clay.h"
-
 #include <SDL3/SDL_dialog.h>
 #include <SDL3/SDL_init.h>
 #include <SDL3/SDL_render.h>

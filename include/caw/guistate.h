@@ -1,7 +1,5 @@
 #pragma once
 
-#include "clay.h"
-
 #include <SDL3/SDL_stdinc.h>
 
 typedef struct gui_settings_state_t
@@ -23,15 +21,11 @@ typedef struct cb_item_hover_data_t
 typedef struct gui_window_state_t
 {
 	bool visible;
-	Clay_Vector2 position;
-	Clay_Vector2 offset;
-	Clay_FloatingAttachPointType attach_point;
 } gui_window_state_t;
 
 typedef struct gui_windows_state_t
 {
 	gui_window_state_t settings;
-	Clay_ElementId current_combobox;
 	cb_item_hover_data_t current_combobox_item;
 } gui_windows_state_t;
 

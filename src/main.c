@@ -10,9 +10,6 @@
 #include "shiny/init.h"
 #include "shiny/theme.h"
 #include "shiny/themekey.h"
-#include "shiny/internal/color.h"
-
-#include "clay.h"
 
 #define SDL_MAIN_USE_CALLBACKS
 #include <SDL3/SDL_main.h>
@@ -117,7 +114,14 @@ SDL_AppResult SDL_AppInit([[maybe_unused]] void **appstate,
 		SDL_LogWarn(LOG_CATEGORY_CORE, "SDL_SetRenderVSync error: %s", SDL_GetError());
 	}
 
-	state->bg = shiny_sdl_theme_color(SHINY_COLOR_CLEAR);
+	const shiny_color_t clear_color = shiny_theme_color(SHINY_COLOR_CLEAR);
+	state->bg = (SDL_Color)
+	{
+		.r = (Uint8) (clear_color >> 16),
+		.g = (Uint8) (clear_color >> 8),
+		.b = (Uint8) clear_color,
+		.a = SDL_ALPHA_OPAQUE,
+	};
 	SDL_SetRenderDrawColor(state->renderer, state->bg.r, state->bg.g, state->bg.b, state->bg.a);
 
 	*appstate = state;
@@ -140,9 +144,6 @@ SDL_AppResult SDL_AppIterate([[maybe_unused]] void *appstate)
 	}
 	state->gui.timer.dt = ticks - state->gui.timer.previous;
 	state->gui.timer.previous = ticks;
-
-	Clay_Context *context = shiny_state_clay_context(state->shiny);
-	Clay_SetCurrentContext(context);
 
 	SDL_RenderClear(state->renderer);
 

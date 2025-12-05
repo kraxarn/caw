@@ -14,8 +14,6 @@
 #include "shiny/spacer.h"
 #include "shiny/window.h"
 
-#include "clay.h"
-
 #include <SDL3/SDL_audio.h>
 #include <SDL3/SDL_rect.h>
 #include <SDL3/SDL_render.h>

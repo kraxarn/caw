@@ -12,7 +12,6 @@ endif ()
 
 add_subdirectory(src)
 
-include(deps/clay.cmake)
 include(deps/maple-font.cmake)
 include(deps/qoi.cmake)
 include(deps/sdl.cmake)
