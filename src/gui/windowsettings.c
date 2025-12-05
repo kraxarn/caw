@@ -9,10 +9,9 @@
 #include "shiny/combobox.h"
 #include "shiny/comboboxoption.h"
 #include "shiny/init.h"
+#include "shiny/label.h"
 #include "shiny/spacer.h"
-#include "shiny/themekey.h"
 #include "shiny/window.h"
-#include "shiny/internal/color.h"
 
 #include "clay.h"
 
@@ -29,14 +28,6 @@ typedef struct cb_settings_t
 	int size;
 	cb_select_callback_t callback;
 } cb_settings_t;
-
-Clay_TextElementConfig body_text_config()
-{
-	return (Clay_TextElementConfig){
-		.fontSize = FONT_SIZE_BODY,
-		.textColor = shiny_clay_theme_color(SHINY_COLOR_FOREGROUND),
-	};
-}
 
 const char *render_driver(const int index)
 {
@@ -120,7 +111,7 @@ void window_content(app_state_t *state)
 
 	CLAY_AUTO_ID(content)
 	{
-		CLAY_TEXT(CLAY_STRING("Renderer"), CLAY_TEXT_CONFIG(body_text_config()));
+		shiny_label(context, "Renderer", FONT_SIZE_BODY);
 		shiny_h_spacer(context);
 		combobox(state, "Renderer", (cb_settings_t){
 			.value = state->gui.settings.renderer == nullptr
@@ -133,7 +124,7 @@ void window_content(app_state_t *state)
 	}
 	CLAY_AUTO_ID(content)
 	{
-		CLAY_TEXT(CLAY_STRING("Audio driver"), CLAY_TEXT_CONFIG(body_text_config()));
+		shiny_label(context, "Auto driver", FONT_SIZE_BODY);
 		shiny_h_spacer(context);
 		combobox(state, "AudioDriver", (cb_settings_t){
 			.value = state->gui.settings.audio_driver == nullptr
