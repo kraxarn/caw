@@ -60,11 +60,11 @@ static void file_menu(app_state_t *state)
 {
 	if (shiny_menu_begin("FileMenu", "File", FONT_SIZE_MENU))
 	{
-		if (shiny_menu_item("FileNew", "New", FONT_SIZE_MENU))
+		if (shiny_menu_item("New", "New", FONT_SIZE_MENU))
 		{
 		}
 
-		if (shiny_menu_item("FileOpen", "Open...", FONT_SIZE_MENU))
+		if (shiny_menu_item("Open", "Open...", FONT_SIZE_MENU))
 		{
 			const SDL_DialogFileFilter filters[] = {
 				{"caw project", "caw"},
@@ -74,19 +74,19 @@ static void file_menu(app_state_t *state)
 				1, nullptr, false);
 		}
 
-		if (shiny_menu_item("FileSave", "Save", FONT_SIZE_MENU))
+		if (shiny_menu_item("Save", "Save", FONT_SIZE_MENU))
 		{
 		}
 
-		if (shiny_menu_item("FileSaveAs", "Save As...", FONT_SIZE_MENU))
+		if (shiny_menu_item("SaveAs", "Save As...", FONT_SIZE_MENU))
 		{
 		}
 
-		if (shiny_menu_item("FileExport", "Export...", FONT_SIZE_MENU))
+		if (shiny_menu_item("Export", "Export...", FONT_SIZE_MENU))
 		{
 		}
 
-		if (shiny_menu_item("FileQuit", "Quit", FONT_SIZE_MENU))
+		if (shiny_menu_item("Quit", "Quit", FONT_SIZE_MENU))
 		{
 			state->result = SDL_APP_SUCCESS;
 		}
