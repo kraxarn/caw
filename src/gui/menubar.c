@@ -23,26 +23,23 @@ static void SDLCALL on_file_opened(void *userdata, const char *const *filelist, 
 
 static void menu_item(app_state_t *state, const menu_item_config_t *item)
 {
-	shiny_menu_item_begin(item->element_id);
+	if (item->icon != nullptr)
 	{
-		if (item->icon != nullptr)
-		{
-			SDL_Texture *texture = icon(state->renderer, item->icon);
-			const shiny_size_t size = {
-				.width = 24,
-				.height = 24,
-			};
-			shiny_image(texture, &size);
-		}
-
-		shiny_label(item->text, FONT_SIZE_MENU);
-	}
-	if (shiny_menu_item_end())
-	{
-		if (item->clicked != nullptr)
+		SDL_Texture *texture = icon(state->renderer, item->icon);
+		const shiny_size_t size = {
+			.width = 24,
+			.height = 24,
+		};
+		if (shiny_menu_item_icon(item->element_id, item->text, FONT_SIZE_MENU, texture, &size))
 		{
 			item->clicked(state);
 		}
+		return;
+	}
+
+	if (shiny_menu_item(item->element_id, item->text, FONT_SIZE_MENU))
+	{
+		item->clicked(state);
 	}
 }
 
