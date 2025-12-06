@@ -5,7 +5,6 @@
 #include "caw/res/icons.h"
 
 #include "shiny/menubar.h"
-#include "shiny/image.h"
 #include "shiny/label.h"
 #include "shiny/menu.h"
 #include "shiny/menuitem.h"
@@ -19,41 +18,6 @@
 
 static void SDLCALL on_file_opened(void *userdata, const char *const *filelist, int filter)
 {
-}
-
-static void menu_item(app_state_t *state, const menu_item_config_t *item)
-{
-	if (item->icon != nullptr)
-	{
-		SDL_Texture *texture = icon(state->renderer, item->icon);
-		const shiny_size_t size = {
-			.width = 24,
-			.height = 24,
-		};
-		if (shiny_menu_item_icon(item->element_id, item->text, FONT_SIZE_MENU, texture, &size))
-		{
-			item->clicked(state);
-		}
-		return;
-	}
-
-	if (shiny_menu_item(item->element_id, item->text, FONT_SIZE_MENU))
-	{
-		item->clicked(state);
-	}
-}
-
-static void menubar_item(app_state_t *state, const char *element_id,
-	const char *text, const menu_item_config_t *items, const size_t count)
-{
-	if (shiny_menu_begin(element_id, text, FONT_SIZE_MENU))
-	{
-		for (size_t i = 0; i < count; i++)
-		{
-			menu_item(state, items + i);
-		}
-	}
-	shiny_menu_end();
 }
 
 static void file_menu(app_state_t *state)
@@ -114,24 +78,21 @@ static void view_menu(app_state_t *state)
 	shiny_menu_end();
 }
 
-static void debug_menu(app_state_t *state)
+static void debug_menu()
 {
-	menubar_item(state, "DebugMenuItem", "Debug",
-		(menu_item_config_t[]){
-		}, 0
-	);
+	if (shiny_menu_begin("DebugMenu", "Debug", FONT_SIZE_MENU))
+	{
+	}
 }
 
-static void help_menu(app_state_t *state)
+static void help_menu()
 {
-	menubar_item(state, "HelpMenuItem", "Help",
-		(menu_item_config_t[]){
-			{
-				.element_id = "About",
-				.text = "About...",
-			},
-		}, 1
-	);
+	if (shiny_menu_begin("HelpMenu", "Help", FONT_SIZE_MENU))
+	{
+		if (shiny_menu_item("About", "About", FONT_SIZE_MENU))
+		{
+		}
+	}
 }
 
 static void fps_counter(app_state_t *state)
@@ -146,8 +107,8 @@ void menubar(app_state_t *state)
 	{
 		file_menu(state);
 		view_menu(state);
-		debug_menu(state);
-		help_menu(state);
+		debug_menu();
+		help_menu();
 
 		shiny_h_spacer();
 
