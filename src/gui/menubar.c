@@ -56,53 +56,42 @@ static void menubar_item(app_state_t *state, const char *element_id,
 	shiny_menu_end();
 }
 
-static void on_file_open_clicked(app_state_t *state)
-{
-	const SDL_DialogFileFilter filters[] = {
-		{"caw project", "caw"},
-	};
-
-	SDL_ShowOpenFileDialog(on_file_opened, nullptr, state->window, filters,
-		1, nullptr, false);
-}
-
-static void on_file_quit_clicked(app_state_t *state)
-{
-	state->result = SDL_APP_SUCCESS;
-}
-
 static void file_menu(app_state_t *state)
 {
-	menubar_item(state, "FileMenuItem", "File",
-		(menu_item_config_t[]){
-			{
-				.element_id = "New",
-				.text = "New...",
-			},
-			{
-				.element_id = "Open",
-				.text = "Open...",
-				.clicked = on_file_open_clicked,
-			},
-			{
-				.element_id = "Save",
-				.text = "Save",
-			},
-			{
-				.element_id = "SaveAs",
-				.text = "Save As...",
-			},
-			{
-				.element_id = "Export",
-				.text = "Export...",
-			},
-			{
-				.element_id = "Quit",
-				.text = "Quit",
-				.clicked = on_file_quit_clicked,
-			},
-		}, 6
-	);
+	if (shiny_menu_begin("FileMenu", "File", FONT_SIZE_MENU))
+	{
+		if (shiny_menu_item("FileNew", "New", FONT_SIZE_MENU))
+		{
+		}
+
+		if (shiny_menu_item("FileOpen", "Open...", FONT_SIZE_MENU))
+		{
+			const SDL_DialogFileFilter filters[] = {
+				{"caw project", "caw"},
+			};
+
+			SDL_ShowOpenFileDialog(on_file_opened, nullptr, state->window, filters,
+				1, nullptr, false);
+		}
+
+		if (shiny_menu_item("FileSave", "Save", FONT_SIZE_MENU))
+		{
+		}
+
+		if (shiny_menu_item("FileSaveAs", "Save As...", FONT_SIZE_MENU))
+		{
+		}
+
+		if (shiny_menu_item("FileExport", "Export...", FONT_SIZE_MENU))
+		{
+		}
+
+		if (shiny_menu_item("FileQuit", "Quit", FONT_SIZE_MENU))
+		{
+			state->result = SDL_APP_SUCCESS;
+		}
+	}
+	shiny_menu_end();
 }
 
 static void on_view_settings_clicked(app_state_t *state)
