@@ -7,10 +7,8 @@
 #include "shiny/menubar.h"
 #include "shiny/image.h"
 #include "shiny/label.h"
-#include "shiny/menubaritem.h"
-#include "shiny/menucontent.h"
+#include "shiny/menu.h"
 #include "shiny/menuitem.h"
-#include "shiny/menuitems.h"
 #include "shiny/size.h"
 #include "shiny/spacer.h"
 
@@ -51,27 +49,14 @@ static void menu_item(app_state_t *state, const menu_item_config_t *item)
 static void menubar_item(app_state_t *state, const char *element_id,
 	const char *text, const menu_item_config_t *items, const size_t count)
 {
-	const bool open = shiny_menubar_item_begin(element_id);
+	if (shiny_menu_begin(element_id, text, FONT_SIZE_MENU))
 	{
-		shiny_label(text, FONT_SIZE_MENU);
-
-		if (open)
+		for (size_t i = 0; i < count; i++)
 		{
-			shiny_menu_content_begin();
-			{
-				shiny_menu_items_begin();
-				{
-					for (size_t i = 0; i < count; i++)
-					{
-						menu_item(state, items + i);
-					}
-				}
-				shiny_menu_items_end();
-			}
-			shiny_menu_content_end();
+			menu_item(state, items + i);
 		}
 	}
-	shiny_menubar_item_end();
+	shiny_menu_end();
 }
 
 static void on_file_open_clicked(app_state_t *state)
