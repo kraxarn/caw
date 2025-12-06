@@ -94,25 +94,24 @@ static void file_menu(app_state_t *state)
 	shiny_menu_end();
 }
 
-static void on_view_settings_clicked(app_state_t *state)
-{
-	state->gui.windows.settings = (bool) !state->gui.windows.settings;
-}
-
 static void view_menu(app_state_t *state)
 {
-	menubar_item(state, "ViewMenuItem", "View",
-		(menu_item_config_t[]){
-			{
-				.element_id = "Settings",
-				.icon = (int) state->gui.windows.settings
-					? "checkbox-marked"
-					: "checkbox-blank-outline",
-				.text = "Settings",
-				.clicked = on_view_settings_clicked,
-			},
-		}, 1
-	);
+	if (shiny_menu_begin("ViewMenu", "View", FONT_SIZE_MENU))
+	{
+		const char *icon_name = (int) state->gui.windows.settings
+			? "checkbox-marked"
+			: "checkbox-blank-outline";
+		SDL_Texture *icon_texture = icon(state->renderer, icon_name);
+		const shiny_size_t icon_size = {
+			.width = 24,
+			.height = 24,
+		};
+		if (shiny_menu_item_icon("Settings", "Settings", FONT_SIZE_MENU, icon_texture, &icon_size))
+		{
+			state->gui.windows.settings = (bool) !state->gui.windows.settings;
+		}
+	}
+	shiny_menu_end();
 }
 
 static void debug_menu(app_state_t *state)
