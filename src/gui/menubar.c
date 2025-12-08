@@ -83,6 +83,7 @@ static void debug_menu()
 	if (shiny_menu_begin("DebugMenu", "Debug", FONT_SIZE_MENU))
 	{
 	}
+	shiny_menu_end();
 }
 
 static void help_menu()
@@ -93,6 +94,7 @@ static void help_menu()
 		{
 		}
 	}
+	shiny_menu_end();
 }
 
 static void fps_counter(app_state_t *state)
